@@ -4630,6 +4630,7 @@ source = { editable = "." }
 dependencies = [
     { name = "immutabledict" },
     { name = "langdetect" },
+    { name = "ninja" },
     { name = "nltk" },
     { name = "vllm" },
 ]
@@ -4645,6 +4646,7 @@ dev = [
 requires-dist = [
     { name = "immutabledict", specifier = ">=4.3.1" },
     { name = "langdetect", specifier = ">=1.0.9" },
+    { name = "ninja", specifier = ">=1.13.0" },
     { name = "nltk", specifier = ">=3.10.0" },
     { name = "vllm", specifier = "==0.25.0" },
 ]

@@ -24,3 +24,4 @@ Convention for each entry:
 | 0007 | [schema-v2-benchmark-snapshot](0007-schema-v2-benchmark-snapshot.md) | Schema v2 (15 slots): coverage **59.5% → 93.5%** of prompts; the frozen benchmark snapshot |
 | 0008 | [ifbench-coverage-and-ifstruct](0008-ifbench-coverage-and-ifstruct.md) | Schema expresses **95.8% of IFEval but 10.5% of IFBench**; 57% of IFBench is Bucket C — Gate 3 needs rethinking. IFStruct reviewed, not adopted |
 | 0009 | [correction-schema-is-a-default-inventory](0009-correction-schema-is-a-default-inventory.md) | **Corrects 0008**: a slot exists iff the dimension has a latent default. Adds `other` ([given]-only). Retracts the IFBench coverage conclusions |
+| 0010 | [prior-inventory-and-server](0010-prior-inventory-and-server.md) | Decoupled vLLM server; first prior inventory for Qwen3.5-2B — **defaults are genre-conditioned and aggregates hide them**; emoji + nesting earn slots |

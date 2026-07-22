@@ -1,0 +1,105 @@
+{
+  "_comment": "Genre-stratified UNCONSTRAINED prompts for the default-measurement probe. Every prompt must leave length, case, structure, register and formatting entirely unspecified -- the whole point is to observe what the model fills in when nothing is asked for. Do not add words like 'brief', 'detailed', 'in bullet points', or any count.",
+  "genres": {
+    "essay": [
+      "Write an essay about why bees matter.",
+      "Write an essay on the role of public libraries.",
+      "Write an essay about the ethics of self-driving cars."
+    ],
+    "email": [
+      "Write an email to my landlord about a broken radiator.",
+      "Write an email introducing myself to a new team.",
+      "Write an email asking a professor for a deadline extension."
+    ],
+    "story": [
+      "Write a story about a lighthouse keeper who finds a message in a bottle.",
+      "Write a story about the last bookstore on Earth.",
+      "Write a story about two strangers stuck in an elevator."
+    ],
+    "explanation": [
+      "Explain how a refrigerator works.",
+      "Explain what causes the seasons.",
+      "Explain how vaccines train the immune system."
+    ],
+    "listicle": [
+      "What are some ways to reduce food waste at home?",
+      "What should I consider when adopting a rescue dog?",
+      "What are good habits for learning a new language?"
+    ],
+    "poem": [
+      "Write a poem about the sea in winter.",
+      "Write a poem about moving out of a childhood home.",
+      "Write a poem about a city at dawn."
+    ],
+    "review": [
+      "Write a review of a coffee shop you visited.",
+      "Write a review of a science fiction novel.",
+      "Write a review of a budget smartphone."
+    ],
+    "recipe": [
+      "Give me a recipe for lentil soup.",
+      "Give me a recipe for banana bread.",
+      "Give me a recipe for a weeknight stir fry."
+    ],
+    "summary": [
+      "Summarize the causes of the French Revolution.",
+      "Summarize how photosynthesis works.",
+      "Summarize the plot of Moby Dick."
+    ],
+    "cover_letter": [
+      "Write a cover letter for a junior data analyst role.",
+      "Write a cover letter for a teaching assistant position.",
+      "Write a cover letter for a graphic design internship."
+    ],
+    "blog_post": [
+      "Write a blog post about starting a vegetable garden.",
+      "Write a blog post about working remotely.",
+      "Write a blog post about learning to cook as an adult."
+    ],
+    "product_description": [
+      "Write a product description for a stainless steel water bottle.",
+      "Write a product description for noise cancelling headphones.",
+      "Write a product description for a leather messenger bag."
+    ],
+    "news_article": [
+      "Write a news article about a city opening a new subway line.",
+      "Write a news article about a local school winning a science competition.",
+      "Write a news article about a record breaking heat wave."
+    ],
+    "dialogue": [
+      "Write a dialogue between a chef and a food critic.",
+      "Write a dialogue between a parent and a teenager about curfew.",
+      "Write a dialogue between an astronaut and mission control."
+    ],
+    "howto": [
+      "How do I change a bicycle tire?",
+      "How do I set up a budget?",
+      "How do I repot a houseplant?"
+    ],
+    "apology_note": [
+      "Write a note apologizing for missing a friend's birthday.",
+      "Write a note apologizing to a customer for a late delivery.",
+      "Write a note apologizing for forgetting a meeting."
+    ],
+    "social_post": [
+      "Write a post announcing that I finished my first marathon.",
+      "Write a post about a small business's grand opening.",
+      "Write a post sharing a photography exhibition."
+    ],
+    "report": [
+      "Write a report on the state of urban air quality.",
+      "Write a report on remote work adoption trends.",
+      "Write a report on household recycling rates."
+    ],
+    "biography": [
+      "Write a biography of Ada Lovelace.",
+      "Write a biography of Rachel Carson.",
+      "Write a biography of Ibn Battuta."
+    ],
+    "faq": [
+      "Answer common questions about renting a first apartment.",
+      "Answer common questions about adopting a cat.",
+      "Answer common questions about starting to run."
+    ]
+  }
+}

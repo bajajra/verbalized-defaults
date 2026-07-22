@@ -1,0 +1,2550 @@
+{
+  "model": "Qwen/Qwen3.5-2B",
+  "n_responses": 180,
+  "n_truncated": 3,
+  "temperature": 0.7,
+  "max_tokens": 1536,
+  "overall": {
+    "words": {
+      "median": 556,
+      "q1": 317,
+      "q3": 693,
+      "n": 177,
+      "dispersion": 0.676
+    },
+    "sentences": {
+      "median": 32,
+      "q1": 17,
+      "q3": 49,
+      "n": 177,
+      "dispersion": 1.0
+    },
+    "paragraphs": {
+      "median": 10,
+      "q1": 8,
+      "q3": 16,
+      "n": 177,
+      "dispersion": 0.8
+    },
+    "mean_sentence_words": {
+      "median": 16.43,
+      "q1": 13.38,
+      "q3": 20.0,
+      "n": 177,
+      "dispersion": 0.403
+    },
+    "mean_paragraph_words": {
+      "median": 42.23,
+      "q1": 30.44,
+      "q3": 57.43,
+      "n": 177,
+      "dispersion": 0.639
+    },
+    "bullets": {
+      "median": 3.5,
+      "q1": 0,
+      "q3": 13,
+      "n": 180,
+      "dispersion": 3.714
+    },
+    "headers": {
+      "median": 4.0,
+      "q1": 0,
+      "q3": 6,
+      "n": 180,
+      "dispersion": 1.5
+    },
+    "highlights": {
+      "median": 23.5,
+      "q1": 5,
+      "q3": 49,
+      "n": 180,
+      "dispersion": 1.872
+    },
+    "placeholders": {
+      "median": 0.0,
+      "q1": 0,
+      "q3": 0,
+      "n": 180,
+      "dispersion": null
+    },
+    "caps_words": {
+      "median": 5.0,
+      "q1": 2,
+      "q3": 10,
+      "n": 180,
+      "dispersion": 1.6
+    },
+    "has_title": {
+      "median": 0.0,
+      "q1": 0,
+      "q3": 0,
+      "n": 180,
+      "dispersion": null
+    },
+    "uppercase_ratio": {
+      "median": 0.038400000000000004,
+      "q1": 0.0322,
+      "q3": 0.0467,
+      "n": 180,
+      "dispersion": 0.378
+    },
+    "quoted_whole": {
+      "median": 0.0,
+      "q1": 0,
+      "q3": 0,
+      "n": 180,
+      "dispersion": null
+    },
+    "emoji": {
+      "median": 0.0,
+      "q1": 0,
+      "q3": 0,
+      "n": 180,
+      "dispersion": null
+    },
+    "max_nesting": {
+      "median": 1.0,
+      "q1": 0,
+      "q3": 1,
+      "n": 180,
+      "dispersion": 1.0
+    },
+    "indented_lines": {
+      "median": 0.0,
+      "q1": 0,
+      "q3": 0,
+      "n": 180,
+      "dispersion": null
+    },
+    "has_preamble": {
+      "median": 0.0,
+      "q1": 0,
+      "q3": 0,
+      "n": 180,
+      "dispersion": null
+    }
+  },
+  "per_genre": {
+    "essay": {
+      "words": {
+        "median": 693,
+        "q1": 661,
+        "q3": 772,
+        "n": 9,
+        "dispersion": 0.16
+      },
+      "sentences": {
+        "median": 34,
+        "q1": 31,
+        "q3": 35,
+        "n": 9,
+        "dispersion": 0.118
+      },
+      "paragraphs": {
+        "median": 11,
+        "q1": 7,
+        "q3": 16,
+        "n": 9,
+        "dispersion": 0.818
+      },
+      "mean_sentence_words": {
+        "median": 20.33,
+        "q1": 19.44,
+        "q3": 22.06,
+        "n": 9,
+        "dispersion": 0.129
+      },
+      "mean_paragraph_words": {
+        "median": 60.09,
+        "q1": 48.25,
+        "q3": 79.71,
+        "n": 9,
+        "dispersion": 0.524
+      },
+      "bullets": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "headers": {
+        "median": 2,
+        "q1": 1,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 2.5
+      },
+      "highlights": {
+        "median": 0,
+        "q1": 0,
+        "q3": 5,
+        "n": 9,
+        "dispersion": null
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 1,
+        "q1": 1,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 2.0
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0163,
+        "q1": 0.0135,
+        "q3": 0.0169,
+        "n": 9,
+        "dispersion": 0.209
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "email": {
+      "words": {
+        "median": 203,
+        "q1": 161,
+        "q3": 210,
+        "n": 9,
+        "dispersion": 0.241
+      },
+      "sentences": {
+        "median": 10,
+        "q1": 9,
+        "q3": 11,
+        "n": 9,
+        "dispersion": 0.2
+      },
+      "paragraphs": {
+        "median": 9,
+        "q1": 8,
+        "q3": 10,
+        "n": 9,
+        "dispersion": 0.222
+      },
+      "mean_sentence_words": {
+        "median": 18.0,
+        "q1": 16.89,
+        "q3": 19.2,
+        "n": 9,
+        "dispersion": 0.128
+      },
+      "mean_paragraph_words": {
+        "median": 19.2,
+        "q1": 18.45,
+        "q3": 23.33,
+        "n": 9,
+        "dispersion": 0.254
+      },
+      "bullets": {
+        "median": 0,
+        "q1": 0,
+        "q3": 3,
+        "n": 9,
+        "dispersion": null
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 5,
+        "q1": 1,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "placeholders": {
+        "median": 13,
+        "q1": 9,
+        "q3": 14,
+        "n": 9,
+        "dispersion": 0.385
+      },
+      "caps_words": {
+        "median": 10,
+        "q1": 8,
+        "q3": 11,
+        "n": 9,
+        "dispersion": 0.3
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0572,
+        "q1": 0.0527,
+        "q3": 0.059,
+        "n": 9,
+        "dispersion": 0.11
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 0,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": null
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "story": {
+      "words": {
+        "median": 820,
+        "q1": 786,
+        "q3": 977,
+        "n": 9,
+        "dispersion": 0.233
+      },
+      "sentences": {
+        "median": 81,
+        "q1": 76,
+        "q3": 89,
+        "n": 9,
+        "dispersion": 0.16
+      },
+      "paragraphs": {
+        "median": 25,
+        "q1": 24,
+        "q3": 30,
+        "n": 9,
+        "dispersion": 0.24
+      },
+      "mean_sentence_words": {
+        "median": 9.47,
+        "q1": 9.28,
+        "q3": 11.24,
+        "n": 9,
+        "dispersion": 0.207
+      },
+      "mean_paragraph_words": {
+        "median": 31.5,
+        "q1": 29.82,
+        "q3": 32.8,
+        "n": 9,
+        "dispersion": 0.095
+      },
+      "bullets": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 3,
+        "q1": 2,
+        "q3": 4,
+        "n": 9,
+        "dispersion": 0.667
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 11,
+        "q1": 6,
+        "q3": 15,
+        "n": 9,
+        "dispersion": 0.818
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0306,
+        "q1": 0.0271,
+        "q3": 0.0323,
+        "n": 9,
+        "dispersion": 0.17
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "explanation": {
+      "words": {
+        "median": 467,
+        "q1": 451,
+        "q3": 562,
+        "n": 9,
+        "dispersion": 0.238
+      },
+      "sentences": {
+        "median": 32,
+        "q1": 24,
+        "q3": 35,
+        "n": 9,
+        "dispersion": 0.344
+      },
+      "paragraphs": {
+        "median": 9,
+        "q1": 8,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 0.111
+      },
+      "mean_sentence_words": {
+        "median": 16.06,
+        "q1": 14.59,
+        "q3": 17.53,
+        "n": 9,
+        "dispersion": 0.183
+      },
+      "mean_paragraph_words": {
+        "median": 60.5,
+        "q1": 50.18,
+        "q3": 66.57,
+        "n": 9,
+        "dispersion": 0.271
+      },
+      "bullets": {
+        "median": 8,
+        "q1": 7,
+        "q3": 10,
+        "n": 9,
+        "dispersion": 0.375
+      },
+      "headers": {
+        "median": 5,
+        "q1": 4,
+        "q3": 5,
+        "n": 9,
+        "dispersion": 0.2
+      },
+      "highlights": {
+        "median": 32,
+        "q1": 27,
+        "q3": 38,
+        "n": 9,
+        "dispersion": 0.344
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 3,
+        "q1": 0,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 3.0
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0307,
+        "q1": 0.028,
+        "q3": 0.0383,
+        "n": 9,
+        "dispersion": 0.336
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 1,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 2.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 2,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "listicle": {
+      "words": {
+        "median": 599,
+        "q1": 552,
+        "q3": 645,
+        "n": 9,
+        "dispersion": 0.155
+      },
+      "sentences": {
+        "median": 45,
+        "q1": 41,
+        "q3": 48,
+        "n": 9,
+        "dispersion": 0.156
+      },
+      "paragraphs": {
+        "median": 10,
+        "q1": 8,
+        "q3": 10,
+        "n": 9,
+        "dispersion": 0.2
+      },
+      "mean_sentence_words": {
+        "median": 13.38,
+        "q1": 13.0,
+        "q3": 14.12,
+        "n": 9,
+        "dispersion": 0.084
+      },
+      "mean_paragraph_words": {
+        "median": 67.25,
+        "q1": 59.9,
+        "q3": 72.38,
+        "n": 9,
+        "dispersion": 0.186
+      },
+      "bullets": {
+        "median": 18,
+        "q1": 16,
+        "q3": 19,
+        "n": 9,
+        "dispersion": 0.167
+      },
+      "headers": {
+        "median": 7,
+        "q1": 6,
+        "q3": 7,
+        "n": 9,
+        "dispersion": 0.143
+      },
+      "highlights": {
+        "median": 57,
+        "q1": 49,
+        "q3": 58,
+        "n": 9,
+        "dispersion": 0.158
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 2,
+        "q1": 1,
+        "q3": 2,
+        "n": 9,
+        "dispersion": 0.5
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0365,
+        "q1": 0.0303,
+        "q3": 0.0417,
+        "n": 9,
+        "dispersion": 0.312
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 1,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 0.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "poem": {
+      "words": {
+        "median": 167,
+        "q1": 154,
+        "q3": 211,
+        "n": 9,
+        "dispersion": 0.341
+      },
+      "sentences": {
+        "median": 10,
+        "q1": 8,
+        "q3": 10,
+        "n": 9,
+        "dispersion": 0.2
+      },
+      "paragraphs": {
+        "median": 5,
+        "q1": 5,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 0.2
+      },
+      "mean_sentence_words": {
+        "median": 21.1,
+        "q1": 16.3,
+        "q3": 25.5,
+        "n": 9,
+        "dispersion": 0.436
+      },
+      "mean_paragraph_words": {
+        "median": 33.4,
+        "q1": 27.0,
+        "q3": 40.17,
+        "n": 9,
+        "dispersion": 0.394
+      },
+      "bullets": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 5,
+        "q1": 3,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 0.6
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0356,
+        "q1": 0.0305,
+        "q3": 0.0358,
+        "n": 9,
+        "dispersion": 0.149
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "review": {
+      "words": {
+        "median": 537,
+        "q1": 475,
+        "q3": 620,
+        "n": 9,
+        "dispersion": 0.27
+      },
+      "sentences": {
+        "median": 30,
+        "q1": 26,
+        "q3": 35,
+        "n": 9,
+        "dispersion": 0.3
+      },
+      "paragraphs": {
+        "median": 11,
+        "q1": 9,
+        "q3": 12,
+        "n": 9,
+        "dispersion": 0.273
+      },
+      "mean_sentence_words": {
+        "median": 17.0,
+        "q1": 15.79,
+        "q3": 20.52,
+        "n": 9,
+        "dispersion": 0.278
+      },
+      "mean_paragraph_words": {
+        "median": 51.67,
+        "q1": 44.2,
+        "q3": 55.08,
+        "n": 9,
+        "dispersion": 0.211
+      },
+      "bullets": {
+        "median": 2,
+        "q1": 0,
+        "q3": 8,
+        "n": 9,
+        "dispersion": 4.0
+      },
+      "headers": {
+        "median": 4,
+        "q1": 4,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 0.5
+      },
+      "highlights": {
+        "median": 15,
+        "q1": 9,
+        "q3": 36,
+        "n": 9,
+        "dispersion": 1.8
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 5,
+        "q1": 1,
+        "q3": 10,
+        "n": 9,
+        "dispersion": 1.8
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0325,
+        "q1": 0.0287,
+        "q3": 0.0459,
+        "n": 9,
+        "dispersion": 0.529
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 4,
+        "q1": 0,
+        "q3": 5,
+        "n": 9,
+        "dispersion": 1.25
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "recipe": {
+      "words": {
+        "median": 492,
+        "q1": 482,
+        "q3": 513,
+        "n": 9,
+        "dispersion": 0.063
+      },
+      "sentences": {
+        "median": 35,
+        "q1": 33,
+        "q3": 41,
+        "n": 9,
+        "dispersion": 0.229
+      },
+      "paragraphs": {
+        "median": 16,
+        "q1": 13,
+        "q3": 18,
+        "n": 9,
+        "dispersion": 0.312
+      },
+      "mean_sentence_words": {
+        "median": 13.97,
+        "q1": 13.75,
+        "q3": 14.06,
+        "n": 9,
+        "dispersion": 0.022
+      },
+      "mean_paragraph_words": {
+        "median": 32.27,
+        "q1": 28.7,
+        "q3": 34.38,
+        "n": 9,
+        "dispersion": 0.176
+      },
+      "bullets": {
+        "median": 19,
+        "q1": 17,
+        "q3": 21,
+        "n": 9,
+        "dispersion": 0.211
+      },
+      "headers": {
+        "median": 4,
+        "q1": 4,
+        "q3": 4,
+        "n": 9,
+        "dispersion": 0.0
+      },
+      "highlights": {
+        "median": 65,
+        "q1": 36,
+        "q3": 71,
+        "n": 9,
+        "dispersion": 0.538
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 0,
+        "q1": 0,
+        "q3": 2,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0418,
+        "q1": 0.0404,
+        "q3": 0.0436,
+        "n": 9,
+        "dispersion": 0.077
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 5,
+        "q1": 2,
+        "q3": 5,
+        "n": 9,
+        "dispersion": 0.6
+      },
+      "max_nesting": {
+        "median": 3,
+        "q1": 1,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 0.667
+      },
+      "indented_lines": {
+        "median": 1,
+        "q1": 0,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 9.0
+      },
+      "has_preamble": {
+        "median": 1,
+        "q1": 1,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 0.0
+      }
+    },
+    "summary": {
+      "words": {
+        "median": 469,
+        "q1": 410,
+        "q3": 620,
+        "n": 9,
+        "dispersion": 0.448
+      },
+      "sentences": {
+        "median": 29,
+        "q1": 21,
+        "q3": 32,
+        "n": 9,
+        "dispersion": 0.379
+      },
+      "paragraphs": {
+        "median": 8,
+        "q1": 7,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 0.25
+      },
+      "mean_sentence_words": {
+        "median": 18.76,
+        "q1": 15.19,
+        "q3": 21.1,
+        "n": 9,
+        "dispersion": 0.315
+      },
+      "mean_paragraph_words": {
+        "median": 55.5,
+        "q1": 50.4,
+        "q3": 68.89,
+        "n": 9,
+        "dispersion": 0.333
+      },
+      "bullets": {
+        "median": 6,
+        "q1": 3,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "headers": {
+        "median": 5,
+        "q1": 4,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 0.4
+      },
+      "highlights": {
+        "median": 32,
+        "q1": 21,
+        "q3": 50,
+        "n": 9,
+        "dispersion": 0.906
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 2,
+        "q1": 2,
+        "q3": 16,
+        "n": 9,
+        "dispersion": 7.0
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0397,
+        "q1": 0.0322,
+        "q3": 0.0471,
+        "n": 9,
+        "dispersion": 0.375
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 1,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 0.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "cover_letter": {
+      "words": {
+        "median": 360,
+        "q1": 330,
+        "q3": 387,
+        "n": 9,
+        "dispersion": 0.158
+      },
+      "sentences": {
+        "median": 15,
+        "q1": 14,
+        "q3": 18,
+        "n": 9,
+        "dispersion": 0.267
+      },
+      "paragraphs": {
+        "median": 10,
+        "q1": 9,
+        "q3": 12,
+        "n": 9,
+        "dispersion": 0.3
+      },
+      "mean_sentence_words": {
+        "median": 24.86,
+        "q1": 22.9,
+        "q3": 25.8,
+        "n": 9,
+        "dispersion": 0.117
+      },
+      "mean_paragraph_words": {
+        "median": 36.0,
+        "q1": 31.93,
+        "q3": 37.88,
+        "n": 9,
+        "dispersion": 0.165
+      },
+      "bullets": {
+        "median": 3,
+        "q1": 0,
+        "q3": 4,
+        "n": 9,
+        "dispersion": 1.333
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 9,
+        "q1": 0,
+        "q3": 12,
+        "n": 9,
+        "dispersion": 1.333
+      },
+      "placeholders": {
+        "median": 17,
+        "q1": 16,
+        "q3": 24,
+        "n": 9,
+        "dispersion": 0.471
+      },
+      "caps_words": {
+        "median": 12,
+        "q1": 11,
+        "q3": 14,
+        "n": 9,
+        "dispersion": 0.25
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0464,
+        "q1": 0.0431,
+        "q3": 0.0493,
+        "n": 9,
+        "dispersion": 0.134
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "blog_post": {
+      "words": {
+        "median": 705,
+        "q1": 688,
+        "q3": 785,
+        "n": 9,
+        "dispersion": 0.138
+      },
+      "sentences": {
+        "median": 53,
+        "q1": 46,
+        "q3": 61,
+        "n": 9,
+        "dispersion": 0.283
+      },
+      "paragraphs": {
+        "median": 20,
+        "q1": 19,
+        "q3": 23,
+        "n": 9,
+        "dispersion": 0.2
+      },
+      "mean_sentence_words": {
+        "median": 14.11,
+        "q1": 13.02,
+        "q3": 14.96,
+        "n": 9,
+        "dispersion": 0.137
+      },
+      "mean_paragraph_words": {
+        "median": 34.47,
+        "q1": 32.05,
+        "q3": 39.7,
+        "n": 9,
+        "dispersion": 0.222
+      },
+      "bullets": {
+        "median": 11,
+        "q1": 7,
+        "q3": 15,
+        "n": 9,
+        "dispersion": 0.727
+      },
+      "headers": {
+        "median": 7,
+        "q1": 7,
+        "q3": 8,
+        "n": 9,
+        "dispersion": 0.143
+      },
+      "highlights": {
+        "median": 32,
+        "q1": 21,
+        "q3": 56,
+        "n": 9,
+        "dispersion": 1.094
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 2,
+        "q1": 2,
+        "q3": 4,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0338,
+        "q1": 0.0291,
+        "q3": 0.0355,
+        "n": 9,
+        "dispersion": 0.189
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 1,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 0.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "product_description": {
+      "words": {
+        "median": 317,
+        "q1": 293,
+        "q3": 342,
+        "n": 9,
+        "dispersion": 0.155
+      },
+      "sentences": {
+        "median": 18,
+        "q1": 17,
+        "q3": 20,
+        "n": 9,
+        "dispersion": 0.167
+      },
+      "paragraphs": {
+        "median": 8,
+        "q1": 7,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 0.25
+      },
+      "mean_sentence_words": {
+        "median": 17.1,
+        "q1": 15.94,
+        "q3": 18.06,
+        "n": 9,
+        "dispersion": 0.124
+      },
+      "mean_paragraph_words": {
+        "median": 38.71,
+        "q1": 35.22,
+        "q3": 43.75,
+        "n": 9,
+        "dispersion": 0.22
+      },
+      "bullets": {
+        "median": 7,
+        "q1": 5,
+        "q3": 8,
+        "n": 9,
+        "dispersion": 0.429
+      },
+      "headers": {
+        "median": 4,
+        "q1": 3,
+        "q3": 5,
+        "n": 9,
+        "dispersion": 0.5
+      },
+      "highlights": {
+        "median": 21,
+        "q1": 16,
+        "q3": 29,
+        "n": 9,
+        "dispersion": 0.619
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 1,
+        "q1": 0,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 3.0
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0404,
+        "q1": 0.0364,
+        "q3": 0.0442,
+        "n": 9,
+        "dispersion": 0.193
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 4,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 1,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 0.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "news_article": {
+      "words": {
+        "median": 571,
+        "q1": 549,
+        "q3": 585,
+        "n": 9,
+        "dispersion": 0.063
+      },
+      "sentences": {
+        "median": 24,
+        "q1": 21,
+        "q3": 26,
+        "n": 9,
+        "dispersion": 0.208
+      },
+      "paragraphs": {
+        "median": 14,
+        "q1": 13,
+        "q3": 16,
+        "n": 9,
+        "dispersion": 0.214
+      },
+      "mean_sentence_words": {
+        "median": 23.87,
+        "q1": 23.81,
+        "q3": 27.04,
+        "n": 9,
+        "dispersion": 0.135
+      },
+      "mean_paragraph_words": {
+        "median": 42.23,
+        "q1": 37.0,
+        "q3": 43.92,
+        "n": 9,
+        "dispersion": 0.164
+      },
+      "bullets": {
+        "median": 0,
+        "q1": 0,
+        "q3": 3,
+        "n": 9,
+        "dispersion": null
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 3,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 8,
+        "q1": 3,
+        "q3": 11,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 9,
+        "q1": 5,
+        "q3": 11,
+        "n": 9,
+        "dispersion": 0.667
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0388,
+        "q1": 0.0351,
+        "q3": 0.0417,
+        "n": 9,
+        "dispersion": 0.17
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 0,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": null
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "dialogue": {
+      "words": {
+        "median": 658.5,
+        "q1": 617,
+        "q3": 773,
+        "n": 6,
+        "dispersion": 0.237
+      },
+      "sentences": {
+        "median": 77.0,
+        "q1": 63,
+        "q3": 95,
+        "n": 6,
+        "dispersion": 0.416
+      },
+      "paragraphs": {
+        "median": 26.5,
+        "q1": 21,
+        "q3": 32,
+        "n": 6,
+        "dispersion": 0.415
+      },
+      "mean_sentence_words": {
+        "median": 8.61,
+        "q1": 8.14,
+        "q3": 10.0,
+        "n": 6,
+        "dispersion": 0.216
+      },
+      "mean_paragraph_words": {
+        "median": 25.16,
+        "q1": 23.33,
+        "q3": 29.38,
+        "n": 6,
+        "dispersion": 0.24
+      },
+      "bullets": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 32,
+        "q1": 26,
+        "q3": 39,
+        "n": 9,
+        "dispersion": 0.406
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 28,
+        "q1": 25,
+        "q3": 47,
+        "n": 9,
+        "dispersion": 0.786
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0619,
+        "q1": 0.0541,
+        "q3": 0.0736,
+        "n": 9,
+        "dispersion": 0.315
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "howto": {
+      "words": {
+        "median": 672,
+        "q1": 647,
+        "q3": 702,
+        "n": 9,
+        "dispersion": 0.082
+      },
+      "sentences": {
+        "median": 60,
+        "q1": 52,
+        "q3": 65,
+        "n": 9,
+        "dispersion": 0.217
+      },
+      "paragraphs": {
+        "median": 12,
+        "q1": 11,
+        "q3": 16,
+        "n": 9,
+        "dispersion": 0.417
+      },
+      "mean_sentence_words": {
+        "median": 11.92,
+        "q1": 11.08,
+        "q3": 12.5,
+        "n": 9,
+        "dispersion": 0.119
+      },
+      "mean_paragraph_words": {
+        "median": 47.92,
+        "q1": 43.94,
+        "q3": 61.09,
+        "n": 9,
+        "dispersion": 0.358
+      },
+      "bullets": {
+        "median": 20,
+        "q1": 18,
+        "q3": 25,
+        "n": 9,
+        "dispersion": 0.35
+      },
+      "headers": {
+        "median": 8,
+        "q1": 7,
+        "q3": 10,
+        "n": 9,
+        "dispersion": 0.375
+      },
+      "highlights": {
+        "median": 54,
+        "q1": 48,
+        "q3": 65,
+        "n": 9,
+        "dispersion": 0.315
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 4,
+        "q1": 4,
+        "q3": 4,
+        "n": 9,
+        "dispersion": 0.0
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0393,
+        "q1": 0.0352,
+        "q3": 0.0467,
+        "n": 9,
+        "dispersion": 0.293
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 3,
+        "q1": 1,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 0.667
+      },
+      "indented_lines": {
+        "median": 1,
+        "q1": 0,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 6.0
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "apology_note": {
+      "words": {
+        "median": 136,
+        "q1": 113,
+        "q3": 154,
+        "n": 9,
+        "dispersion": 0.301
+      },
+      "sentences": {
+        "median": 9,
+        "q1": 7,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 0.222
+      },
+      "paragraphs": {
+        "median": 8,
+        "q1": 7,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 0.25
+      },
+      "mean_sentence_words": {
+        "median": 16.67,
+        "q1": 15.4,
+        "q3": 17.0,
+        "n": 9,
+        "dispersion": 0.096
+      },
+      "mean_paragraph_words": {
+        "median": 17.11,
+        "q1": 14.57,
+        "q3": 18.67,
+        "n": 9,
+        "dispersion": 0.24
+      },
+      "bullets": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "placeholders": {
+        "median": 6,
+        "q1": 3,
+        "q3": 7,
+        "n": 9,
+        "dispersion": 0.667
+      },
+      "caps_words": {
+        "median": 7,
+        "q1": 5,
+        "q3": 8,
+        "n": 9,
+        "dispersion": 0.429
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0467,
+        "q1": 0.0385,
+        "q3": 0.0514,
+        "n": 9,
+        "dispersion": 0.276
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "social_post": {
+      "words": {
+        "median": 271,
+        "q1": 198,
+        "q3": 304,
+        "n": 9,
+        "dispersion": 0.391
+      },
+      "sentences": {
+        "median": 14,
+        "q1": 13,
+        "q3": 17,
+        "n": 9,
+        "dispersion": 0.286
+      },
+      "paragraphs": {
+        "median": 10,
+        "q1": 8,
+        "q3": 13,
+        "n": 9,
+        "dispersion": 0.5
+      },
+      "mean_sentence_words": {
+        "median": 15.43,
+        "q1": 14.14,
+        "q3": 17.88,
+        "n": 9,
+        "dispersion": 0.242
+      },
+      "mean_paragraph_words": {
+        "median": 24.23,
+        "q1": 21.88,
+        "q3": 26.75,
+        "n": 9,
+        "dispersion": 0.201
+      },
+      "bullets": {
+        "median": 4,
+        "q1": 0,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 1.5
+      },
+      "headers": {
+        "median": 0,
+        "q1": 0,
+        "q3": 3,
+        "n": 9,
+        "dispersion": null
+      },
+      "highlights": {
+        "median": 21,
+        "q1": 3,
+        "q3": 25,
+        "n": 9,
+        "dispersion": 1.048
+      },
+      "placeholders": {
+        "median": 2,
+        "q1": 0,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 1.5
+      },
+      "caps_words": {
+        "median": 6,
+        "q1": 4,
+        "q3": 7,
+        "n": 9,
+        "dispersion": 0.5
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.054,
+        "q1": 0.0511,
+        "q3": 0.0596,
+        "n": 9,
+        "dispersion": 0.157
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 6,
+        "q1": 5,
+        "q3": 8,
+        "n": 9,
+        "dispersion": 0.5
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "report": {
+      "words": {
+        "median": 818,
+        "q1": 722,
+        "q3": 829,
+        "n": 9,
+        "dispersion": 0.131
+      },
+      "sentences": {
+        "median": 49,
+        "q1": 38,
+        "q3": 52,
+        "n": 9,
+        "dispersion": 0.286
+      },
+      "paragraphs": {
+        "median": 15,
+        "q1": 12,
+        "q3": 17,
+        "n": 9,
+        "dispersion": 0.333
+      },
+      "mean_sentence_words": {
+        "median": 16.62,
+        "q1": 16.43,
+        "q3": 18.53,
+        "n": 9,
+        "dispersion": 0.126
+      },
+      "mean_paragraph_words": {
+        "median": 51.81,
+        "q1": 48.12,
+        "q3": 61.71,
+        "n": 9,
+        "dispersion": 0.262
+      },
+      "bullets": {
+        "median": 15,
+        "q1": 13,
+        "q3": 15,
+        "n": 9,
+        "dispersion": 0.133
+      },
+      "headers": {
+        "median": 11,
+        "q1": 11,
+        "q3": 12,
+        "n": 9,
+        "dispersion": 0.091
+      },
+      "highlights": {
+        "median": 49,
+        "q1": 45,
+        "q3": 53,
+        "n": 9,
+        "dispersion": 0.163
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 15,
+        "q1": 10,
+        "q3": 16,
+        "n": 9,
+        "dispersion": 0.4
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0382,
+        "q1": 0.0339,
+        "q3": 0.043,
+        "n": 9,
+        "dispersion": 0.238
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 1,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 0.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "biography": {
+      "words": {
+        "median": 761,
+        "q1": 729,
+        "q3": 804,
+        "n": 9,
+        "dispersion": 0.099
+      },
+      "sentences": {
+        "median": 38,
+        "q1": 36,
+        "q3": 39,
+        "n": 9,
+        "dispersion": 0.079
+      },
+      "paragraphs": {
+        "median": 14,
+        "q1": 14,
+        "q3": 15,
+        "n": 9,
+        "dispersion": 0.071
+      },
+      "mean_sentence_words": {
+        "median": 20.51,
+        "q1": 19.53,
+        "q3": 20.72,
+        "n": 9,
+        "dispersion": 0.058
+      },
+      "mean_paragraph_words": {
+        "median": 54.36,
+        "q1": 52.39,
+        "q3": 57.43,
+        "n": 9,
+        "dispersion": 0.093
+      },
+      "bullets": {
+        "median": 3,
+        "q1": 0,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "headers": {
+        "median": 6,
+        "q1": 6,
+        "q3": 7,
+        "n": 9,
+        "dispersion": 0.167
+      },
+      "highlights": {
+        "median": 24,
+        "q1": 21,
+        "q3": 38,
+        "n": 9,
+        "dispersion": 0.708
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 4,
+        "q1": 1,
+        "q3": 6,
+        "n": 9,
+        "dispersion": 1.25
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0423,
+        "q1": 0.0383,
+        "q3": 0.0459,
+        "n": 9,
+        "dispersion": 0.18
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 1,
+        "q1": 0,
+        "q3": 1,
+        "n": 9,
+        "dispersion": 1.0
+      },
+      "indented_lines": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    },
+    "faq": {
+      "words": {
+        "median": 687,
+        "q1": 604,
+        "q3": 773,
+        "n": 9,
+        "dispersion": 0.246
+      },
+      "sentences": {
+        "median": 58,
+        "q1": 55,
+        "q3": 70,
+        "n": 9,
+        "dispersion": 0.259
+      },
+      "paragraphs": {
+        "median": 9,
+        "q1": 9,
+        "q3": 11,
+        "n": 9,
+        "dispersion": 0.222
+      },
+      "mean_sentence_words": {
+        "median": 11.18,
+        "q1": 10.12,
+        "q3": 12.33,
+        "n": 9,
+        "dispersion": 0.198
+      },
+      "mean_paragraph_words": {
+        "median": 67.11,
+        "q1": 62.45,
+        "q3": 72.67,
+        "n": 9,
+        "dispersion": 0.152
+      },
+      "bullets": {
+        "median": 27,
+        "q1": 21,
+        "q3": 27,
+        "n": 9,
+        "dispersion": 0.222
+      },
+      "headers": {
+        "median": 8,
+        "q1": 7,
+        "q3": 9,
+        "n": 9,
+        "dispersion": 0.25
+      },
+      "highlights": {
+        "median": 82,
+        "q1": 74,
+        "q3": 96,
+        "n": 9,
+        "dispersion": 0.268
+      },
+      "placeholders": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "caps_words": {
+        "median": 7,
+        "q1": 6,
+        "q3": 8,
+        "n": 9,
+        "dispersion": 0.286
+      },
+      "has_title": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "uppercase_ratio": {
+        "median": 0.0352,
+        "q1": 0.0323,
+        "q3": 0.0369,
+        "n": 9,
+        "dispersion": 0.131
+      },
+      "quoted_whole": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "emoji": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      },
+      "max_nesting": {
+        "median": 3,
+        "q1": 1,
+        "q3": 3,
+        "n": 9,
+        "dispersion": 0.667
+      },
+      "indented_lines": {
+        "median": 2,
+        "q1": 0,
+        "q3": 4,
+        "n": 9,
+        "dispersion": 2.0
+      },
+      "has_preamble": {
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "n": 9,
+        "dispersion": null
+      }
+    }
+  }
+}

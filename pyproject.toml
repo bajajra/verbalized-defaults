@@ -10,6 +10,7 @@ requires-python = ">=3.12"
 dependencies = [
     "immutabledict>=4.3.1",
     "langdetect>=1.0.9",
+    "ninja>=1.13.0",
     "nltk>=3.10.0",
     "vllm==0.25.0",
 ]
