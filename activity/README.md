@@ -29,3 +29,4 @@ Convention for each entry:
 | 0012 | [e01-notation-matters-more-than-surfacing](0012-e01-notation-matters-more-than-surfacing.md) | **Surfacing works (+0.11, Gate 1 passes) but the typed DSL captures almost none of it** — direct challenge to C1 |
 | 0013 | [notation-effect-replicated-two-models](0013-notation-effect-replicated-two-models.md) | **Retracts 0012's +0.11 (noise).** Proper 5-sample paired analysis: spec-vs-none inconclusive, but **NL beats typed significantly on both models** |
 | 0014 | [e01-full-benchmark-both-models](0014-e01-full-benchmark-both-models.md) | **Definitive E0.1**: 541x4x7x2 models. NL beats typed on both (+0.038/+0.063); surfacing helps Gemma but not Qwen; placement *reverses* between models |
+| 0015 | [e03-self-consistency-first-assumed-result](0015-e03-self-consistency-first-assumed-result.md) | **First `[assumed]` result**: model declares 4.5 conventions, obeys **47%**; length violated 94% of the time. Large RLVR headroom |

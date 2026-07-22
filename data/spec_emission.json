@@ -1,0 +1,19 @@
+{
+  "model": "Qwen/Qwen3.5-2B",
+  "source": "genres",
+  "n": 10,
+  "no_declaration_rate": 0.0,
+  "mean_slots_declared": 5,
+  "mean_extraction_coverage": 0.7469,
+  "mean_self_consistency": 0.54,
+  "self_consistency_perfect_rate": 0.0,
+  "binding_recall": null,
+  "mean_extra_slots": null,
+  "slot_frequency": {
+    "length_words": 10,
+    "length_paragraphs": 10,
+    "structure": 10,
+    "case": 10,
+    "language": 10
+  }
+}
