@@ -25,3 +25,4 @@ Convention for each entry:
 | 0008 | [ifbench-coverage-and-ifstruct](0008-ifbench-coverage-and-ifstruct.md) | Schema expresses **95.8% of IFEval but 10.5% of IFBench**; 57% of IFBench is Bucket C — Gate 3 needs rethinking. IFStruct reviewed, not adopted |
 | 0009 | [correction-schema-is-a-default-inventory](0009-correction-schema-is-a-default-inventory.md) | **Corrects 0008**: a slot exists iff the dimension has a latent default. Adds `other` ([given]-only). Retracts the IFBench coverage conclusions |
 | 0010 | [prior-inventory-and-server](0010-prior-inventory-and-server.md) | Decoupled vLLM server; first prior inventory for Qwen3.5-2B — **defaults are genre-conditioned and aggregates hide them**; emoji + nesting earn slots |
+| 0011 | [ifeval-scoring-and-e01-pilot](0011-ifeval-scoring-and-e01-pilot.md) | IFEval scoring harness; first interpretable E0.1 — **oracle prefill is neutral-to-harmful**; 4 methodological traps fixed |

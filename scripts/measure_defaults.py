@@ -70,11 +70,28 @@ def max_bullet_nesting(text: str) -> int:
     return max(depths)
 
 
+def line_initial_caps_ratio(text: str) -> float:
+    """Fraction of lines whose first letter is uppercase.
+
+    Directly tests the taxonomy's A2 genre prior: verse lines auto-capitalize.
+    A poem scoring ~1.0 here has the exact prior that a 'write in all lowercase'
+    instruction has to fight (and, per the taxonomy, usually loses to).
+    """
+    firsts = []
+    for line in text.splitlines():
+        for ch in line.strip():
+            if ch.isalpha():
+                firsts.append(ch.isupper())
+                break
+    return round(sum(firsts) / len(firsts), 4) if firsts else 0.0
+
+
 def measure(text: str) -> dict:
     paragraphs = split_paragraphs(text)
     upper = sum(1 for c in text if c.isupper())
     lower = sum(1 for c in text if c.islower())
     return {
+        "line_initial_caps": line_initial_caps_ratio(text),
         # --- schema v2 dimensions ---
         "words": count_words(text),
         "sentences": count_sentences(text),
