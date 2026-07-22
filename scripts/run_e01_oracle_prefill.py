@@ -41,11 +41,37 @@ from verbalized_defaults.ifeval_score import (  # noqa: E402
     load_ifeval_rows,
     score_prompt,
 )
+from verbalized_defaults.spec_nl import format_spec_natural  # noqa: E402
 from verbalized_defaults.spec_text import format_spec  # noqa: E402
 
-CONDITIONS = ["vanilla", "vanilla_think_open", "spec_think", "spec_prefix"]
-# Excluded from the Gate 1 comparison (see build_prompts).
+# Factorial over three things E0.1 previously confounded:
+#   notation  typed <spec> DSL  vs  plain-English requirement list
+#   placement inside the reasoning block  vs  as a response header
+#   hint      with a system prompt explaining the block  vs  without
+# Without a system prompt the model has never seen this DSL, so a null result
+# there measures "can it reverse-engineer an undocumented notation", not H0.
+CONDITIONS = [
+    "vanilla",
+    "typed_think", "typed_think_sys", "typed_prefix_sys",
+    "nl_think", "nl_think_sys", "nl_prefix_sys",
+    "vanilla_think_open",
+]
 DIAGNOSTIC_ONLY = {"vanilla_think_open"}
+# The best case for H0: constraints stated in plain English, with the model
+# explicitly told to follow them. If surfacing helps at all, it helps here.
+BEST_CASE = "nl_think_sys"
+
+SYS_TYPED = (
+    "Before your answer you are given a <spec> block listing the output "
+    "conventions your response must satisfy. Each line is `slot: value`. "
+    "Follow every line of the spec exactly. Do not mention or repeat the spec "
+    "in your answer."
+)
+SYS_NL = (
+    "Before your answer you are given a list of requirements your response must "
+    "satisfy. Follow every requirement exactly. Do not mention or repeat the "
+    "requirements in your answer."
+)
 # Conditions whose *generated text* contains an open reasoning block that the
 # model must close itself. The no-think template already closes it in the
 # prompt, so its generation legitimately has no </think> -- do not count that as
@@ -54,10 +80,11 @@ DIAGNOSTIC_ONLY = {"vanilla_think_open"}
 THINKING_CONDITIONS = {"vanilla_think_open"}
 
 
-def build_prompts(tok, user_prompt: str, spec_block: str | None) -> dict[str, str]:
-    msgs = [{"role": "user", "content": user_prompt}]
-
-    def tmpl(think: bool) -> str:
+def build_prompts(tok, user_prompt: str, typed: str | None,
+                  natural: str | None) -> dict[str, str]:
+    def tmpl(think: bool, system: str | None) -> str:
+        msgs = ([{"role": "system", "content": system}] if system else [])
+        msgs = msgs + [{"role": "user", "content": user_prompt}]
         try:
             return tok.apply_chat_template(msgs, tokenize=False,
                                            add_generation_prompt=True,
@@ -67,20 +94,38 @@ def build_prompts(tok, user_prompt: str, spec_block: str | None) -> dict[str, st
                                            add_generation_prompt=True)
 
     out = {
-        "vanilla": tmpl(False),
-        # Diagnostic only, excluded from the Gate 1 comparison: with the block
-        # left open this model writes its reasoning as plain prose and never
-        # emits </think>, so the reasoning pollutes the scored answer. Kept to
-        # document that failure rather than hide it.
-        "vanilla_think_open": tmpl(True),
+        "vanilla": tmpl(False, None),
+        # Diagnostic only: with the block left open this model writes reasoning
+        # as plain prose and never emits </think>, polluting the scored answer.
+        "vanilla_think_open": tmpl(True, None),
     }
-    if spec_block:
-        # (a) spec inside a reasoning block that WE close, so the model emits
-        # only the answer and the spec can never pollute the scored output.
-        out["spec_think"] = tmpl(True) + spec_block + "\n</think>\n\n"
-        # (b) spec as a visible response header, no-think.
-        out["spec_prefix"] = tmpl(False) + spec_block + "\n\n"
+    if not typed:
+        return out
+
+    # (a) placement = inside a reasoning block WE close, so the block can never
+    #     leak into the scored answer. (b) placement = visible response header.
+    out["typed_think"] = tmpl(True, None) + typed + "\n</think>\n\n"
+    out["typed_think_sys"] = tmpl(True, SYS_TYPED) + typed + "\n</think>\n\n"
+    out["typed_prefix_sys"] = tmpl(False, SYS_TYPED) + typed + "\n\n"
+    if natural:
+        out["nl_think"] = tmpl(True, None) + natural + "\n</think>\n\n"
+        out["nl_think_sys"] = tmpl(True, SYS_NL) + natural + "\n</think>\n\n"
+        out["nl_prefix_sys"] = tmpl(False, SYS_NL) + natural + "\n\n"
     return out
+
+
+def repetition_rate(text: str, n: int = 10) -> float:
+    """Fraction of duplicated n-grams: a direct degeneracy measure.
+
+    Truncation was previously used as a proxy for repetition, which conflates
+    two different things (a long compliant answer also truncates). This measures
+    looping directly: 0.0 = every n-gram unique, ->1.0 = heavily repetitive.
+    """
+    toks = text.split()
+    if len(toks) < n * 2:
+        return 0.0
+    grams = [tuple(toks[i:i + n]) for i in range(len(toks) - n + 1)]
+    return round(1.0 - len(set(grams)) / len(grams), 4)
 
 
 def extract_answer(text: str) -> tuple[str, bool]:
@@ -137,8 +182,10 @@ def main() -> int:
         res = spec_from_ifeval(row["instruction_id_list"], row.get("kwargs"))
         if res.unmapped:
             untyped_rows += 1
-        spec_block = format_spec(res.spec) if res.spec.provenance else None
-        prompts = build_prompts(tok, row["prompt"], spec_block)
+        has_spec = bool(res.spec.provenance)
+        spec_block = format_spec(res.spec) if has_spec else None
+        nl_block = format_spec_natural(res.spec) if has_spec else None
+        prompts = build_prompts(tok, row["prompt"], spec_block, nl_block or None)
         for cond in CONDITIONS:
             if cond not in prompts:
                 continue
@@ -154,6 +201,7 @@ def main() -> int:
     by_cond: dict[str, list] = {c: [] for c in CONDITIONS}
     unclosed = Counter()
     truncated = Counter()
+    rep_by_cond: dict[str, list] = {c: [] for c in CONDITIONS}
     raw_fh = open(a.raw, "w")
     for (row, cond), (text, finish) in zip(meta, results):
         if text is None:
@@ -163,6 +211,8 @@ def main() -> int:
             unclosed[cond] += 1
         if finish == "length":
             truncated[cond] += 1
+        rep = repetition_rate(answer)
+        rep_by_cond[cond].append(rep)
         s = score_prompt(row["prompt"], row["instruction_id_list"],
                          row.get("kwargs"), answer, key=row.get("key"))
         by_cond[cond].append(s)
@@ -170,13 +220,19 @@ def main() -> int:
             "key": row.get("key"), "condition": cond,
             "instruction_ids": row["instruction_id_list"],
             "strict": s.strict_all, "loose": s.loose_all,
-            "closed_think": closed, "finish_reason": finish,
+            "closed_think": closed, "finish_reason": finish, "repetition": rep,
             "answer": answer[:4000],
         }) + "\n")
     raw_fh.close()
 
     summary = {c: aggregate(v) for c, v in by_cond.items() if v}
+    import statistics as _st
+    rep_summary = {c: {
+        "mean": round(_st.mean(v), 4),
+        "frac_over_0.3": round(sum(x > 0.3 for x in v) / len(v), 4),
+    } for c, v in rep_by_cond.items() if v}
     payload = {"model": a.model, "n_rows": len(rows), "temperature": a.temperature,
+               "repetition": rep_summary,
                "max_tokens": a.max_tokens,
                "unclosed_think": dict(unclosed), "truncated": dict(truncated),
                "conditions": summary}
@@ -201,6 +257,12 @@ def main() -> int:
     # Truncation is a validity threat, not a footnote: a condition that runs out
     # of budget mid-reasoning scores ~0 for reasons unrelated to instruction
     # following, so an unbalanced truncation rate invalidates the comparison.
+    print(f"\n--- degeneracy: duplicated 10-gram rate (temp={a.temperature}) ---")
+    for c in CONDITIONS:
+        if c in rep_summary:
+            r = rep_summary[c]
+            print(f"  {c:20s} mean {r['mean']:.4f}   looping(>0.3) {r['frac_over_0.3']:6.1%}")
+
     print("\n--- truncation check (validity gate) ---")
     worst = 0.0
     for c in CONDITIONS:
@@ -216,11 +278,13 @@ def main() -> int:
               "and re-run before reading any lift below as a Gate 1 result.")
 
     print("\n--- GATE 1 (oracle-prefill lift, prompt-strict) ---")
-    for label, cond in (("(a) spec_think ", "spec_think"),
-                        ("(b) spec_prefix", "spec_prefix")):
-        print(f"  {label} - vanilla : "
+    for cond in CONDITIONS:
+        if cond in ("vanilla",) or cond in DIAGNOSTIC_ONLY or cond not in summary:
+            continue
+        star = "  <== best case for H0" if cond == BEST_CASE else ""
+        print(f"  {cond:18s} - vanilla : "
               f"strict {delta(cond, 'vanilla', 'prompt_strict'):+.4f}   "
-              f"loose {delta(cond, 'vanilla', 'prompt_loose'):+.4f}")
+              f"loose {delta(cond, 'vanilla', 'prompt_loose'):+.4f}{star}")
     print("  gate: >=+0.05 proceed | <+0.02 H0 falsified, pivot to execution")
     if unclosed:
         print(f"\n  NOTE unclosed <think> blocks: {dict(unclosed)} "
