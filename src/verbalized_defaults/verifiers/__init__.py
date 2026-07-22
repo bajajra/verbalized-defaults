@@ -62,5 +62,14 @@ def verify_spec(text: str, spec: Spec) -> SpecReport:
                 detail="soft slot: judge-scored, excluded from R_exec", skipped=True,
             )
         )
+    if spec.other:
+        results.append(
+            SlotResult(
+                "other", True, spec.other, spec.other,
+                detail=("carried for binding only: no latent default and no literal "
+                        "verifier, so excluded from R_exec"),
+                skipped=True,
+            )
+        )
 
     return SpecReport(results=results)

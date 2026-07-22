@@ -31,10 +31,28 @@ from .schema import (
     Wrapper,
 )
 
-# Deliberately not modelled: character arithmetic, Bucket C in the taxonomy.
+# Deliberately not given a typed slot: these dimensions carry no latent default,
+# so there is no prior to verbalize. A palindrome constraint exists only because
+# the prompt said so. They are still carried into the spec via `other` as
+# [given] -- binding must not lose them -- but they get no verifier and no
+# [assumed] form.
 UNMAPPABLE: dict[str, str] = {
-    "keywords:letter_frequency": "out of scope: letter arithmetic (Bucket C)",
+    "keywords:letter_frequency": "no latent default: letter arithmetic (Bucket C)",
 }
+
+
+def _restate(iid: str, kw: dict[str, Any]) -> str:
+    """A faithful restatement for `other`, so binding can still be scored.
+
+    NOTE: this is a structured restatement, not natural language. For oracle
+    prefill on benchmarks dominated by untyped families (IFBench), a
+    natural-language restatement would surface the constraint more usefully;
+    that is a follow-up.
+    """
+    if not kw:
+        return iid
+    args = ", ".join(f"{k}={v!r}" for k, v in sorted(kw.items()))
+    return f"{iid}({args})"
 
 # IFEval's constrained_response uses a fixed option set.
 CONSTRAINED_RESPONSE_OPTIONS = [
@@ -74,6 +92,7 @@ def spec_from_ifeval(
     quotes = title = False
     end_phrase = None
     markup: dict[str, LengthConstraint] = {}
+    other: list[str] = []
 
     def set_structure(iid: str, s: Structure) -> None:
         """One structure slot; a second claim on it is a real expressiveness limit."""
@@ -88,6 +107,7 @@ def spec_from_ifeval(
         kw = {k: v for k, v in (raw or {}).items() if v is not None}
 
         if iid in UNMAPPABLE:
+            other.append(_restate(iid, kw))
             res.unmapped.append((iid, UNMAPPABLE[iid]))
             continue
 
@@ -210,8 +230,14 @@ def spec_from_ifeval(
             res.mapped.append(iid)
 
         else:
-            res.unmapped.append((iid, "unrecognised instruction id"))
+            # Unknown to the typed schema (e.g. every IFBench family). Carried in
+            # `other` so binding still sees it; no verifier, no assumed form.
+            other.append(_restate(iid, kw))
+            res.unmapped.append((iid, "no typed slot; carried in 'other'"))
 
+    if other:
+        spec.other = other
+        _mark(spec, "other")
     if must:
         spec.must_include = must
         _mark(spec, "must_include")

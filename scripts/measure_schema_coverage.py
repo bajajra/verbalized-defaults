@@ -63,12 +63,20 @@ def main() -> int:
         c = status[iid]
         print(f"{iid:52s} {c['mapped']:7d} {c['partial']:8d} {c['unmapped']:9d}")
 
-    print("\n--- aggregate (instruction instances) ---")
-    for key in ("mapped", "partial", "unmapped"):
+    print("\n--- TYPED coverage (has a slot => has a default => verifiable) ---")
+    for key in ("mapped", "partial"):
         print(f"{key:9s} {totals[key]:5d}  ({100.0 * totals[key] / grand:5.1f}%)")
+    print(f"{'untyped':9s} {totals['unmapped']:5d}  ({100.0 * totals['unmapped'] / grand:5.1f}%)"
+          "   <- carried in `other`, bound but not verifiable")
 
-    print(f"\nprompts fully expressible: {prompts_full}/{prompts_total} "
+    print("\n--- BINDING coverage (is the constraint carried into the spec at all?) ---")
+    print(f"{'carried':9s} {grand:5d}  (100.0%)   typed slots + `other`")
+
+    print(f"\nprompts fully TYPED: {prompts_full}/{prompts_total} "
           f"({100.0 * prompts_full / prompts_total:.1f}%)")
+    print("\nNote: a slot exists iff its dimension carries a latent default. Untyped\n"
+          "constraints are not a coverage failure -- they are constraints with no prior\n"
+          "to verbalize, so they are carried as [given] in `other` and never [assumed].")
 
     print("\n--- why not mapped ---")
     for iid in sorted(reasons):

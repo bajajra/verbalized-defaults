@@ -164,6 +164,11 @@ class Spec:
     markup: Optional[Markup] = None
     positional: Optional[Positional] = None
     response_options: Optional[list[str]] = None
+    # Stated constraints on dimensions that carry NO latent default (palindromes,
+    # letter arithmetic, bespoke predicates). These exist only because the prompt
+    # said so, therefore they can only ever be [given] -- never [assumed] -- and
+    # they are excluded from R_exec because the suite has no verifier for them.
+    other: Optional[list[str]] = None
     provenance: dict = field(default_factory=dict)  # slot name -> given | assumed
 
 
@@ -194,6 +199,16 @@ def validate_spec(spec: Spec) -> None:
 
     if spec.positional is not None and spec.positional.paragraph < 1:
         raise SpecValidationError("positional.paragraph is 1-indexed and must be >= 1")
+
+    # A slot exists in the typed schema iff its dimension carries a latent
+    # default. 'other' holds constraints with no default, so nothing in it can
+    # be assumed -- there is no prior to assume. This is the load-bearing
+    # invariant separating the two kinds of slot.
+    if spec.provenance.get("other") == ASSUMED:
+        raise SpecValidationError(
+            "'other' holds constraints on dimensions with no latent default, so it "
+            "can only be [given]; an [assumed] entry there is a category error"
+        )
 
     for slot in ("length_words", "length_sentences", "length_paragraphs"):
         c: Optional[LengthConstraint] = getattr(spec, slot)

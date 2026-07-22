@@ -64,7 +64,7 @@ _UNIT_TO_SLOT = {"words": "length_words", "word": "length_words",
 CANONICAL_SLOTS = (
     "length_words", "length_sentences", "length_paragraphs", "case", "structure",
     "delimiters", "must_include", "forbidden", "wrappers", "language", "register",
-    "response_boundary", "markup", "positional", "response_options",
+    "response_boundary", "markup", "positional", "response_options", "other",
 )
 
 
@@ -229,6 +229,8 @@ def parse_spec(text: str) -> ParseResult:
                 spec.positional = _parse_positional(raw)
             elif slot == "response_options":
                 spec.response_options = [t for t, _, _ in _parse_quoted_list(raw)]
+            elif slot == "other":
+                spec.other = [t for t, _, _ in _parse_quoted_list(raw)]
             elif slot == "language":
                 spec.language = raw.strip().lower()
             elif slot == "register":
@@ -241,7 +243,15 @@ def parse_spec(text: str) -> ParseResult:
             continue
 
         if prov:
-            spec.provenance[slot] = GIVEN if prov == "given" else ASSUMED
+            if slot == "other" and prov == "assumed":
+                # 'other' holds constraints with no latent default; there is no
+                # prior to assume, so this is a category error, not a typo.
+                errors.append(
+                    f"line {lineno}: 'other' can only be [given] -- it holds constraints "
+                    "on dimensions with no latent default, so nothing there can be assumed")
+                spec.provenance[slot] = GIVEN
+            else:
+                spec.provenance[slot] = GIVEN if prov == "given" else ASSUMED
         else:
             errors.append(f"line {lineno}: slot {slot!r} is missing a [given]/[assumed] tag")
 
@@ -313,6 +323,8 @@ def format_spec(spec: Spec, wrap: bool = True) -> str:
         emit("positional", f'paragraph={p.paragraph}, first_word="{p.first_word}"')
     if spec.response_options:
         emit("response_options", ", ".join(f'"{o}"' for o in spec.response_options))
+    if spec.other:
+        emit("other", ", ".join(f'"{o}"' for o in spec.other))
     if spec.language is not None:
         emit("language", spec.language)
     if spec.register is not None:
