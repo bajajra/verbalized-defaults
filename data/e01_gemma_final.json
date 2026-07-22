@@ -1,0 +1,1330 @@
+{
+  "model": "unsloth/gemma-4-E4B-it-NVFP4",
+  "n_rows": 541,
+  "temperature": 1.0,
+  "repetition": {
+    "vanilla": {
+      "mean": 0.0072,
+      "frac_over_0.3": 0.0
+    },
+    "typed_think_sys": {
+      "mean": 0.0227,
+      "frac_over_0.3": 0.0351
+    },
+    "typed_prefix_sys": {
+      "mean": 0.0071,
+      "frac_over_0.3": 0.0009
+    },
+    "nl_think_sys": {
+      "mean": 0.0081,
+      "frac_over_0.3": 0.006
+    },
+    "nl_prefix_sys": {
+      "mean": 0.0067,
+      "frac_over_0.3": 0.0009
+    },
+    "typed_insys": {
+      "mean": 0.01,
+      "frac_over_0.3": 0.0018
+    },
+    "nl_insys": {
+      "mean": 0.0052,
+      "frac_over_0.3": 0.0009
+    }
+  },
+  "max_tokens": 4096,
+  "unclosed_think": {},
+  "truncated": {
+    "typed_prefix_sys": 1
+  },
+  "conditions": {
+    "vanilla": {
+      "n_prompts": 2164,
+      "prompt_strict": 0.8346,
+      "prompt_loose": 0.8614,
+      "instruction_strict": 0.8834,
+      "instruction_loose": 0.9047,
+      "per_family": {
+        "punctuation:no_comma": {
+          "n": 264,
+          "strict": 264,
+          "loose": 264,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "detectable_format:number_highlighted_sections": {
+          "n": 192,
+          "strict": 184,
+          "loose": 184,
+          "strict_acc": 0.9583,
+          "loose_acc": 0.9583
+        },
+        "length_constraints:number_words": {
+          "n": 208,
+          "strict": 178,
+          "loose": 183,
+          "strict_acc": 0.8558,
+          "loose_acc": 0.8798
+        },
+        "detectable_content:number_placeholders": {
+          "n": 108,
+          "strict": 108,
+          "loose": 108,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "combination:repeat_prompt": {
+          "n": 164,
+          "strict": 105,
+          "loose": 106,
+          "strict_acc": 0.6402,
+          "loose_acc": 0.6463
+        },
+        "detectable_format:title": {
+          "n": 148,
+          "strict": 148,
+          "loose": 148,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:english_lowercase": {
+          "n": 156,
+          "strict": 123,
+          "loose": 129,
+          "strict_acc": 0.7885,
+          "loose_acc": 0.8269
+        },
+        "detectable_format:number_bullet_lists": {
+          "n": 124,
+          "strict": 109,
+          "loose": 111,
+          "strict_acc": 0.879,
+          "loose_acc": 0.8952
+        },
+        "change_case:english_capital": {
+          "n": 100,
+          "strict": 69,
+          "loose": 72,
+          "strict_acc": 0.69,
+          "loose_acc": 0.72
+        },
+        "detectable_format:multiple_sections": {
+          "n": 56,
+          "strict": 56,
+          "loose": 56,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:capital_word_frequency": {
+          "n": 100,
+          "strict": 77,
+          "loose": 81,
+          "strict_acc": 0.77,
+          "loose_acc": 0.81
+        },
+        "startend:quotation": {
+          "n": 164,
+          "strict": 164,
+          "loose": 164,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:existence": {
+          "n": 156,
+          "strict": 148,
+          "loose": 148,
+          "strict_acc": 0.9487,
+          "loose_acc": 0.9487
+        },
+        "detectable_format:json_format": {
+          "n": 68,
+          "strict": 65,
+          "loose": 65,
+          "strict_acc": 0.9559,
+          "loose_acc": 0.9559
+        },
+        "length_constraints:number_paragraphs": {
+          "n": 108,
+          "strict": 101,
+          "loose": 102,
+          "strict_acc": 0.9352,
+          "loose_acc": 0.9444
+        },
+        "combination:two_responses": {
+          "n": 96,
+          "strict": 89,
+          "loose": 90,
+          "strict_acc": 0.9271,
+          "loose_acc": 0.9375
+        },
+        "language:response_language": {
+          "n": 124,
+          "strict": 122,
+          "loose": 123,
+          "strict_acc": 0.9839,
+          "loose_acc": 0.9919
+        },
+        "keywords:letter_frequency": {
+          "n": 132,
+          "strict": 90,
+          "loose": 95,
+          "strict_acc": 0.6818,
+          "loose_acc": 0.7197
+        },
+        "startend:end_checker": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:forbidden_words": {
+          "n": 196,
+          "strict": 171,
+          "loose": 187,
+          "strict_acc": 0.8724,
+          "loose_acc": 0.9541
+        },
+        "keywords:frequency": {
+          "n": 168,
+          "strict": 157,
+          "loose": 161,
+          "strict_acc": 0.9345,
+          "loose_acc": 0.9583
+        },
+        "length_constraints:number_sentences": {
+          "n": 208,
+          "strict": 136,
+          "loose": 150,
+          "strict_acc": 0.6538,
+          "loose_acc": 0.7212
+        },
+        "detectable_content:postscript": {
+          "n": 104,
+          "strict": 103,
+          "loose": 103,
+          "strict_acc": 0.9904,
+          "loose_acc": 0.9904
+        },
+        "length_constraints:nth_paragraph_first_word": {
+          "n": 48,
+          "strict": 36,
+          "loose": 44,
+          "strict_acc": 0.75,
+          "loose_acc": 0.9167
+        },
+        "detectable_format:constrained_response": {
+          "n": 40,
+          "strict": 40,
+          "loose": 40,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        }
+      }
+    },
+    "typed_think_sys": {
+      "n_prompts": 2164,
+      "prompt_strict": 0.8517,
+      "prompt_loose": 0.8863,
+      "instruction_strict": 0.8963,
+      "instruction_loose": 0.9218,
+      "per_family": {
+        "punctuation:no_comma": {
+          "n": 264,
+          "strict": 248,
+          "loose": 253,
+          "strict_acc": 0.9394,
+          "loose_acc": 0.9583
+        },
+        "detectable_format:number_highlighted_sections": {
+          "n": 192,
+          "strict": 177,
+          "loose": 177,
+          "strict_acc": 0.9219,
+          "loose_acc": 0.9219
+        },
+        "length_constraints:number_words": {
+          "n": 208,
+          "strict": 178,
+          "loose": 192,
+          "strict_acc": 0.8558,
+          "loose_acc": 0.9231
+        },
+        "detectable_content:number_placeholders": {
+          "n": 108,
+          "strict": 108,
+          "loose": 108,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "combination:repeat_prompt": {
+          "n": 164,
+          "strict": 157,
+          "loose": 157,
+          "strict_acc": 0.9573,
+          "loose_acc": 0.9573
+        },
+        "detectable_format:title": {
+          "n": 148,
+          "strict": 148,
+          "loose": 148,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:english_lowercase": {
+          "n": 156,
+          "strict": 131,
+          "loose": 138,
+          "strict_acc": 0.8397,
+          "loose_acc": 0.8846
+        },
+        "detectable_format:number_bullet_lists": {
+          "n": 124,
+          "strict": 113,
+          "loose": 114,
+          "strict_acc": 0.9113,
+          "loose_acc": 0.9194
+        },
+        "change_case:english_capital": {
+          "n": 100,
+          "strict": 79,
+          "loose": 82,
+          "strict_acc": 0.79,
+          "loose_acc": 0.82
+        },
+        "detectable_format:multiple_sections": {
+          "n": 56,
+          "strict": 56,
+          "loose": 56,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:capital_word_frequency": {
+          "n": 100,
+          "strict": 83,
+          "loose": 88,
+          "strict_acc": 0.83,
+          "loose_acc": 0.88
+        },
+        "startend:quotation": {
+          "n": 164,
+          "strict": 164,
+          "loose": 164,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:existence": {
+          "n": 156,
+          "strict": 149,
+          "loose": 149,
+          "strict_acc": 0.9551,
+          "loose_acc": 0.9551
+        },
+        "detectable_format:json_format": {
+          "n": 68,
+          "strict": 68,
+          "loose": 68,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:number_paragraphs": {
+          "n": 108,
+          "strict": 99,
+          "loose": 100,
+          "strict_acc": 0.9167,
+          "loose_acc": 0.9259
+        },
+        "combination:two_responses": {
+          "n": 96,
+          "strict": 83,
+          "loose": 86,
+          "strict_acc": 0.8646,
+          "loose_acc": 0.8958
+        },
+        "language:response_language": {
+          "n": 124,
+          "strict": 118,
+          "loose": 119,
+          "strict_acc": 0.9516,
+          "loose_acc": 0.9597
+        },
+        "keywords:letter_frequency": {
+          "n": 132,
+          "strict": 88,
+          "loose": 92,
+          "strict_acc": 0.6667,
+          "loose_acc": 0.697
+        },
+        "startend:end_checker": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:forbidden_words": {
+          "n": 196,
+          "strict": 156,
+          "loose": 170,
+          "strict_acc": 0.7959,
+          "loose_acc": 0.8673
+        },
+        "keywords:frequency": {
+          "n": 168,
+          "strict": 159,
+          "loose": 163,
+          "strict_acc": 0.9464,
+          "loose_acc": 0.9702
+        },
+        "length_constraints:number_sentences": {
+          "n": 208,
+          "strict": 146,
+          "loose": 160,
+          "strict_acc": 0.7019,
+          "loose_acc": 0.7692
+        },
+        "detectable_content:postscript": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:nth_paragraph_first_word": {
+          "n": 48,
+          "strict": 34,
+          "loose": 43,
+          "strict_acc": 0.7083,
+          "loose_acc": 0.8958
+        },
+        "detectable_format:constrained_response": {
+          "n": 40,
+          "strict": 40,
+          "loose": 40,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        }
+      }
+    },
+    "typed_prefix_sys": {
+      "n_prompts": 2164,
+      "prompt_strict": 0.8831,
+      "prompt_loose": 0.9131,
+      "instruction_strict": 0.9203,
+      "instruction_loose": 0.9421,
+      "per_family": {
+        "punctuation:no_comma": {
+          "n": 264,
+          "strict": 259,
+          "loose": 264,
+          "strict_acc": 0.9811,
+          "loose_acc": 1.0
+        },
+        "detectable_format:number_highlighted_sections": {
+          "n": 192,
+          "strict": 187,
+          "loose": 187,
+          "strict_acc": 0.974,
+          "loose_acc": 0.974
+        },
+        "length_constraints:number_words": {
+          "n": 208,
+          "strict": 178,
+          "loose": 187,
+          "strict_acc": 0.8558,
+          "loose_acc": 0.899
+        },
+        "detectable_content:number_placeholders": {
+          "n": 108,
+          "strict": 108,
+          "loose": 108,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "combination:repeat_prompt": {
+          "n": 164,
+          "strict": 146,
+          "loose": 147,
+          "strict_acc": 0.8902,
+          "loose_acc": 0.8963
+        },
+        "detectable_format:title": {
+          "n": 148,
+          "strict": 147,
+          "loose": 147,
+          "strict_acc": 0.9932,
+          "loose_acc": 0.9932
+        },
+        "change_case:english_lowercase": {
+          "n": 156,
+          "strict": 132,
+          "loose": 137,
+          "strict_acc": 0.8462,
+          "loose_acc": 0.8782
+        },
+        "detectable_format:number_bullet_lists": {
+          "n": 124,
+          "strict": 122,
+          "loose": 122,
+          "strict_acc": 0.9839,
+          "loose_acc": 0.9839
+        },
+        "change_case:english_capital": {
+          "n": 100,
+          "strict": 74,
+          "loose": 80,
+          "strict_acc": 0.74,
+          "loose_acc": 0.8
+        },
+        "detectable_format:multiple_sections": {
+          "n": 56,
+          "strict": 55,
+          "loose": 55,
+          "strict_acc": 0.9821,
+          "loose_acc": 0.9821
+        },
+        "change_case:capital_word_frequency": {
+          "n": 100,
+          "strict": 81,
+          "loose": 91,
+          "strict_acc": 0.81,
+          "loose_acc": 0.91
+        },
+        "startend:quotation": {
+          "n": 164,
+          "strict": 164,
+          "loose": 164,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:existence": {
+          "n": 156,
+          "strict": 150,
+          "loose": 150,
+          "strict_acc": 0.9615,
+          "loose_acc": 0.9615
+        },
+        "detectable_format:json_format": {
+          "n": 68,
+          "strict": 68,
+          "loose": 68,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:number_paragraphs": {
+          "n": 108,
+          "strict": 102,
+          "loose": 102,
+          "strict_acc": 0.9444,
+          "loose_acc": 0.9444
+        },
+        "combination:two_responses": {
+          "n": 96,
+          "strict": 89,
+          "loose": 89,
+          "strict_acc": 0.9271,
+          "loose_acc": 0.9271
+        },
+        "language:response_language": {
+          "n": 124,
+          "strict": 122,
+          "loose": 123,
+          "strict_acc": 0.9839,
+          "loose_acc": 0.9919
+        },
+        "keywords:letter_frequency": {
+          "n": 132,
+          "strict": 98,
+          "loose": 102,
+          "strict_acc": 0.7424,
+          "loose_acc": 0.7727
+        },
+        "startend:end_checker": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:forbidden_words": {
+          "n": 196,
+          "strict": 184,
+          "loose": 194,
+          "strict_acc": 0.9388,
+          "loose_acc": 0.9898
+        },
+        "keywords:frequency": {
+          "n": 168,
+          "strict": 161,
+          "loose": 165,
+          "strict_acc": 0.9583,
+          "loose_acc": 0.9821
+        },
+        "length_constraints:number_sentences": {
+          "n": 208,
+          "strict": 160,
+          "loose": 170,
+          "strict_acc": 0.7692,
+          "loose_acc": 0.8173
+        },
+        "detectable_content:postscript": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:nth_paragraph_first_word": {
+          "n": 48,
+          "strict": 35,
+          "loose": 43,
+          "strict_acc": 0.7292,
+          "loose_acc": 0.8958
+        },
+        "detectable_format:constrained_response": {
+          "n": 40,
+          "strict": 40,
+          "loose": 40,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        }
+      }
+    },
+    "nl_think_sys": {
+      "n_prompts": 2164,
+      "prompt_strict": 0.8896,
+      "prompt_loose": 0.915,
+      "instruction_strict": 0.9245,
+      "instruction_loose": 0.943,
+      "per_family": {
+        "punctuation:no_comma": {
+          "n": 264,
+          "strict": 263,
+          "loose": 263,
+          "strict_acc": 0.9962,
+          "loose_acc": 0.9962
+        },
+        "detectable_format:number_highlighted_sections": {
+          "n": 192,
+          "strict": 180,
+          "loose": 180,
+          "strict_acc": 0.9375,
+          "loose_acc": 0.9375
+        },
+        "length_constraints:number_words": {
+          "n": 208,
+          "strict": 189,
+          "loose": 201,
+          "strict_acc": 0.9087,
+          "loose_acc": 0.9663
+        },
+        "detectable_content:number_placeholders": {
+          "n": 108,
+          "strict": 108,
+          "loose": 108,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "combination:repeat_prompt": {
+          "n": 164,
+          "strict": 137,
+          "loose": 137,
+          "strict_acc": 0.8354,
+          "loose_acc": 0.8354
+        },
+        "detectable_format:title": {
+          "n": 148,
+          "strict": 148,
+          "loose": 148,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:english_lowercase": {
+          "n": 156,
+          "strict": 143,
+          "loose": 145,
+          "strict_acc": 0.9167,
+          "loose_acc": 0.9295
+        },
+        "detectable_format:number_bullet_lists": {
+          "n": 124,
+          "strict": 122,
+          "loose": 122,
+          "strict_acc": 0.9839,
+          "loose_acc": 0.9839
+        },
+        "change_case:english_capital": {
+          "n": 100,
+          "strict": 85,
+          "loose": 86,
+          "strict_acc": 0.85,
+          "loose_acc": 0.86
+        },
+        "detectable_format:multiple_sections": {
+          "n": 56,
+          "strict": 56,
+          "loose": 56,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:capital_word_frequency": {
+          "n": 100,
+          "strict": 86,
+          "loose": 94,
+          "strict_acc": 0.86,
+          "loose_acc": 0.94
+        },
+        "startend:quotation": {
+          "n": 164,
+          "strict": 164,
+          "loose": 164,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:existence": {
+          "n": 156,
+          "strict": 152,
+          "loose": 152,
+          "strict_acc": 0.9744,
+          "loose_acc": 0.9744
+        },
+        "detectable_format:json_format": {
+          "n": 68,
+          "strict": 64,
+          "loose": 64,
+          "strict_acc": 0.9412,
+          "loose_acc": 0.9412
+        },
+        "length_constraints:number_paragraphs": {
+          "n": 108,
+          "strict": 102,
+          "loose": 103,
+          "strict_acc": 0.9444,
+          "loose_acc": 0.9537
+        },
+        "combination:two_responses": {
+          "n": 96,
+          "strict": 85,
+          "loose": 87,
+          "strict_acc": 0.8854,
+          "loose_acc": 0.9062
+        },
+        "language:response_language": {
+          "n": 124,
+          "strict": 122,
+          "loose": 122,
+          "strict_acc": 0.9839,
+          "loose_acc": 0.9839
+        },
+        "keywords:letter_frequency": {
+          "n": 132,
+          "strict": 92,
+          "loose": 94,
+          "strict_acc": 0.697,
+          "loose_acc": 0.7121
+        },
+        "startend:end_checker": {
+          "n": 104,
+          "strict": 103,
+          "loose": 103,
+          "strict_acc": 0.9904,
+          "loose_acc": 0.9904
+        },
+        "keywords:forbidden_words": {
+          "n": 196,
+          "strict": 182,
+          "loose": 194,
+          "strict_acc": 0.9286,
+          "loose_acc": 0.9898
+        },
+        "keywords:frequency": {
+          "n": 168,
+          "strict": 159,
+          "loose": 163,
+          "strict_acc": 0.9464,
+          "loose_acc": 0.9702
+        },
+        "length_constraints:number_sentences": {
+          "n": 208,
+          "strict": 163,
+          "loose": 173,
+          "strict_acc": 0.7837,
+          "loose_acc": 0.8317
+        },
+        "detectable_content:postscript": {
+          "n": 104,
+          "strict": 102,
+          "loose": 102,
+          "strict_acc": 0.9808,
+          "loose_acc": 0.9808
+        },
+        "length_constraints:nth_paragraph_first_word": {
+          "n": 48,
+          "strict": 37,
+          "loose": 45,
+          "strict_acc": 0.7708,
+          "loose_acc": 0.9375
+        },
+        "detectable_format:constrained_response": {
+          "n": 40,
+          "strict": 40,
+          "loose": 40,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        }
+      }
+    },
+    "nl_prefix_sys": {
+      "n_prompts": 2164,
+      "prompt_strict": 0.8849,
+      "prompt_loose": 0.9043,
+      "instruction_strict": 0.9188,
+      "instruction_loose": 0.9359,
+      "per_family": {
+        "punctuation:no_comma": {
+          "n": 264,
+          "strict": 264,
+          "loose": 264,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "detectable_format:number_highlighted_sections": {
+          "n": 192,
+          "strict": 181,
+          "loose": 181,
+          "strict_acc": 0.9427,
+          "loose_acc": 0.9427
+        },
+        "length_constraints:number_words": {
+          "n": 208,
+          "strict": 193,
+          "loose": 202,
+          "strict_acc": 0.9279,
+          "loose_acc": 0.9712
+        },
+        "detectable_content:number_placeholders": {
+          "n": 108,
+          "strict": 108,
+          "loose": 108,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "combination:repeat_prompt": {
+          "n": 164,
+          "strict": 112,
+          "loose": 112,
+          "strict_acc": 0.6829,
+          "loose_acc": 0.6829
+        },
+        "detectable_format:title": {
+          "n": 148,
+          "strict": 148,
+          "loose": 148,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:english_lowercase": {
+          "n": 156,
+          "strict": 146,
+          "loose": 149,
+          "strict_acc": 0.9359,
+          "loose_acc": 0.9551
+        },
+        "detectable_format:number_bullet_lists": {
+          "n": 124,
+          "strict": 119,
+          "loose": 120,
+          "strict_acc": 0.9597,
+          "loose_acc": 0.9677
+        },
+        "change_case:english_capital": {
+          "n": 100,
+          "strict": 75,
+          "loose": 77,
+          "strict_acc": 0.75,
+          "loose_acc": 0.77
+        },
+        "detectable_format:multiple_sections": {
+          "n": 56,
+          "strict": 54,
+          "loose": 54,
+          "strict_acc": 0.9643,
+          "loose_acc": 0.9643
+        },
+        "change_case:capital_word_frequency": {
+          "n": 100,
+          "strict": 88,
+          "loose": 93,
+          "strict_acc": 0.88,
+          "loose_acc": 0.93
+        },
+        "startend:quotation": {
+          "n": 164,
+          "strict": 164,
+          "loose": 164,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:existence": {
+          "n": 156,
+          "strict": 147,
+          "loose": 147,
+          "strict_acc": 0.9423,
+          "loose_acc": 0.9423
+        },
+        "detectable_format:json_format": {
+          "n": 68,
+          "strict": 67,
+          "loose": 67,
+          "strict_acc": 0.9853,
+          "loose_acc": 0.9853
+        },
+        "length_constraints:number_paragraphs": {
+          "n": 108,
+          "strict": 103,
+          "loose": 103,
+          "strict_acc": 0.9537,
+          "loose_acc": 0.9537
+        },
+        "combination:two_responses": {
+          "n": 96,
+          "strict": 90,
+          "loose": 91,
+          "strict_acc": 0.9375,
+          "loose_acc": 0.9479
+        },
+        "language:response_language": {
+          "n": 124,
+          "strict": 122,
+          "loose": 122,
+          "strict_acc": 0.9839,
+          "loose_acc": 0.9839
+        },
+        "keywords:letter_frequency": {
+          "n": 132,
+          "strict": 95,
+          "loose": 100,
+          "strict_acc": 0.7197,
+          "loose_acc": 0.7576
+        },
+        "startend:end_checker": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:forbidden_words": {
+          "n": 196,
+          "strict": 183,
+          "loose": 194,
+          "strict_acc": 0.9337,
+          "loose_acc": 0.9898
+        },
+        "keywords:frequency": {
+          "n": 168,
+          "strict": 158,
+          "loose": 164,
+          "strict_acc": 0.9405,
+          "loose_acc": 0.9762
+        },
+        "length_constraints:number_sentences": {
+          "n": 208,
+          "strict": 162,
+          "loose": 168,
+          "strict_acc": 0.7788,
+          "loose_acc": 0.8077
+        },
+        "detectable_content:postscript": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:nth_paragraph_first_word": {
+          "n": 48,
+          "strict": 38,
+          "loose": 46,
+          "strict_acc": 0.7917,
+          "loose_acc": 0.9583
+        },
+        "detectable_format:constrained_response": {
+          "n": 40,
+          "strict": 40,
+          "loose": 40,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        }
+      }
+    },
+    "typed_insys": {
+      "n_prompts": 2164,
+      "prompt_strict": 0.799,
+      "prompt_loose": 0.8373,
+      "instruction_strict": 0.8576,
+      "instruction_loose": 0.8849,
+      "per_family": {
+        "punctuation:no_comma": {
+          "n": 264,
+          "strict": 229,
+          "loose": 231,
+          "strict_acc": 0.8674,
+          "loose_acc": 0.875
+        },
+        "detectable_format:number_highlighted_sections": {
+          "n": 192,
+          "strict": 182,
+          "loose": 182,
+          "strict_acc": 0.9479,
+          "loose_acc": 0.9479
+        },
+        "length_constraints:number_words": {
+          "n": 208,
+          "strict": 180,
+          "loose": 184,
+          "strict_acc": 0.8654,
+          "loose_acc": 0.8846
+        },
+        "detectable_content:number_placeholders": {
+          "n": 108,
+          "strict": 108,
+          "loose": 108,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "combination:repeat_prompt": {
+          "n": 164,
+          "strict": 87,
+          "loose": 103,
+          "strict_acc": 0.5305,
+          "loose_acc": 0.628
+        },
+        "detectable_format:title": {
+          "n": 148,
+          "strict": 144,
+          "loose": 144,
+          "strict_acc": 0.973,
+          "loose_acc": 0.973
+        },
+        "change_case:english_lowercase": {
+          "n": 156,
+          "strict": 145,
+          "loose": 148,
+          "strict_acc": 0.9295,
+          "loose_acc": 0.9487
+        },
+        "detectable_format:number_bullet_lists": {
+          "n": 124,
+          "strict": 105,
+          "loose": 105,
+          "strict_acc": 0.8468,
+          "loose_acc": 0.8468
+        },
+        "change_case:english_capital": {
+          "n": 100,
+          "strict": 77,
+          "loose": 82,
+          "strict_acc": 0.77,
+          "loose_acc": 0.82
+        },
+        "detectable_format:multiple_sections": {
+          "n": 56,
+          "strict": 56,
+          "loose": 56,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:capital_word_frequency": {
+          "n": 100,
+          "strict": 78,
+          "loose": 91,
+          "strict_acc": 0.78,
+          "loose_acc": 0.91
+        },
+        "startend:quotation": {
+          "n": 164,
+          "strict": 154,
+          "loose": 157,
+          "strict_acc": 0.939,
+          "loose_acc": 0.9573
+        },
+        "keywords:existence": {
+          "n": 156,
+          "strict": 153,
+          "loose": 153,
+          "strict_acc": 0.9808,
+          "loose_acc": 0.9808
+        },
+        "detectable_format:json_format": {
+          "n": 68,
+          "strict": 68,
+          "loose": 68,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:number_paragraphs": {
+          "n": 108,
+          "strict": 100,
+          "loose": 101,
+          "strict_acc": 0.9259,
+          "loose_acc": 0.9352
+        },
+        "combination:two_responses": {
+          "n": 96,
+          "strict": 55,
+          "loose": 69,
+          "strict_acc": 0.5729,
+          "loose_acc": 0.7188
+        },
+        "language:response_language": {
+          "n": 124,
+          "strict": 121,
+          "loose": 121,
+          "strict_acc": 0.9758,
+          "loose_acc": 0.9758
+        },
+        "keywords:letter_frequency": {
+          "n": 132,
+          "strict": 84,
+          "loose": 93,
+          "strict_acc": 0.6364,
+          "loose_acc": 0.7045
+        },
+        "startend:end_checker": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:forbidden_words": {
+          "n": 196,
+          "strict": 166,
+          "loose": 167,
+          "strict_acc": 0.8469,
+          "loose_acc": 0.852
+        },
+        "keywords:frequency": {
+          "n": 168,
+          "strict": 154,
+          "loose": 163,
+          "strict_acc": 0.9167,
+          "loose_acc": 0.9702
+        },
+        "length_constraints:number_sentences": {
+          "n": 208,
+          "strict": 152,
+          "loose": 162,
+          "strict_acc": 0.7308,
+          "loose_acc": 0.7788
+        },
+        "detectable_content:postscript": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:nth_paragraph_first_word": {
+          "n": 48,
+          "strict": 15,
+          "loose": 16,
+          "strict_acc": 0.3125,
+          "loose_acc": 0.3333
+        },
+        "detectable_format:constrained_response": {
+          "n": 40,
+          "strict": 40,
+          "loose": 40,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        }
+      }
+    },
+    "nl_insys": {
+      "n_prompts": 2164,
+      "prompt_strict": 0.8983,
+      "prompt_loose": 0.9145,
+      "instruction_strict": 0.9308,
+      "instruction_loose": 0.943,
+      "per_family": {
+        "punctuation:no_comma": {
+          "n": 264,
+          "strict": 264,
+          "loose": 264,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "detectable_format:number_highlighted_sections": {
+          "n": 192,
+          "strict": 192,
+          "loose": 192,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:number_words": {
+          "n": 208,
+          "strict": 195,
+          "loose": 197,
+          "strict_acc": 0.9375,
+          "loose_acc": 0.9471
+        },
+        "detectable_content:number_placeholders": {
+          "n": 108,
+          "strict": 108,
+          "loose": 108,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "combination:repeat_prompt": {
+          "n": 164,
+          "strict": 117,
+          "loose": 117,
+          "strict_acc": 0.7134,
+          "loose_acc": 0.7134
+        },
+        "detectable_format:title": {
+          "n": 148,
+          "strict": 148,
+          "loose": 148,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "change_case:english_lowercase": {
+          "n": 156,
+          "strict": 144,
+          "loose": 146,
+          "strict_acc": 0.9231,
+          "loose_acc": 0.9359
+        },
+        "detectable_format:number_bullet_lists": {
+          "n": 124,
+          "strict": 122,
+          "loose": 122,
+          "strict_acc": 0.9839,
+          "loose_acc": 0.9839
+        },
+        "change_case:english_capital": {
+          "n": 100,
+          "strict": 80,
+          "loose": 85,
+          "strict_acc": 0.8,
+          "loose_acc": 0.85
+        },
+        "detectable_format:multiple_sections": {
+          "n": 56,
+          "strict": 50,
+          "loose": 50,
+          "strict_acc": 0.8929,
+          "loose_acc": 0.8929
+        },
+        "change_case:capital_word_frequency": {
+          "n": 100,
+          "strict": 82,
+          "loose": 90,
+          "strict_acc": 0.82,
+          "loose_acc": 0.9
+        },
+        "startend:quotation": {
+          "n": 164,
+          "strict": 164,
+          "loose": 164,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:existence": {
+          "n": 156,
+          "strict": 152,
+          "loose": 152,
+          "strict_acc": 0.9744,
+          "loose_acc": 0.9744
+        },
+        "detectable_format:json_format": {
+          "n": 68,
+          "strict": 68,
+          "loose": 68,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "length_constraints:number_paragraphs": {
+          "n": 108,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 0.963,
+          "loose_acc": 0.963
+        },
+        "combination:two_responses": {
+          "n": 96,
+          "strict": 89,
+          "loose": 94,
+          "strict_acc": 0.9271,
+          "loose_acc": 0.9792
+        },
+        "language:response_language": {
+          "n": 124,
+          "strict": 124,
+          "loose": 124,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:letter_frequency": {
+          "n": 132,
+          "strict": 95,
+          "loose": 96,
+          "strict_acc": 0.7197,
+          "loose_acc": 0.7273
+        },
+        "startend:end_checker": {
+          "n": 104,
+          "strict": 104,
+          "loose": 104,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        },
+        "keywords:forbidden_words": {
+          "n": 196,
+          "strict": 191,
+          "loose": 194,
+          "strict_acc": 0.9745,
+          "loose_acc": 0.9898
+        },
+        "keywords:frequency": {
+          "n": 168,
+          "strict": 161,
+          "loose": 164,
+          "strict_acc": 0.9583,
+          "loose_acc": 0.9762
+        },
+        "length_constraints:number_sentences": {
+          "n": 208,
+          "strict": 165,
+          "loose": 173,
+          "strict_acc": 0.7933,
+          "loose_acc": 0.8317
+        },
+        "detectable_content:postscript": {
+          "n": 104,
+          "strict": 103,
+          "loose": 103,
+          "strict_acc": 0.9904,
+          "loose_acc": 0.9904
+        },
+        "length_constraints:nth_paragraph_first_word": {
+          "n": 48,
+          "strict": 43,
+          "loose": 47,
+          "strict_acc": 0.8958,
+          "loose_acc": 0.9792
+        },
+        "detectable_format:constrained_response": {
+          "n": 40,
+          "strict": 40,
+          "loose": 40,
+          "strict_acc": 1.0,
+          "loose_acc": 1.0
+        }
+      }
+    }
+  }
+}

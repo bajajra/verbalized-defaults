@@ -100,37 +100,40 @@ def build_prompts(tok, user_prompt: str, typed: str | None,
 
     out = {"vanilla": tmpl(False, None)}
 
-    # Does this model expose an injectable reasoning block? Qwen's thinking
-    # template leaves <think> open; Gemma has no such tokens at all. Injecting a
-    # literal </think> into a model that does not use it would be nonsense.
+    # Two different reasoning-channel conventions, both injectable:
+    #   Qwen  -- template leaves "<think>" open; the model closes with "</think>"
+    #   Gemma -- "<|think|>" in the system turn; the model emits
+    #            "<|channel>thought ... <channel|>" then the answer
+    # An earlier version only looked for "<think>" and wrongly concluded Gemma
+    # had no reasoning channel, which silently dropped its strongest condition.
     t_think = tmpl(True, None)
-    supports_think = "<think>" in t_think and "</think>" not in t_think
-    if supports_think:
+    if "<think>" in t_think and "</think>" not in t_think:
+        think_open, think_close = "", "\n</think>\n\n"
+    elif "<|think|>" in t_think:
+        think_open, think_close = "<|channel>thought\n", "\n<channel|>\n\n"
+    else:
+        think_open = think_close = None
+
+    if think_open is not None:
         out["vanilla_think_open"] = t_think
 
     if not typed:
         return out
 
-    if natural:
-        out["nl_insys"] = tmpl(False, SYS_NL + "\n\n" + natural)
     out["typed_insys"] = tmpl(False, SYS_TYPED + "\n\n" + typed)
-    if not supports_think:
-        # prefix placement still works everywhere
-        out["typed_prefix_sys"] = tmpl(False, SYS_TYPED) + typed + "\n\n"
-        if natural:
-            out["nl_prefix_sys"] = tmpl(False, SYS_NL) + natural + "\n\n"
-        return out
-
-    # (a) placement = inside a reasoning block WE close, so the block can never
-    #     leak into the scored answer. (b) placement = visible response header.
-    out["typed_think"] = tmpl(True, None) + typed + "\n</think>\n\n"
-    out["typed_think_sys"] = tmpl(True, SYS_TYPED) + typed + "\n</think>\n\n"
     out["typed_prefix_sys"] = tmpl(False, SYS_TYPED) + typed + "\n\n"
     if natural:
-        out["nl_think"] = tmpl(True, None) + natural + "\n</think>\n\n"
-        out["nl_think_sys"] = tmpl(True, SYS_NL) + natural + "\n</think>\n\n"
+        out["nl_insys"] = tmpl(False, SYS_NL + "\n\n" + natural)
         out["nl_prefix_sys"] = tmpl(False, SYS_NL) + natural + "\n\n"
+    if think_open is None:
+        return out
+    out["typed_think"] = tmpl(True, None) + think_open + typed + think_close
+    out["typed_think_sys"] = tmpl(True, SYS_TYPED) + think_open + typed + think_close
+    if natural:
+        out["nl_think"] = tmpl(True, None) + think_open + natural + think_close
+        out["nl_think_sys"] = tmpl(True, SYS_NL) + think_open + natural + think_close
     return out
+
 
 
 def repetition_rate(text: str, n: int = 10) -> float:
@@ -149,8 +152,9 @@ def repetition_rate(text: str, n: int = 10) -> float:
 
 def extract_answer(text: str) -> tuple[str, bool]:
     """Return (scored answer, closed_think). Answer is whatever follows </think>."""
-    if "</think>" in text:
-        return text.split("</think>", 1)[1].lstrip(), True
+    for marker in ("</think>", "<channel|>"):
+        if marker in text:
+            return text.split(marker, 1)[1].lstrip(), True
     return text, False
 
 
@@ -217,19 +221,40 @@ def main() -> int:
                 continue
             for s in range(a.samples):
                 jobs.append((a.url, a.model, prompts[cond], a.max_tokens,
-                             a.temperature, ["<|im_end|>", "<turn|>"], a.top_p, s))
+                             a.temperature, ["<|im_end|>", "<turn|>", "<end_of_turn>"], a.top_p, s))
                 meta.append((row, cond, s))
     print(f"{len(jobs)} generations across {len(CONDITIONS)} conditions "
           f"({untyped_rows} rows carry >=1 untyped constraint in `other`)")
 
+    # Stream results to disk as they arrive. The previous version buffered
+    # everything and wrote once at the end, so a crash at hour two lost the
+    # entire run and there was no way to watch progress.
+    results = []
+    raw_fh = open(a.raw, "w")
+    done = 0
     with ThreadPoolExecutor(max_workers=a.concurrency) as pool:
-        results = list(pool.map(call, jobs))
+        for (row, cond, sample), (text, finish) in zip(meta, pool.map(call, jobs)):
+            results.append((text, finish))
+            done += 1
+            if text is not None:
+                answer, closed = extract_answer(text)
+                raw_fh.write(json.dumps({
+                    "key": row.get("key"), "condition": cond, "sample": sample,
+                    "instruction_ids": row["instruction_id_list"],
+                    "closed_think": closed, "finish_reason": finish,
+                    "repetition": repetition_rate(answer),
+                    "answer": answer[:4000],
+                }) + "\n")
+            if done % 500 == 0:
+                raw_fh.flush()
+                print(f"  {done}/{len(jobs)} ({done/len(jobs):.0%})", flush=True)
+    raw_fh.close()
 
     by_cond: dict[str, list] = {c: [] for c in CONDITIONS}
     unclosed = Counter()
     truncated = Counter()
     rep_by_cond: dict[str, list] = {c: [] for c in CONDITIONS}
-    raw_fh = open(a.raw, "w")
+    scored = []
     for (row, cond, sample), (text, finish) in zip(meta, results):
         if text is None:
             continue
@@ -238,19 +263,18 @@ def main() -> int:
             unclosed[cond] += 1
         if finish == "length":
             truncated[cond] += 1
-        rep = repetition_rate(answer)
-        rep_by_cond[cond].append(rep)
+        rep_by_cond[cond].append(repetition_rate(answer))
         s = score_prompt(row["prompt"], row["instruction_id_list"],
                          row.get("kwargs"), answer, key=row.get("key"))
         by_cond[cond].append(s)
-        raw_fh.write(json.dumps({
-            "key": row.get("key"), "condition": cond, "sample": sample,
-            "instruction_ids": row["instruction_id_list"],
-            "strict": s.strict_all, "loose": s.loose_all,
-            "closed_think": closed, "finish_reason": finish, "repetition": rep,
-            "answer": answer[:4000],
-        }) + "\n")
-    raw_fh.close()
+        scored.append((row.get("key"), cond, sample, s.strict_all, s.loose_all))
+    # fold the strict/loose verdicts back into the streamed raw file
+    lines = [json.loads(x) for x in open(a.raw, encoding="utf-8")]
+    for ln, (_k, _c, _s, st, lo) in zip(lines, scored):
+        ln["strict"], ln["loose"] = st, lo
+    with open(a.raw, "w") as fh:
+        for ln in lines:
+            fh.write(json.dumps(ln) + "\n")
 
     summary = {c: aggregate(v) for c, v in by_cond.items() if v}
     import statistics as _st
