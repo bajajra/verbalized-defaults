@@ -19,3 +19,4 @@ Convention for each entry:
 | 0002 | [dataset-landscape](0002-dataset-landscape.md) | Verified HF datasets mapped to experiment roles; prompt-volume targets per phase |
 | 0003 | [infra-setup-turing](0003-infra-setup-turing.md) | uv project on the 5090 box, vLLM 0.25.0 + Blackwell stack verified |
 | 0004 | [verifier-suite-v0](0004-verifier-suite-v0.md) | First verifier suite, IFEval metric parity, 21 tests green |
+| 0005 | [spec-parser-and-ifeval-parity](0005-spec-parser-and-ifeval-parity.md) | Canonical `<spec>` grammar + parser; measured 0 mismatches vs IFEval on 412 samples |

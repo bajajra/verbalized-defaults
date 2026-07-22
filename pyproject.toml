@@ -23,5 +23,6 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "absl-py>=2.5.0",
     "pytest>=9.1.1",
 ]

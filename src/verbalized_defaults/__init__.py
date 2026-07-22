@@ -12,6 +12,7 @@ from .schema import (
     Wrapper,
     validate_spec,
 )
+from .spec_text import ParseResult, extract_spec_block, format_spec, parse_spec
 from .verifiers import verify_spec
 from .verifiers.base import SlotResult, SpecReport
 
@@ -26,6 +27,10 @@ __all__ = [
     "verify_spec",
     "SlotResult",
     "SpecReport",
+    "parse_spec",
+    "format_spec",
+    "extract_spec_block",
+    "ParseResult",
     "GIVEN",
     "ASSUMED",
 ]

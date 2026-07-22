@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Third-party reference implementations fetched by scripts/fetch_ifeval_reference.py
+reference/
