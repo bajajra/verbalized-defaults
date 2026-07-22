@@ -35,6 +35,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from verbalized_defaults.ifeval_adapter import spec_from_ifeval  # noqa: E402
 from verbalized_defaults.ifeval_score import load_ifeval_rows  # noqa: E402
+from verbalized_defaults.metrics import count_words  # noqa: E402
+from verbalized_defaults.qualitative import inventory  # noqa: E402
 from verbalized_defaults.spec_extract import extract_spec  # noqa: E402
 from verbalized_defaults.verifiers import verify_spec  # noqa: E402
 
@@ -70,6 +72,17 @@ SYS_CUE = (
 # own declaration back to it and generate the answer. Deterministic, works
 # identically on both model families, and mirrors what a trained model would do:
 # emit the spec, then honour it.
+# The soft cue is NOT a failed prototype -- it is the mode that elicits the
+# model's *natural* convention vocabulary, which is stylistic rather than metric.
+# Kept as a first-class option so the qualitative half can be inventoried
+# instead of discarded as "unextractable".
+SOFT_CUE = (
+    "Before writing your answer, think briefly about the conventions your "
+    "response will follow -- how long it will be, how it will be structured and "
+    "formatted, and how it will read. Include the conventions the request does "
+    "not mention. Write one convention per line. Then write the response itself."
+)
+
 DECL_OPEN = "<conventions>"
 DECL_CLOSE = "</conventions>"
 
@@ -96,6 +109,9 @@ def main() -> int:
     ap.add_argument("--url", default="http://localhost:8000")
     ap.add_argument("--model", default="Qwen/Qwen3.5-2B")
     ap.add_argument("--source", choices=["ifeval", "genres"], default="genres")
+    ap.add_argument("--cue", choices=["concrete", "soft"], default="concrete",
+                    help="concrete elicits verifiable values; soft elicits the "
+                         "model's natural (largely qualitative) convention vocabulary")
     ap.add_argument("--limit", type=int, default=150)
     ap.add_argument("--samples", type=int, default=2)
     ap.add_argument("--max-tokens", type=int, default=3072)
@@ -108,6 +124,7 @@ def main() -> int:
 
     from transformers import AutoTokenizer
     tok = AutoTokenizer.from_pretrained(a.model)
+    cue_text = SYS_CUE if a.cue == "concrete" else SOFT_CUE
 
     if a.source == "ifeval":
         rows = load_ifeval_rows(limit=a.limit)
@@ -118,7 +135,7 @@ def main() -> int:
                  for g, ps in spec.items() for i, p in enumerate(ps)][: a.limit]
 
     def build(user_prompt: str) -> str:
-        msgs = [{"role": "system", "content": SYS_CUE},
+        msgs = [{"role": "system", "content": cue_text},
                 {"role": "user", "content": user_prompt}]
         try:
             s = tok.apply_chat_template(msgs, tokenize=False,
@@ -160,6 +177,8 @@ def main() -> int:
         answers = list(pool.map(call, p2_jobs))
 
     declared_n, cov, consist, no_decl = [], [], [], 0
+    qual_lines: list[str] = []
+    length_err: list[float] = []
     bind_recall, bind_extra = [], []
     slot_freq: Counter = Counter()
     raw_fh = open(a.raw, "w")
@@ -184,6 +203,17 @@ def main() -> int:
                "finish_reason": finish,
                "reasoning": reasoning[:2000], "answer": answer[:2000],
                "unextracted": ex.unextracted[:8]}
+
+        qual_lines.extend(ex.unextracted)
+
+        # Magnitude, not just pass/fail: "94% violated" does not say whether the
+        # model missed by 5% or by 5x. Relative error against the declared
+        # target (range midpoint) is the more informative statistic.
+        lw = ex.spec.length_words
+        if lw is not None:
+            target = lw.value if lw.value is not None else (lw.lo + lw.hi) / 2
+            if target:
+                length_err.append((count_words(answer) - target) / target)
 
         if n_slots:
             rep = verify_spec(answer, ex.spec)
@@ -218,6 +248,25 @@ def main() -> int:
         "mean_extra_slots": mean(bind_extra),
         "slot_frequency": dict(slot_freq.most_common()),
     }
+    themes, unnamed = inventory(qual_lines)
+    n_qual = max(1, len(qual_lines))
+    out["qualitative"] = {
+        "n_lines": len(qual_lines),
+        "themes": {k: [v, round(v / n_qual, 3)] for k, v in themes.most_common()},
+        "unthemed_rate": round(len(unnamed) / n_qual, 3),
+        "unthemed_examples": unnamed[:15],
+    }
+    if length_err:
+        length_err.sort()
+        out["length_error"] = {
+            "n": len(length_err),
+            "median_rel_error": round(length_err[len(length_err) // 2], 3),
+            "mean_abs_rel_error": round(
+                statistics.mean(abs(x) for x in length_err), 3),
+            "frac_under": round(sum(1 for x in length_err if x < 0) / len(length_err), 3),
+            "p10": round(length_err[int(0.10 * len(length_err))], 3),
+            "p90": round(length_err[int(0.90 * len(length_err))], 3),
+        }
     pathlib.Path(a.out).write_text(json.dumps(out, indent=2))
 
     print("\n=== spec emission ===")
@@ -227,6 +276,17 @@ def main() -> int:
         if out.get(k) is not None:
             print(f"  {k:32s} {out[k]}")
     print(f"  slots declared: {out['slot_frequency']}")
+    if out.get("length_error"):
+        le = out["length_error"]
+        print(f"\n  length miss: median {le['median_rel_error']:+.1%} | "
+              f"mean |err| {le['mean_abs_rel_error']:.1%} | "
+              f"under-target {le['frac_under']:.0%} | "
+              f"p10 {le['p10']:+.1%} p90 {le['p90']:+.1%}")
+    q = out["qualitative"]
+    print(f"\n  qualitative lines: {q['n_lines']} "
+          f"(unthemed {q['unthemed_rate']:.0%})")
+    for k, (n, frac) in list(q["themes"].items())[:12]:
+        print(f"    {k:22s} {n:5d}  {frac:5.1%}")
     print(f"\nwrote {a.out} and {a.raw}")
     return 0
 

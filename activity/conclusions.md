@@ -209,6 +209,39 @@ genuine defaults, but nothing a verifier can score (2% extraction coverage). Onl
 an explicit request for specific values yields checkable declarations (67%). A
 trained model would have to close that gap. *(0015)*
 
+## 7c. The qualitative half of the defaults
+
+**[E] The model systematically under-produces against its OWN declared length.**
+Median relative error **−26.0%**, **74%** of responses under target, p10 −53%.
+The taxonomy found 10–15% short against *externally imposed* targets; against
+self-declared targets it is worse. The failure cannot be misreading, because the
+model wrote the target itself one turn earlier — what is missing is a
+count→gap→extend loop, not comprehension. *(0016)*
+
+**[E] The cue determines which kind of default is elicited, and the trade is
+sharp.** Concrete cue: 4.5 typed slots/response, 0.66 extraction coverage, 2.7
+qualitative lines. Soft cue: 0.9 typed slots, 0.11 coverage, **11.5 qualitative
+lines**. Asking for numbers suppresses the stylistic vocabulary and vice versa.
+**The model's natural declaration is qualitative**; quantification must be
+demanded. *(0016)*
+
+**[E] The qualitative half is the majority of what the model declares, and it is
+at least eight distinct dimensions.** By share of soft-cue lines:
+clarity/simplicity **19.5%**, tone/register **14.1%**, narrative structure 8.5%,
+formatting style 6.2%, then content inclusion/exclusion, grammar, person,
+factuality, safety, audience, engagement. *(0016)*
+
+**[E] The model carries a self-imposed content policy as a latent default.**
+Unprompted, it declares "no external links", "no personal anecdotes", "no
+advertising", "no political statements", "no religious references", "no
+controversial content" — a standing editorial policy applied to every response,
+with **no slot in the schema**. *(0016)*
+
+**[E] The `register` slot is badly under-specified.** One soft judge-only slot is
+allocated to a qualitative half that is most of the declared volume and at least
+eight dimensions wide. "register: playful" cannot represent "third person, no
+jargon, no political content, ends with a call to action". *(0016)*
+
 ## 8. The largest open gap
 
 **[R] "No `[assumed]` slot has ever been tested."** Closed by 0015 — see §7b.
