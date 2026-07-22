@@ -22,3 +22,4 @@ Convention for each entry:
 | 0005 | [spec-parser-and-ifeval-parity](0005-spec-parser-and-ifeval-parity.md) | Canonical `<spec>` grammar + parser; measured 0 mismatches vs IFEval on 412 samples |
 | 0006 | [ifeval-adapter-and-schema-coverage](0006-ifeval-adapter-and-schema-coverage.md) | Metadata→Spec adapter; **only 59.5% of IFEval prompts fully expressible** — affects E0.1 |
 | 0007 | [schema-v2-benchmark-snapshot](0007-schema-v2-benchmark-snapshot.md) | Schema v2 (15 slots): coverage **59.5% → 93.5%** of prompts; the frozen benchmark snapshot |
+| 0008 | [ifbench-coverage-and-ifstruct](0008-ifbench-coverage-and-ifstruct.md) | Schema expresses **95.8% of IFEval but 10.5% of IFBench**; 57% of IFBench is Bucket C — Gate 3 needs rethinking. IFStruct reviewed, not adopted |
