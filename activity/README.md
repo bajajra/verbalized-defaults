@@ -20,3 +20,4 @@ Convention for each entry:
 | 0003 | [infra-setup-turing](0003-infra-setup-turing.md) | uv project on the 5090 box, vLLM 0.25.0 + Blackwell stack verified |
 | 0004 | [verifier-suite-v0](0004-verifier-suite-v0.md) | First verifier suite, IFEval metric parity, 21 tests green |
 | 0005 | [spec-parser-and-ifeval-parity](0005-spec-parser-and-ifeval-parity.md) | Canonical `<spec>` grammar + parser; measured 0 mismatches vs IFEval on 412 samples |
+| 0006 | [ifeval-adapter-and-schema-coverage](0006-ifeval-adapter-and-schema-coverage.md) | Metadata→Spec adapter; **only 59.5% of IFEval prompts fully expressible** — affects E0.1 |

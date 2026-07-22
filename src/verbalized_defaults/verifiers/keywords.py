@@ -22,7 +22,21 @@ from .base import SlotResult
 
 
 def _wb_count(text: str, needle: str) -> int:
-    return len(re.findall(r"\b" + re.escape(needle) + r"\b", text, flags=re.IGNORECASE))
+    """Count word-boundary occurrences, tolerating non-word edges.
+
+    A naive r"\\b<needle>\\b" breaks on markers like "P.S." -- the trailing "\\b"
+    after a "." can never match before whitespace, so a real postscript would
+    score zero. Anchors are therefore only applied on the sides where the needle
+    actually starts/ends with a word character.
+    """
+    if not needle:
+        return 0
+    pattern = re.escape(needle)
+    if needle[0].isalnum() or needle[0] == "_":
+        pattern = r"\b" + pattern
+    if needle[-1].isalnum() or needle[-1] == "_":
+        pattern = pattern + r"\b"
+    return len(re.findall(pattern, text, flags=re.IGNORECASE))
 
 
 def check_must_include(text: str, keywords: list[Keyword]) -> SlotResult:
