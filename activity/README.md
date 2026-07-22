@@ -27,3 +27,4 @@ Convention for each entry:
 | 0010 | [prior-inventory-and-server](0010-prior-inventory-and-server.md) | Decoupled vLLM server; first prior inventory for Qwen3.5-2B — **defaults are genre-conditioned and aggregates hide them**; emoji + nesting earn slots |
 | 0011 | [ifeval-scoring-and-e01-pilot](0011-ifeval-scoring-and-e01-pilot.md) | IFEval scoring harness; first interpretable E0.1 — **oracle prefill is neutral-to-harmful**; 4 methodological traps fixed |
 | 0012 | [e01-notation-matters-more-than-surfacing](0012-e01-notation-matters-more-than-surfacing.md) | **Surfacing works (+0.11, Gate 1 passes) but the typed DSL captures almost none of it** — direct challenge to C1 |
+| 0013 | [notation-effect-replicated-two-models](0013-notation-effect-replicated-two-models.md) | **Retracts 0012's +0.11 (noise).** Proper 5-sample paired analysis: spec-vs-none inconclusive, but **NL beats typed significantly on both models** |

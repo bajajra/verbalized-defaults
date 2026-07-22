@@ -54,6 +54,11 @@ CONDITIONS = [
     "vanilla",
     "typed_think", "typed_think_sys", "typed_prefix_sys",
     "nl_think", "nl_think_sys", "nl_prefix_sys",
+    # Model-agnostic placement: the spec lives in the system prompt. Needed
+    # because Gemma has no <think>/</think> tokens, so the reasoning-block
+    # placement -- the one that actually worked on Qwen -- does not transfer.
+    # These two are the only cross-model comparable spec conditions.
+    "typed_insys", "nl_insys",
     "vanilla_think_open",
 ]
 DIAGNOSTIC_ONLY = {"vanilla_think_open"}
@@ -93,13 +98,27 @@ def build_prompts(tok, user_prompt: str, typed: str | None,
             return tok.apply_chat_template(msgs, tokenize=False,
                                            add_generation_prompt=True)
 
-    out = {
-        "vanilla": tmpl(False, None),
-        # Diagnostic only: with the block left open this model writes reasoning
-        # as plain prose and never emits </think>, polluting the scored answer.
-        "vanilla_think_open": tmpl(True, None),
-    }
+    out = {"vanilla": tmpl(False, None)}
+
+    # Does this model expose an injectable reasoning block? Qwen's thinking
+    # template leaves <think> open; Gemma has no such tokens at all. Injecting a
+    # literal </think> into a model that does not use it would be nonsense.
+    t_think = tmpl(True, None)
+    supports_think = "<think>" in t_think and "</think>" not in t_think
+    if supports_think:
+        out["vanilla_think_open"] = t_think
+
     if not typed:
+        return out
+
+    if natural:
+        out["nl_insys"] = tmpl(False, SYS_NL + "\n\n" + natural)
+    out["typed_insys"] = tmpl(False, SYS_TYPED + "\n\n" + typed)
+    if not supports_think:
+        # prefix placement still works everywhere
+        out["typed_prefix_sys"] = tmpl(False, SYS_TYPED) + typed + "\n\n"
+        if natural:
+            out["nl_prefix_sys"] = tmpl(False, SYS_NL) + natural + "\n\n"
         return out
 
     # (a) placement = inside a reasoning block WE close, so the block can never
@@ -136,9 +155,9 @@ def extract_answer(text: str) -> tuple[str, bool]:
 
 
 def call(job):
-    url, model, prompt, max_tokens, temp, stop, top_p = job
+    url, model, prompt, max_tokens, temp, stop, top_p, seed = job
     body = json.dumps({"model": model, "prompt": prompt, "temperature": temp,
-                       "top_p": top_p, "max_tokens": max_tokens, "seed": 0,
+                       "top_p": top_p, "max_tokens": max_tokens, "seed": seed,
                        "stop": stop}).encode()
     req = urllib.request.Request(f"{url}/v1/completions", data=body,
                                  headers={"Content-Type": "application/json"})
@@ -164,6 +183,12 @@ def main() -> int:
     # documented recommendation is sampling, so that is the default.
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--top-p", type=float, default=0.95)
+    # Single-sample runs at temp 1.0 were NOT reproducible: identical configs
+    # moved every condition by 0.02-0.07 between runs, larger than the effects
+    # being measured. Multiple samples per prompt are mandatory, not optional.
+    ap.add_argument("--samples", type=int, default=5)
+    ap.add_argument("--conditions", default="",
+                    help="comma-separated subset of CONDITIONS to run")
     ap.add_argument("--concurrency", type=int, default=24)
     ap.add_argument("--out", default=str(ROOT / "data" / "e01_results.json"))
     ap.add_argument("--raw", default=str(ROOT / "data" / "e01_raw.jsonl"))
@@ -186,12 +211,14 @@ def main() -> int:
         spec_block = format_spec(res.spec) if has_spec else None
         nl_block = format_spec_natural(res.spec) if has_spec else None
         prompts = build_prompts(tok, row["prompt"], spec_block, nl_block or None)
-        for cond in CONDITIONS:
+        wanted = [c.strip() for c in a.conditions.split(",") if c.strip()] or CONDITIONS
+        for cond in wanted:
             if cond not in prompts:
                 continue
-            jobs.append((a.url, a.model, prompts[cond], a.max_tokens,
-                         a.temperature, ["<|im_end|>", "<turn|>"], a.top_p))
-            meta.append((row, cond))
+            for s in range(a.samples):
+                jobs.append((a.url, a.model, prompts[cond], a.max_tokens,
+                             a.temperature, ["<|im_end|>", "<turn|>"], a.top_p, s))
+                meta.append((row, cond, s))
     print(f"{len(jobs)} generations across {len(CONDITIONS)} conditions "
           f"({untyped_rows} rows carry >=1 untyped constraint in `other`)")
 
@@ -203,7 +230,7 @@ def main() -> int:
     truncated = Counter()
     rep_by_cond: dict[str, list] = {c: [] for c in CONDITIONS}
     raw_fh = open(a.raw, "w")
-    for (row, cond), (text, finish) in zip(meta, results):
+    for (row, cond, sample), (text, finish) in zip(meta, results):
         if text is None:
             continue
         answer, closed = extract_answer(text)
@@ -217,7 +244,7 @@ def main() -> int:
                          row.get("kwargs"), answer, key=row.get("key"))
         by_cond[cond].append(s)
         raw_fh.write(json.dumps({
-            "key": row.get("key"), "condition": cond,
+            "key": row.get("key"), "condition": cond, "sample": sample,
             "instruction_ids": row["instruction_id_list"],
             "strict": s.strict_all, "loose": s.loose_all,
             "closed_think": closed, "finish_reason": finish, "repetition": rep,
