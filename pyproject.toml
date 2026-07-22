@@ -1,0 +1,27 @@
+[project]
+name = "verbalized-defaults"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "bajajra", email = "rbajaj1998official@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "immutabledict>=4.3.1",
+    "langdetect>=1.0.9",
+    "nltk>=3.10.0",
+    "vllm==0.25.0",
+]
+
+[project.scripts]
+verbalized-defaults = "verbalized_defaults:main"
+
+[build-system]
+requires = ["uv_build>=0.11.31,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
