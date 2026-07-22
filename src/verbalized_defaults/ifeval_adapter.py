@@ -10,31 +10,38 @@ This adapter does double duty:
 Every slot it produces is tagged ``[given]``: by construction these constraints
 came from the prompt.
 
-It also reports what it *could not* express. That is not a defect to hide -- the
-mapped / partial / unmapped split is a direct measurement of how much of a
-benchmark our frozen 12-slot schema can represent, and it tells us which gaps
-would justify a new slot. See scripts/measure_schema_coverage.py.
+It also reports what it could not express, as mapped / partial / unmapped. Under
+schema v2 the only deliberately unmapped family is letter-level arithmetic,
+which the taxonomy classifies as Bucket C (a gimmick no user wants). See
+scripts/measure_schema_coverage.py.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from .schema import GIVEN, Keyword, LengthConstraint, Spec, Structure, Wrapper
+from .schema import (
+    GIVEN,
+    Keyword,
+    LengthConstraint,
+    Markup,
+    Positional,
+    Spec,
+    Structure,
+    Wrapper,
+)
 
-# Instruction ids that our 12-slot schema deliberately cannot express.
-# Two different reasons, kept distinct because they have different implications:
-#   'schema gap'  -- a real convention we do not model (candidate for a new slot)
-#   'out of scope'-- character/word arithmetic; Bucket C in the taxonomy
+# Deliberately not modelled: character arithmetic, Bucket C in the taxonomy.
 UNMAPPABLE: dict[str, str] = {
-    "detectable_format:title": "schema gap: <<title>> wrapper not modelled",
-    "detectable_format:number_highlighted_sections": "schema gap: *highlight* count not modelled",
-    "detectable_format:constrained_response": "schema gap: fixed answer-option set not modelled",
-    "detectable_content:number_placeholders": "schema gap: [placeholder] count not modelled",
-    "combination:two_responses": "schema gap: multi-slot response decomposition not modelled",
-    "change_case:capital_word_frequency": "out of scope: capital-word arithmetic (Bucket C)",
     "keywords:letter_frequency": "out of scope: letter arithmetic (Bucket C)",
 }
+
+# IFEval's constrained_response uses a fixed option set.
+CONSTRAINED_RESPONSE_OPTIONS = [
+    "My answer is yes.",
+    "My answer is no.",
+    "My answer is maybe.",
+]
 
 
 @dataclass
@@ -64,7 +71,18 @@ def spec_from_ifeval(
 
     must: list[Keyword] = []
     forbid: list[str] = []
-    quotes, end_phrase = False, None
+    quotes = title = False
+    end_phrase = None
+    markup: dict[str, LengthConstraint] = {}
+
+    def set_structure(iid: str, s: Structure) -> None:
+        """One structure slot; a second claim on it is a real expressiveness limit."""
+        if spec.structure is not None:
+            res.partial.append((iid, f"structure slot already held by {spec.structure.kind}"))
+            return
+        spec.structure = s
+        _mark(spec, "structure")
+        res.mapped.append(iid)
 
     for iid, raw in zip(instruction_id_list, kwargs_list):
         kw = {k: v for k, v in (raw or {}).items() if v is not None}
@@ -92,7 +110,9 @@ def spec_from_ifeval(
         elif iid == "length_constraints:nth_paragraph_first_word":
             spec.length_paragraphs = LengthConstraint.eq(int(kw["num_paragraphs"]), "paragraphs")
             _mark(spec, "length_paragraphs")
-            res.partial.append((iid, "paragraph count mapped; nth-paragraph first-word not modelled"))
+            spec.positional = Positional(int(kw["nth_paragraph"]), str(kw["first_word"]))
+            _mark(spec, "positional")
+            res.mapped.append(iid)
 
         elif iid == "change_case:english_lowercase":
             spec.case = "lower"
@@ -104,26 +124,52 @@ def spec_from_ifeval(
             _mark(spec, "case")
             res.mapped.append(iid)
 
-        elif iid == "detectable_format:number_bullet_lists":
-            spec.structure = Structure("bullets", int(kw["num_bullets"]))
-            _mark(spec, "structure")
+        elif iid == "change_case:capital_word_frequency":
+            markup["caps_words"] = _relational(
+                kw.get("capital_relation"), int(kw["capital_frequency"]), "caps_words")
             res.mapped.append(iid)
+
+        elif iid == "detectable_format:number_bullet_lists":
+            set_structure(iid, Structure("bullets", int(kw["num_bullets"])))
 
         elif iid == "detectable_format:json_format":
-            spec.structure = Structure("json")
-            _mark(spec, "structure")
-            res.mapped.append(iid)
+            set_structure(iid, Structure("json"))
 
         elif iid == "detectable_format:multiple_sections":
-            # The exact splitter string is checkable; the section *count* uses
-            # IFEval's splitter semantics, which our markdown-header based
-            # sections check does not reproduce -- so only the delimiter is claimed.
-            spec.delimiters = (spec.delimiters or []) + [str(kw["section_spliter"])]
+            splitter = str(kw["section_spliter"])
+            set_structure(iid, Structure("sections", int(kw["num_sections"]), splitter))
+            spec.delimiters = (spec.delimiters or []) + [splitter]
             _mark(spec, "delimiters")
-            res.partial.append((iid, "splitter mapped; section count uses IFEval splitter semantics"))
+
+        elif iid == "detectable_format:title":
+            title = True
+            res.mapped.append(iid)
+
+        elif iid == "detectable_format:number_highlighted_sections":
+            markup["highlights"] = LengthConstraint.at_least(
+                int(kw["num_highlights"]), "highlights")
+            res.mapped.append(iid)
+
+        elif iid == "detectable_format:constrained_response":
+            spec.response_options = list(CONSTRAINED_RESPONSE_OPTIONS)
+            _mark(spec, "response_options")
+            res.mapped.append(iid)
+
+        elif iid == "detectable_content:number_placeholders":
+            markup["placeholders"] = LengthConstraint.at_least(
+                int(kw["num_placeholders"]), "placeholders")
+            res.mapped.append(iid)
 
         elif iid == "detectable_content:postscript":
             must.append(Keyword(str(kw["postscript_marker"])))
+            res.mapped.append(iid)
+
+        elif iid == "combination:two_responses":
+            set_structure(iid, Structure("responses", 2, "******"))
+
+        elif iid == "combination:repeat_prompt":
+            spec.response_boundary = str(kw["prompt_to_repeat"])
+            _mark(spec, "response_boundary")
             res.mapped.append(iid)
 
         elif iid == "keywords:existence":
@@ -136,11 +182,15 @@ def spec_from_ifeval(
 
         elif iid == "keywords:frequency":
             relation = (kw.get("relation") or "").strip().lower()
+            freq, word = int(kw["frequency"]), str(kw["keyword"])
             if relation == "at least":
-                must.append(Keyword(str(kw["keyword"]), int(kw["frequency"])))
-                res.mapped.append(iid)
+                must.append(Keyword(word, freq))
+            elif relation == "less than":
+                # strict: count < freq, so the inclusive ceiling is freq - 1
+                must.append(Keyword(word, 0, freq - 1))
             else:
-                res.partial.append((iid, "upper-bound occurrence count not expressible as must_include"))
+                raise ValueError(f"unknown IFEval relation {kw.get('relation')!r}")
+            res.mapped.append(iid)
 
         elif iid == "punctuation:no_comma":
             forbid.append(",")
@@ -159,11 +209,6 @@ def spec_from_ifeval(
             quotes = True
             res.mapped.append(iid)
 
-        elif iid == "combination:repeat_prompt":
-            spec.response_boundary = str(kw["prompt_to_repeat"])
-            _mark(spec, "response_boundary")
-            res.mapped.append(iid)
-
         else:
             res.unmapped.append((iid, "unrecognised instruction id"))
 
@@ -173,9 +218,12 @@ def spec_from_ifeval(
     if forbid:
         spec.forbidden = forbid
         _mark(spec, "forbidden")
-    if quotes or end_phrase:
-        spec.wrappers = Wrapper(quotes=quotes, end=end_phrase)
+    if quotes or title or end_phrase:
+        spec.wrappers = Wrapper(quotes=quotes, end=end_phrase, title=title)
         _mark(spec, "wrappers")
+    if markup:
+        spec.markup = Markup(**markup)
+        _mark(spec, "markup")
 
     return res
 

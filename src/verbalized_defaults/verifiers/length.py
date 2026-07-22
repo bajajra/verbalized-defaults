@@ -14,16 +14,7 @@ _COUNTERS = {
 
 def check_length(slot: str, text: str, c: LengthConstraint) -> SlotResult:
     n = _COUNTERS[slot](text)
-    if c.op == "eq":
-        ok, expected = n == c.value, f"== {c.value}"
-    elif c.op == "min":
-        ok, expected = n >= c.value, f">= {c.value}"
-    elif c.op == "max":
-        ok, expected = n <= c.value, f"<= {c.value}"
-    elif c.op == "range":
-        ok, expected = c.lo <= n <= c.hi, f"{c.lo}..{c.hi}"
-    else:
-        raise ValueError(f"unknown length op {c.op!r}")
+    ok, expected = c.satisfied_by(n), c.describe()
     unit = slot.removeprefix("length_")
     return SlotResult(
         slot=slot,

@@ -39,17 +39,25 @@ def _wb_count(text: str, needle: str) -> int:
     return len(re.findall(pattern, text, flags=re.IGNORECASE))
 
 
+def _describe(k: Keyword) -> str:
+    if k.max_count is not None:
+        return f"{k.text}:{k.min_count}..{k.max_count}"
+    return f"{k.text}>={k.min_count}"
+
+
 def check_must_include(text: str, keywords: list[Keyword]) -> SlotResult:
-    shortfalls = []
+    problems = []
     for kw in keywords:
         n = _wb_count(text, kw.text)
         if n < kw.min_count:
-            shortfalls.append(f"{kw.text!r} ({n}/{kw.min_count})")
-    ok = not shortfalls
+            problems.append(f"{kw.text!r} ({n}/{kw.min_count})")
+        elif kw.max_count is not None and n > kw.max_count:
+            problems.append(f"{kw.text!r} ({n} > max {kw.max_count})")
+    ok = not problems
     return SlotResult(
         "must_include", ok,
-        [f"{k.text}>={k.min_count}" for k in keywords],
-        "all present" if ok else f"short: {shortfalls}",
+        [_describe(k) for k in keywords],
+        "all satisfied" if ok else f"violations: {problems}",
     )
 
 

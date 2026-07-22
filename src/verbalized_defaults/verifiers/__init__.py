@@ -15,6 +15,9 @@ from .case import check_case
 from .keywords import check_forbidden, check_must_include
 from .language import check_language
 from .length import check_length
+from .markup import check_markup
+from .positional import check_positional
+from .response_options import check_response_options
 from .structure import check_delimiters, check_structure
 from .wrappers import check_response_boundary, check_wrappers
 
@@ -46,6 +49,12 @@ def verify_spec(text: str, spec: Spec) -> SpecReport:
         results.append(check_language(text, spec.language))
     if spec.response_boundary is not None:
         results.append(check_response_boundary(text, spec.response_boundary))
+    if spec.markup is not None:
+        results.append(check_markup(text, spec.markup))
+    if spec.positional is not None:
+        results.append(check_positional(text, spec.positional))
+    if spec.response_options:
+        results.append(check_response_options(text, spec.response_options))
     if spec.register is not None:
         results.append(
             SlotResult(

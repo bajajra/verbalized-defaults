@@ -10,8 +10,17 @@ with a separate reasoning channel, but still the place to encode "no preamble").
 """
 from __future__ import annotations
 
+import re
+
 from ..schema import Wrapper
 from .base import SlotResult
+
+_TITLE_RE = re.compile(r"<<[^\n]+>>")
+
+
+def has_title(text: str) -> bool:
+    """A <<wrapped title>> with non-empty content, as IFEval checks it."""
+    return any(t.lstrip("<").rstrip(">").strip() for t in _TITLE_RE.findall(text))
 
 
 def check_wrappers(text: str, w: Wrapper) -> SlotResult:
@@ -19,6 +28,8 @@ def check_wrappers(text: str, w: Wrapper) -> SlotResult:
     problems = []
     if w.quotes and not (len(t) >= 2 and t.startswith('"') and t.endswith('"')):
         problems.append("not wrapped in double quotes")
+    if w.title and not has_title(text):
+        problems.append("missing a <<title>>")
     if w.start is not None and not t.startswith(w.start):
         problems.append(f"missing start phrase {w.start!r}")
     if w.end is not None and not t.endswith(w.end):

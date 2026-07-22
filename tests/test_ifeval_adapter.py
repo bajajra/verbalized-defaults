@@ -1,8 +1,16 @@
 """Tests for the IFEval metadata -> Spec adapter."""
 import pytest
 
-from verbalized_defaults import GIVEN, Keyword, LengthConstraint, Structure, Wrapper, verify_spec
-from verbalized_defaults.ifeval_adapter import spec_from_ifeval
+from verbalized_defaults import (
+    GIVEN,
+    Keyword,
+    LengthConstraint,
+    Positional,
+    Structure,
+    Wrapper,
+    verify_spec,
+)
+from verbalized_defaults.ifeval_adapter import CONSTRAINED_RESPONSE_OPTIONS, spec_from_ifeval
 
 
 def test_length_relations_translate_exactly():
@@ -70,20 +78,90 @@ def test_everything_is_tagged_given():
     assert set(res.spec.provenance.values()) == {GIVEN}
 
 
-def test_unmappable_ids_are_reported_not_silently_dropped():
+def test_only_letter_arithmetic_is_unmapped():
+    """Schema v2 covers every IFEval family except Bucket-C letter arithmetic."""
     res = spec_from_ifeval(
         ["keywords:letter_frequency", "detectable_format:title", "change_case:english_lowercase"],
         [{"letter": "a", "let_frequency": 5, "let_relation": "at least"}, {}, {}],
     )
     assert res.spec.case == "lower"
-    assert {iid for iid, _ in res.unmapped} == {"keywords:letter_frequency", "detectable_format:title"}
+    assert res.spec.wrappers == Wrapper(title=True)
+    assert {iid for iid, _ in res.unmapped} == {"keywords:letter_frequency"}
     assert res.total == 3
 
 
-def test_partial_mappings_are_flagged():
+def test_multiple_sections_maps_fully_with_splitter():
     res = spec_from_ifeval(
         ["detectable_format:multiple_sections"],
         [{"num_sections": 3, "section_spliter": "SECTION"}],
     )
+    assert res.spec.structure == Structure("sections", 3, "SECTION")
     assert res.spec.delimiters == ["SECTION"]
-    assert [iid for iid, _ in res.partial] == ["detectable_format:multiple_sections"]
+    assert not res.partial and not res.unmapped
+    body = "intro SECTION 1 alpha SECTION 2 beta SECTION 3 gamma"
+    assert verify_spec(body, res.spec).ok
+
+
+def test_structure_slot_conflict_is_reported_as_partial():
+    """Only one structure slot exists; a second claim on it is a real limit."""
+    res = spec_from_ifeval(
+        ["detectable_format:number_bullet_lists", "combination:two_responses"],
+        [{"num_bullets": 3}, {}],
+    )
+    assert res.spec.structure == Structure("bullets", 3)
+    assert [iid for iid, _ in res.partial] == ["combination:two_responses"]
+
+
+def test_markup_dimensions_map_and_verify():
+    res = spec_from_ifeval(
+        ["detectable_format:number_highlighted_sections",
+         "detectable_content:number_placeholders",
+         "change_case:capital_word_frequency"],
+        [{"num_highlights": 2}, {"num_placeholders": 1},
+         {"capital_frequency": 2, "capital_relation": "at least"}],
+    )
+    m = res.spec.markup
+    assert m.highlights == LengthConstraint.at_least(2, "highlights")
+    assert m.placeholders == LengthConstraint.at_least(1, "placeholders")
+    assert m.caps_words == LengthConstraint.at_least(2, "caps_words")
+    good = "*one* and *two* with [a placeholder] plus NASA and FBI"
+    assert verify_spec(good, res.spec).ok
+    assert not verify_spec("plain text with nothing special", res.spec).ok
+
+
+def test_two_responses_maps_to_structure_responses():
+    res = spec_from_ifeval(["combination:two_responses"], [{}])
+    assert res.spec.structure == Structure("responses", 2, "******")
+    assert verify_spec("first answer\n******\nsecond answer", res.spec).ok
+    assert not verify_spec("only one answer", res.spec).ok
+    # IFEval requires the two responses to differ
+    assert not verify_spec("same\n******\nsame", res.spec).ok
+
+
+def test_constrained_response_maps_to_options():
+    res = spec_from_ifeval(["detectable_format:constrained_response"], [{}])
+    assert res.spec.response_options == CONSTRAINED_RESPONSE_OPTIONS
+    assert verify_spec("My answer is maybe.", res.spec).ok
+    assert not verify_spec("Perhaps.", res.spec).ok
+
+
+def test_nth_paragraph_first_word_maps_fully():
+    res = spec_from_ifeval(
+        ["length_constraints:nth_paragraph_first_word"],
+        [{"num_paragraphs": 2, "nth_paragraph": 2, "first_word": "However"}],
+    )
+    assert res.spec.positional == Positional(2, "However")
+    assert not res.partial
+    assert verify_spec("First para.\n\nHowever, the second.", res.spec).ok
+    assert not verify_spec("First para.\n\nTherefore, the second.", res.spec).ok
+
+
+def test_keyword_frequency_upper_bound_maps():
+    res = spec_from_ifeval(
+        ["keywords:frequency"],
+        [{"keyword": "very", "frequency": 3, "relation": "less than"}],
+    )
+    # strict "less than 3" -> inclusive ceiling of 2
+    assert res.spec.must_include == [Keyword("very", 0, 2)]
+    assert verify_spec("very very good", res.spec).ok
+    assert not verify_spec("very very very good", res.spec).ok

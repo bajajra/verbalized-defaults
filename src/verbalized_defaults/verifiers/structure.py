@@ -27,6 +27,18 @@ def count_headers(text: str) -> int:
     return len(_HEADER_RE.findall(text))
 
 
+def count_splitter_sections(text: str, splitter: str) -> int:
+    """Count sections the way IFEval's multiple_sections checker does.
+
+    IFEval splits on the pattern ``\\s?<splitter>\\s?\\d+\\s?`` -- i.e. the
+    splitter followed by a section number ("SECTION 1", "SECTION 2") -- and takes
+    the number of sections as ``len(parts) - 1``, since text before the first
+    splitter is not a section.
+    """
+    pattern = r"\s?" + re.escape(splitter) + r"\s?\d+\s?"
+    return len(re.split(pattern, text)) - 1
+
+
 def _is_json(text: str) -> bool:
     t = _FENCE_RE.sub("", text.strip()).strip()
     try:
@@ -48,8 +60,27 @@ def check_structure(text: str, s: Structure) -> SlotResult:
             detail="counts bullet lines across the whole response, not per section",
         )
     if s.kind == "sections":
+        if s.splitter:
+            n = count_splitter_sections(text, s.splitter)
+            return SlotResult(
+                "structure", n == s.count, f"exactly {s.count} '{s.splitter} N' sections", n,
+                detail="counted by IFEval splitter semantics: <splitter> followed by a number",
+            )
         h = count_headers(text)
-        return SlotResult("structure", h == s.count, f"exactly {s.count} sections", h)
+        return SlotResult("structure", h == s.count, f"exactly {s.count} sections", h,
+                          detail="counted as markdown headers (no splitter declared)")
+    if s.kind == "responses":
+        sep = s.splitter or "******"
+        parts = [p for p in text.split(sep) if p.strip()]
+        distinct = len({p.strip() for p in parts}) == len(parts)
+        ok = len(parts) == s.count and distinct
+        detail = "" if ok else (
+            f"{len(parts)} non-empty parts split on {sep!r}"
+            + ("" if distinct else "; parts are not distinct"))
+        return SlotResult(
+            "structure", ok, f"exactly {s.count} distinct responses separated by {sep!r}",
+            len(parts), detail=detail,
+        )
     if s.kind == "json":
         ok = _is_json(text)
         return SlotResult("structure", ok, "valid JSON", "parses" if ok else "does not parse")
