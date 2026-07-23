@@ -44,7 +44,7 @@ them by theme.
 |---|---:|---:|
 | typed slots per response | **4.5** | 0.9 |
 | extraction coverage | **0.66** | 0.11 |
-| qualitative lines per response | 2.7 | **11.5** |
+| qualitative lines per response | 3.6 | **11.5** |
 
 Asking for numbers suppresses the qualitative vocabulary; asking openly
 suppresses the metrics. **The model's natural declaration is qualitative** —

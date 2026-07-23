@@ -190,7 +190,7 @@ Qwen3.5-2B: 0% no-declaration rate, **4.5 slots per response**, on prompts that
 constrain nothing. It commits to a word count, paragraph count, structure, casing
 and language unprompted. *(0015)*
 
-**[E] It then satisfies only 47% of what it declared.** Mean self-consistency
+**[S] It then satisfies only 47% of what it declared.** *(single model; stable across two runs of Qwen3.5-2B, not yet replicated on Gemma)* Mean self-consistency
 **0.471**, median 0.5, and only **1 response in 120** fully honoured its own
 declaration. The design gates the RLVR work on this exact number (">95% would
 mean the signal is thin"); at 47% the headroom is very large, on dimensions
@@ -211,7 +211,7 @@ trained model would have to close that gap. *(0015)*
 
 ## 7c. The qualitative half of the defaults
 
-**[E] The model systematically under-produces against its OWN declared length.**
+**[S] The model systematically under-produces against its OWN declared length.** *(single model, replication in flight)*
 Median relative error **−26.0%**, **74%** of responses under target, p10 −53%.
 The taxonomy found 10–15% short against *externally imposed* targets; against
 self-declared targets it is worse. The failure cannot be misreading, because the
@@ -219,7 +219,7 @@ model wrote the target itself one turn earlier — what is missing is a
 count→gap→extend loop, not comprehension. *(0016)*
 
 **[E] The cue determines which kind of default is elicited, and the trade is
-sharp.** Concrete cue: 4.5 typed slots/response, 0.66 extraction coverage, 2.7
+sharp.** Concrete cue: 4.5 typed slots/response, 0.66 extraction coverage, 3.6
 qualitative lines. Soft cue: 0.9 typed slots, 0.11 coverage, **11.5 qualitative
 lines**. Asking for numbers suppresses the stylistic vocabulary and vice versa.
 **The model's natural declaration is qualitative**; quantification must be
