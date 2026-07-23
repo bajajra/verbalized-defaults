@@ -25,8 +25,7 @@ Self-consistency on unconstrained prompts: Qwen3.5-2B **0.468**, Gemma E2B
 fully honours its own declaration on Qwen or E2B. Three models, two families, two
 parameter classes.
 
-**[E] About half of stated constraints never reach the declaration at all.**
-Binding recall: **0.485 / 0.540 / 0.559**.
+**[E] Half to two-thirds of stated constraints are never *correctly* registered.** Value-aware binding recall: **0.324 / 0.476 / 0.443** (Qwen / E2B / E4B). The earlier 0.485/0.540/0.559 scored a slot as bound regardless of its value, and **33.5% of those carried the wrong value** — a prompt asking for 300 words against a declaration saying 450. *(0020)*
 
 Together these are the project's central empirical claim: **there is a large,
 trainable gap on both stages, and it exists on dimensions nobody asked about.**
@@ -105,6 +104,29 @@ slots beyond those required; those are `[assumed]` conventions on open dimension
 — the point of the project, not error. *(0018)*
 
 ---
+
+## 3b. E0.4 — does binding predict passing?
+
+**[E] Binding must be value-aware, and this inverted a headline.** Scoring a slot
+as bound on presence alone made binding *negatively* associated with passing on
+E4B (lift −0.105), because "bound" was contaminated with "bound to the wrong
+target", which then fails execution. *(0020)*
+
+**[E] The pooled conditional is Simpson-confounded.** Binding rate correlates with
+family difficulty: families almost never bound (`postscript` 0.02, `end_checker`
+0.00) pass at 0.93–1.00 *without* binding because they are satisfied by default.
+Stratify within family or the effect cancels. *(0020)*
+
+**[S] Correct binding predicts passing on the weakest model only.** Stratified
+within-family lift: Qwen **+0.102** (10/14 families positive), E2B +0.005,
+E4B −0.010. Likely a ceiling effect — the Gemmas satisfy ~80% of constraints
+regardless of declaration, leaving little variance for binding to explain. *(0020)*
+
+**[U] E0.4 does not settle C2.** The stages are separable in principle and
+measurable in practice, but the causal claim — that fixing binding fixes
+compliance — appears only on the weakest model and is correlational even there.
+Binding and passing may share a cause: the model simply understood the
+constraint. *(0020)*
 
 ## 4. The `[assumed]` half: what models volunteer unasked
 
