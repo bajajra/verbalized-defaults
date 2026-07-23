@@ -28,6 +28,16 @@ parameter classes — all near ~0.45–0.53. *(0021)*
 earlier 33.5% used exact equality, which wrongly flags "declared 450 for ≥300" —
 a *valid* binding — as wrong.) *(0020, 0021)*
 
+**[S] The core mechanism — declaring a default helps override it — does NOT hold
+at inference (E4.1).** First direct collision test, 3 models: the taxonomy's five
+priors mostly do not reproduce as collisions (vanilla override 0.85–1.00 for 4 of
+5), the one strong failure is omission not prior-override (Qwen global_bullets:
+39/60 write zero bullets, only 2/60 the per-stanza prior), and surfacing the
+default helped significantly once, hurt significantly twice, and was null
+elsewhere. This is inference-time only and does not falsify the *training* claim,
+but it removes the mechanism's inference-time support and suggests the failures
+are **counting, not prior-override**. *(0022)*
+
 Together these are the project's central empirical claim: **there is a large,
 trainable gap on both stages, and it exists on dimensions nobody asked about.**
 The design gates RLVR on self-consistency being below ~95%; at ~0.4 the headroom
