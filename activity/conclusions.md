@@ -70,6 +70,22 @@ reasoning channel: E4B **+0.055** (clears the ≥+0.05 threshold), Qwen **+0.021
 (ns). Confounded — E0.1 has not been run on E2B, so the size/family control that
 worked for E0.3 does not exist here. *(0014)*
 
+**[E] A reasoning-injected spec IS a causal control surface (contradiction test).**
+On a neutral prompt that never mentions case, injecting `case: lower` makes the
+output lowercase **99–100% on all three models** (a poem is otherwise
+capitalised, so the spec causes it). This is the cleanest positive evidence for
+C1's premise — a default becomes an addressable, causal token-level object — and
+it is the `[assumed]`-slot mechanism working. But the spec is **subordinate to an
+explicit system rule**: when they contradict, the system rule wins on both Gemmas
+(the spec pulls ~10–20% and muddies the rest). The weakest model (Qwen) is
+*capability-ordered* instead — lowercase wins whoever asked, because it cannot
+sustain all-caps. *(0024)*
+
+**[S] E4.1's negative is about subordination, not inertness.** E4.1 put the
+constraint in the user instruction, so the redundant spec had nothing to add. The
+spec is causal on *unspecified* dimensions (above) and yields on *specified* ones;
+E4.1 only tested the latter. *(0022, 0024)*
+
 **[E] Natural language is the working interface.** Adopted as a consequence of the
 above; the typed form is retained only as a *derived* artefact for verification.
 
