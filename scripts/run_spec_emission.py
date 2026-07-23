@@ -115,6 +115,10 @@ def main() -> int:
     ap.add_argument("--limit", type=int, default=150)
     ap.add_argument("--samples", type=int, default=2)
     ap.add_argument("--max-tokens", type=int, default=3072)
+    # Phase-1 budget. How big is big enough is an EMPIRICAL question: raise it
+    # until the declaration distribution stops changing. Truncated declarations
+    # silently drop conventions and bias every downstream metric.
+    ap.add_argument("--decl-tokens", type=int, default=512)
     ap.add_argument("--temperature", type=float, default=1.0)
     ap.add_argument("--top-p", type=float, default=0.95)
     ap.add_argument("--concurrency", type=int, default=48)
@@ -158,7 +162,7 @@ def main() -> int:
     for it in items:
         base = build(it["prompt"]) + DECL_OPEN + "\n"
         for s in range(a.samples):
-            p1_jobs.append((a.url, a.model, base, 512, a.temperature, a.top_p, s,
+            p1_jobs.append((a.url, a.model, base, a.decl_tokens, a.temperature, a.top_p, s,
                             STOP + [DECL_CLOSE]))
             meta.append((it, base, s))
     print(f"phase 1: {len(p1_jobs)} declarations", flush=True)
@@ -198,6 +202,7 @@ def main() -> int:
             slot_freq[s_] += 1
 
         rec = {"key": it["key"], "genre": it.get("genre"),
+               "decl_truncated": _df == "length",
                "declared_slots": n_slots, "coverage": round(ex.coverage, 3),
                "n_lines": len(ex.extracted) + len(ex.unextracted),
                "finish_reason": finish,
@@ -236,8 +241,11 @@ def main() -> int:
     def mean(x):
         return round(statistics.mean(x), 4) if x else None
 
+    n_decl_trunc = sum(1 for (_i, _b, _s), (_d, f) in zip(meta, decls) if f == "length")
     out = {
         "model": a.model, "source": a.source, "n": len(declared_n),
+        "decl_tokens": a.decl_tokens,
+        "decl_truncation_rate": round(n_decl_trunc / max(1, len(decls)), 4),
         "no_declaration_rate": round(no_decl / max(1, len(declared_n)), 4),
         "mean_slots_declared": mean(declared_n),
         "mean_extraction_coverage": mean(cov),
@@ -270,7 +278,7 @@ def main() -> int:
     pathlib.Path(a.out).write_text(json.dumps(out, indent=2))
 
     print("\n=== spec emission ===")
-    for k in ("n", "no_declaration_rate", "mean_slots_declared",
+    for k in ("n", "decl_truncation_rate", "no_declaration_rate", "mean_slots_declared",
               "mean_extraction_coverage", "mean_self_consistency",
               "self_consistency_perfect_rate", "binding_recall", "mean_extra_slots"):
         if out.get(k) is not None:

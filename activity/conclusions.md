@@ -190,7 +190,18 @@ Qwen3.5-2B: 0% no-declaration rate, **4.5 slots per response**, on prompts that
 constrain nothing. It commits to a word count, paragraph count, structure, casing
 and language unprompted. *(0015)*
 
-**[S] It then satisfies only 47% of what it declared.** *(single model; stable across two runs of Qwen3.5-2B, not yet replicated on Gemma)* Mean self-consistency
+**[E] It then satisfies only about half of what it declared — and this DOES
+replicate.** Qwen3.5-2B **0.495**, Gemma 4 E4B **0.460**. Two families, two
+scales, same value. Perfect-compliance rate 0.8% (Qwen) and 6.5% (E4B). The
+design gates the RLVR work here (">95% would mean no signal"); at ~0.5 the
+headroom is large on both models, on dimensions nobody asked about.
+*(0015, 0016, E4B run)*
+
+**[E] The bigger model declares less, not more.** E4B: 3.13 slots/response, 11%
+no-declaration, 0.41 extraction coverage. Qwen-2B: 4.47 slots, 0% no-declaration,
+0.66 coverage. And the **soft cue largely fails on E4B** — 80% no-declaration
+against Qwen's 34% — so the qualitative inventory is Qwen-weighted and should not
+be generalised. *(E4B run)* Mean self-consistency
 **0.471**, median 0.5, and only **1 response in 120** fully honoured its own
 declaration. The design gates the RLVR work on this exact number (">95% would
 mean the signal is thin"); at 47% the headroom is very large, on dimensions
@@ -211,7 +222,14 @@ trained model would have to close that gap. *(0015)*
 
 ## 7c. The qualitative half of the defaults
 
-**[S] The model systematically under-produces against its OWN declared length.** *(single model, replication in flight)*
+**[R] "The model systematically under-produces against its own declared length."**
+**Does NOT replicate across models.** Qwen3.5-2B misses by a median −26% with 74%
+under target; **Gemma 4 E4B misses by a median −1% with 54% under target** — i.e.
+E4B hits its own declared length essentially on the nose. The underproduction is
+**Qwen-2B-specific, not a general property**, and my earlier framing of it as "the
+cleanest A1 result available" was wrong. Consistent with the capability-floor
+reading from E0.1: the 4B model can hit a self-set length target, the 2B cannot.
+*(0015, 0016; corrected by E4B run)*
 Median relative error **−26.0%**, **74%** of responses under target, p10 −53%.
 The taxonomy found 10–15% short against *externally imposed* targets; against
 self-declared targets it is worse. The failure cannot be misreading, because the
@@ -241,6 +259,14 @@ with **no slot in the schema**. *(0016)*
 allocated to a qualitative half that is most of the declared volume and at least
 eight dimensions wide. "register: playful" cannot represent "third person, no
 jargon, no political content, ends with a call to action". *(0016)*
+
+**[E] Phase-1 declaration budget is empirically sufficient at 512 tokens.**
+Sweeping 256 / 512 / 1024 leaves slots declared unchanged (4.50 / 4.50 / 4.50)
+and coverage within 1pp (0.675 / 0.676 / 0.683). The declaration distribution has
+converged, so declarations are not being silently clipped. The 3.3% residual
+truncation is constant across all three budgets, so it is not budget-related.
+**This is the right way to size any elicitation window: raise it until the
+distribution stops moving.**
 
 ## 8. The largest open gap
 
