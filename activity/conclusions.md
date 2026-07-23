@@ -33,8 +33,9 @@ at inference (E4.1).** First direct collision test, 3 models: the taxonomy's fiv
 priors mostly do not reproduce as collisions (vanilla override 0.85–1.00 for 4 of
 5), the one strong failure is omission not prior-override (Qwen global_bullets:
 39/60 write zero bullets, only 2/60 the per-stanza prior), and surfacing the
-default helped significantly once, hurt significantly twice, and was null
-elsewhere. This is inference-time only and does not falsify the *training* claim,
+default, after a 16-agent checker audit removed a postscript blind spot that had
+faked two effects (0023), helped significantly once and hurt significantly once —
+never via oracle_declare. This is inference-time only and does not falsify the *training* claim,
 but it removes the mechanism's inference-time support and suggests the failures
 are **counting, not prior-override**. *(0022)*
 

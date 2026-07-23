@@ -24,10 +24,12 @@ first). The thesis predicts declaring the default helps override it.
 
 | prior | model | vanilla | oracle_declare | self_declare |
 |---|---|---:|---:|---:|
+*(vanilla / oracle_declare, per model Qwen/E2B/E4B; ps_recase row uses the audited checker, 0023)*
+
 | poem_lowercase | Qwen/E2B/E4B | 0.98 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | — |
 | length_2x | | 1.00 / 0.97 / 0.99 | 1.00 / 1.00 / 1.00 | — |
 | proper_noun_lowercase | | 0.90 / 0.85 / 1.00 | 0.78 / 0.90 / 0.93 | — |
-| ps_recase | | 0.78 / 0.70 / 0.97 | 0.78 / **0.90** / **0.82** | — |
+| ps_recase | | 0.93 / 0.98 / 1.00 | 0.98 / 0.98 / 0.98 | — |
 | global_bullets | | **0.27** / 0.83 / 0.88 | 0.28 / 0.95 / 0.92 | — |
 
 ## Finding 1 — the taxonomy's priors mostly do not reproduce as collisions
@@ -58,25 +60,27 @@ per-stanza (2/60). Bullets in a poem are unnatural, so the weak model drops the
 instruction — an omission failure, not a prior overriding a count. The taxonomy's
 A3 mechanism does not reproduce.
 
-## Finding 3 — surfacing the default does not reliably help, and sometimes hurts
+## Finding 3 — surfacing the default does not reliably help (CORRECTED post-audit)
 
-Paired-bootstrap lift vs vanilla, significant results only:
+**Two of the three "significant" ps_recase effects in the first version of this
+entry were artefacts of a checker blind spot** (0023): the postscript detector
+matched only literal `"p.s"` and missed `ps:`/`ps.`/`postscript:`, and surfacing
+changed which marker the model used. With the audited detector, ps_recase is at
+ceiling on both Gemmas. The surviving significant effects:
 
 | prior | model | condition | lift | 95% CI |
 |---|---|---|---:|---|
-| ps_recase | E2B | oracle_declare | **+0.200** | [+0.033, +0.367] |
-| global_bullets | E4B | self_declare | +0.100 | [+0.017, +0.183] |
-| ps_recase | E4B | oracle_declare | **−0.150** | [−0.250, −0.067] |
-| ps_recase | E4B | self_declare | **−0.133** | [−0.233, −0.050] |
+| global_bullets | E4B | self_declare | **+0.100** | [+0.017, +0.183] |
+| ps_recase | Qwen | self_declare | **−0.133** | [−0.200, −0.067] |
 
-Surfacing helped significantly **once** (ps_recase/E2B), hurt significantly
-**twice** (ps_recase/E4B, both conditions), and was null everywhere else. On the
-one genuine weak-model collision (global_bullets/Qwen 0.27) surfacing did
-**nothing** (+0.017, ns).
+Surfacing helped significantly **once** (global_bullets/E4B self_declare) and
+hurt significantly **once** (ps_recase/Qwen self_declare). **Every
+`oracle_declare` condition is null**, and the previously-reported E2B "+0.20 help"
+and E4B "−0.15 harm" are gone. On the one genuine weak-model collision
+(global_bullets/Qwen 0.27) surfacing did **nothing** (+0.017, ns).
 
-The `ps_recase` harm on E4B is the over-application effect seen before:
-explicitly telling the model to lowercase the postscript appears to make it *add*
-a capitalised "P.S." it would otherwise have omitted, or otherwise backfire.
+The picture is if anything *more* negative than the first version: the one clear
+"surfacing helps override a prior" result did not survive audit.
 
 ## The honest verdict
 
@@ -86,7 +90,8 @@ instruction beat it" — was tested directly at inference for the first time, an
 
 - the collisions the thesis is built on mostly do not manifest (ceiling vanilla),
 - the one strong failure is a different mechanism (omission, not prior override),
-- surfacing the default helped once, hurt twice, and was otherwise null.
+- surfacing the default helped once and hurt once (both self_declare), never via
+  oracle_declare, and was otherwise null (0023).
 
 What this does **not** do: it does not falsify the *training* claim. The proposal's
 H0 is about a model *trained* to declare-then-obey; E4.1 as I ran it is an

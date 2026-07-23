@@ -13,7 +13,7 @@ import re
 from ..schema import Structure
 from .base import SlotResult
 
-_BULLET_RE = re.compile(r"^[ \t]*[-*+•]\s+\S", re.MULTILINE)
+_BULLET_RE = re.compile(r"^[ \t]*[-*+•‣⁃▪▫◦●○◉⚫◆◇]\s+\S", re.MULTILINE)
 _HEADER_RE = re.compile(r"^[ \t]*#{1,6}\s+\S", re.MULTILINE)
 _TABLE_RE = re.compile(r"^[ \t]*\|.+\|[ \t]*\n[ \t]*\|[ \t:|-]+\|[ \t]*$", re.MULTILINE)
 _FENCE_RE = re.compile(r"^```[a-zA-Z]*\s*|\s*```$")

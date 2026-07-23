@@ -22,6 +22,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from verbalized_defaults.metrics import count_words  # noqa: E402
 from verbalized_defaults.runstore import read_run, verify_run  # noqa: E402
 from verbalized_defaults.verifiers.case import check_case  # noqa: E402
+from verbalized_defaults.verifiers.keywords import has_postscript  # noqa: E402
 from verbalized_defaults.verifiers.structure import count_bullets  # noqa: E402
 
 
@@ -29,7 +30,7 @@ def satisfied(check: dict, answer: str) -> bool:
     """Did the answer OVERRIDE the prior, i.e. satisfy the explicit constraint?"""
     if check.get("case") == "lower" and not check_case(answer, "lower").ok:
         return False
-    if "must_include_ci" in check and check["must_include_ci"] not in answer.lower():
+    if "must_include_ci" in check and not has_postscript(answer):
         return False
     if "structure_bullets" in check and count_bullets(answer) != check["structure_bullets"]:
         return False

@@ -72,3 +72,17 @@ def check_forbidden(text: str, words: list[str], substring: bool = True) -> Slot
         "forbidden", ok, f"none of {words}",
         "clean" if ok else f"present: {hits}",
     )
+
+_POSTSCRIPT_RE = re.compile(r"(?im)^\s*(?:p\.\s?s\.?|ps\.?|postscript)(?=[\s:.\-]|$)")
+
+
+def has_postscript(text: str) -> bool:
+    """Detect a postscript marker robustly (audited fix).
+
+    A 16-agent audit of the prior battery found the previous literal-substring
+    check for "p.s" systematically false-FAILed valid lowercase postscripts
+    written "ps.", "ps:", "ps", or "postscript:" -- one-directional, every such
+    item wrong. This line-anchored pattern accepts those variants while rejecting
+    in-word matches ("psychology", "maps", "ps4").
+    """
+    return _POSTSCRIPT_RE.search(text) is not None
