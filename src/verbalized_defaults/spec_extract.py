@@ -32,6 +32,19 @@ _LANGS = {
     "finnish": "fi", "hebrew": "he",
 }
 
+# Models spell numbers out ("Exactly three paragraphs", "One single paragraph")
+# as readily as they use digits. A digit-only pattern set silently under-counts
+# every such declaration.
+_NUMWORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+             "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11,
+             "twelve": 12, "fifteen": 15, "twenty": 20, "single": 1, "zero": 0}
+_NUM = r"(?:\d+|" + "|".join(sorted(_NUMWORDS, key=len, reverse=True)) + r")"
+
+
+def _n(s: str) -> int:
+    return int(s) if s.isdigit() else _NUMWORDS[s.lower()]
+
+
 _MIN = r"(?:at least|minimum of|no fewer than|no less than|more than|over)"
 _MAX = r"(?:no more than|at most|fewer than|less than|under|up to|maximum of)"
 # key = singular stem used in the regex; value = (slot, plural unit label).
@@ -70,25 +83,35 @@ def _lines(text: str) -> list[str]:
 def _length(line: str) -> tuple[str, LengthConstraint] | None:
     for stem, (slot, unit) in _UNITS.items():
         u = stem + "s?"
-        if m := re.search(rf"(\d+)\s*(?:-|–|to)\s*(\d+)\s+{u}\b", line, re.I):
-            return slot, LengthConstraint.between(int(m.group(1)), int(m.group(2)), unit)
-        if m := re.search(rf"{_MIN}\s+(?:about\s+)?(\d+)\s+{u}\b", line, re.I):
-            return slot, LengthConstraint.at_least(int(m.group(1)), unit)
-        if m := re.search(rf"{_MAX}\s+(?:about\s+)?(\d+)\s+{u}\b", line, re.I):
-            return slot, LengthConstraint.at_most(int(m.group(1)), unit)
-        if m := re.search(rf"(\d+)\+\s+{u}\b", line, re.I):
-            return slot, LengthConstraint.at_least(int(m.group(1)), unit)
-        # A hedged figure must not become a point value. "~650 words" verified
-        # as exactly 650 would fail almost every time, which would deflate the
-        # self-consistency measurement into an artefact of our own parsing.
-        # Hedges become a +/-10% window -- the same tolerance the schema's
-        # anti-gaming rule allows for an assumed length.
-        if m := re.search(rf"\b(?:about|around|approximately|roughly|~|circa|近)\s*"
-                          rf"(\d+)\s+{u}\b", line, re.I):
-            v = int(m.group(1))
+        # "Paragraph count: 4", "Words: 250" -- value FOLLOWS the label. Gemma
+        # declares almost exclusively this way; a prose-only pattern set scored
+        # those declarations as unextractable, which looked like model vagueness
+        # but was our own format bias.
+        if m := re.search(r"\b" + u + r"(?:\s+count)?\s*:+\s*(" + _NUM + r")\b",
+                          line, re.I):
+            return slot, LengthConstraint.eq(_n(m.group(1)), unit)
+        if m := re.search(r"(" + _NUM + r")\s*(?:-|–|to)\s*(" + _NUM + r")\s+" + u + r"\b",
+                          line, re.I):
+            return slot, LengthConstraint.between(_n(m.group(1)), _n(m.group(2)), unit)
+        if m := re.search(_MIN + r"\s+(?:about\s+)?(" + _NUM + r")\s+" + u + r"\b",
+                          line, re.I):
+            return slot, LengthConstraint.at_least(_n(m.group(1)), unit)
+        if m := re.search(_MAX + r"\s+(?:about\s+)?(" + _NUM + r")\s+" + u + r"\b",
+                          line, re.I):
+            return slot, LengthConstraint.at_most(_n(m.group(1)), unit)
+        if m := re.search(r"(" + _NUM + r")\+\s+" + u + r"\b", line, re.I):
+            return slot, LengthConstraint.at_least(_n(m.group(1)), unit)
+        # A hedged figure must not become a point value: "~650 words" verified as
+        # exactly 650 would fail almost always and deflate self-consistency into
+        # an artefact of our own parser. Hedges become the +/-10% window the
+        # schema's anti-gaming rule allows for an assumed length.
+        if m := re.search(r"\b(?:about|around|approximately|roughly|~|circa)\s*("
+                          + _NUM + r")\s+" + u + r"\b", line, re.I):
+            v = _n(m.group(1))
             return slot, LengthConstraint.between(round(v * 0.9), round(v * 1.1), unit)
-        if m := re.search(rf"\b(?:exactly\s+)?(\d+)\s+{u}\b", line, re.I):
-            return slot, LengthConstraint.eq(int(m.group(1)), unit)
+        if m := re.search(r"\b(?:exactly\s+)?(" + _NUM + r")\s+" + u + r"\b",
+                          line, re.I):
+            return slot, LengthConstraint.eq(_n(m.group(1)), unit)
     return None
 
 
@@ -125,13 +148,22 @@ def extract_spec(text: str) -> Extraction:
         elif re.search(r"\btitle case\b", low):
             spec.case, spec.provenance["case"] = "title", ASSUMED
             hit = True
-        elif re.search(r"\b(?:sentence case|standard|normal) capitali[sz]ation\b"
-                       r"|\bstandard case\b", low):
+        elif re.search(r"\b(?:sentence case|standard|normal|proper|conventional)\b"
+                       r"[\w ]{0,25}\bcapitali[sz]ation\b|\bstandard case\b", low):
             spec.case, spec.provenance["case"] = "standard", ASSUMED
             hit = True
 
-        if m := re.search(r"(\d+)\s+bullet", low):
-            spec.structure = Structure("bullets", int(m.group(1)))
+        if re.search(r"\b(?:do not use|don't use|avoid|without|no)\s+bullet", low):
+            spec.structure = Structure("prose")
+            spec.provenance["structure"] = ASSUMED
+            hit = True
+        elif m := re.search(r"\bbullet\s*points?\s*:+\s*(" + _NUM + r")\b", low):
+            n_ = _n(m.group(1))
+            spec.structure = Structure("prose") if n_ == 0 else Structure("bullets", n_)
+            spec.provenance["structure"] = ASSUMED
+            hit = True
+        elif m := re.search(r"(" + _NUM + r")\s+bullet", low):
+            spec.structure = Structure("bullets", _n(m.group(1)))
             spec.provenance["structure"] = ASSUMED
             hit = True
         elif m := re.search(r"(\d+)\s+(?:sections?|headings?)", low):
@@ -225,7 +257,9 @@ def extract_spec(text: str) -> Extraction:
             hit = True
 
         for name, code in _LANGS.items():
-            if re.search(rf"\b(?:in|language:?)\s+{name}\b", low):
+            if (re.search(r"\blanguage\s*:+\s*(?:[\w]+\s)?" + name + r"\b", low)
+                    or re.search(r"\bin\s+(?:[\w]+\s)?" + name + r"\b", low)
+                    or low.strip().rstrip(".") == name):
                 spec.language, spec.provenance["language"] = code, ASSUMED
                 hit = True
                 break

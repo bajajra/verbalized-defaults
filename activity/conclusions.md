@@ -204,7 +204,18 @@ to declare at all, so the theme inventory (clarity 19.5%, tone 14.1%, the
 content-policy discovery) describes **one model's** convention vocabulary.
 *(0017)*
 
-**[S] Extraction coverage may measure our instrument, not the model.** 0.66
+**[R] "Extraction coverage measures the model."** It measured our instrument.
+The regexes were **format-biased**: Gemma writes `Bullet Points: 0`,
+`Paragraph count: 4`, `Exactly three paragraphs` (label-then-value, and number
+words), where the patterns only knew prose-with-digits. Fixing six such classes
+moved E4B coverage 0.414 → **0.555** and slots 3.13 → **4.16**. *(0018)*
+
+**[R] "The bigger model declares less, not more."** Largely an artefact of the
+same bias. Slots per response after the fix: **4.67 / 4.09 / 4.16** (Qwen / E2B /
+E4B) against 4.47 / 3.62 / 3.13 before — the gap shrank ~60%. All three models
+declare roughly the same number of conventions. *(0018)*
+
+**[S] Residual coverage gap, now smaller.** 0.66
 (Qwen) vs 0.43 / 0.41 (Gemma). The extractor's patterns were written by reading
 Qwen declarations, so the gap is plausibly our bias. Do not quote coverage as a
 model property until the extractor is tuned symmetrically. *(0017)*
@@ -306,6 +317,38 @@ slots fire 69 times across 120 Qwen soft-cue responses (tone 19, content_policy
 was previously invisible, but **83% of soft-cue lines still fail to type**. The
 bottleneck is now the narrowness of the tone/jargon/audience patterns, not the
 absence of slots.
+
+## 7d. Binding and execution fail on *different* families — C2's premise, measured
+
+**[E] About half of stated constraints never reach the declaration.** Binding
+recall: Qwen **0.485**, Gemma E2B **0.540**, Gemma E4B **0.559** (200 IFEval
+prompts × 2 samples). This is the taxonomy's "never registered" failure,
+quantified. *(0018)*
+
+**[E] Binding failure is concentrated in dimensions with no latent default.**
+Always registered: word count, lowercase (97–100%). Almost never: keyword
+requirements (3–32%), highlight counts (3–6%), and `combination:repeat_prompt`
+at **0.0% on all three models**. Constraints that land on a default-bearing
+dimension get registered; ones that introduce a dimension the model has no prior
+about get dropped — the default-inventory logic showing up in binding. *(0018)*
+
+**[E] Per-slot execution is an identical difficulty gradient on all three models.**
+language **100%** everywhere → case 49–83% → structure 42–57% → length **7–16%**.
+The ordering tracks one thing: whether honouring the convention requires holding
+a *count* while generating. Not comprehension, not family, not scale. *(0018)*
+
+**[E] Length is the cleanest existence proof for the binding/execution split.**
+Binding on length is near-perfect (98–100% recall) while execution is ~10%. The
+model registers the constraint flawlessly and then misses it. A monolithic reward
+cannot separate those; C2's two rewards can. *(0018)*
+
+**[E] Median and in-window accuracy must both be reported for length.** E4B is
+*unbiased but imprecise* (median −1%, in-window 12.4%); Qwen is *biased and
+imprecise* (−26%, 7.5%). Either statistic alone misleads. *(0018)*
+
+**[E] "Precision" is not meaningful for binding here.** Models declare 3.6–3.9
+slots beyond those required — those are `[assumed]` conventions on open
+dimensions, which is the point of the project, not error. *(0018)*
 
 ## 8. The largest open gap
 
