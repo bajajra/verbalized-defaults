@@ -19,13 +19,14 @@ run summaries hold pre-fix values and should not be quoted.
 
 ## 1. Headline
 
-**[E] Models declare their conventions readily, and then obey about 40% of them.**
-Self-consistency on unconstrained prompts: Qwen3.5-2B **0.468**, Gemma E2B
-**0.376**, Gemma E4B **0.436**. Perfect compliance is ~0 — not one response in 120
-fully honours its own declaration on Qwen or E2B. Three models, two families, two
-parameter classes.
+**[E] Models declare their conventions readily, and then obey about half of them.**
+Self-consistency on unconstrained prompts (untruncated): Qwen3.5-2B **0.457**,
+Gemma E2B **0.439**, Gemma E4B **0.529**. Three models, two families, two
+parameter classes — all near ~0.45–0.53. *(0021)*
 
-**[E] Half to two-thirds of stated constraints are never *correctly* registered.** Value-aware binding recall: **0.324 / 0.476 / 0.443** (Qwen / E2B / E4B). The earlier 0.485/0.540/0.559 scored a slot as bound regardless of its value, and **33.5% of those carried the wrong value** — a prompt asking for 300 words against a declaration saying 450. *(0020)*
+**[E] Half to two-thirds of stated constraints are never *correctly* registered.** Value-aware binding recall: **0.324 / 0.476 / 0.443** (Qwen / E2B / E4B). The earlier 0.485/0.540/0.559 scored a slot as bound regardless of its value, and **17.6% of those carried a value that would not satisfy the requirement**. (An
+earlier 33.5% used exact equality, which wrongly flags "declared 450 for ≥300" —
+a *valid* binding — as wrong.) *(0020, 0021)*
 
 Together these are the project's central empirical claim: **there is a large,
 trainable gap on both stages, and it exists on dimensions nobody asked about.**
@@ -80,24 +81,27 @@ dropped. *(0018)*
 | slot | Qwen-2B | E2B | E4B |
 |---|---:|---:|---:|
 | language | **100%** | **100%** | **100%** |
-| case | 82.9% | 61.5% | 48.5% |
-| structure | 49.6% | 56.8% | 42.0% |
-| length_paragraphs | 12.5% | 12.1% | 16.3% |
-| length_words | **7.5%** | 12.5% | 12.4% |
+| case | 80% | 64% | 53% |
+| structure | 52% | 81% | 70% |
+| length_paragraphs | **10%** | **1%** | **0%** |
+| length_words | **7%** | **28%** | **41%** |
 
-The ordering tracks exactly one thing: **whether honouring the convention
-requires holding a running count while generating.** Not comprehension, not
-family, not scale. *(0018)*
+Untruncated (0021). Two facts the truncated data had merged: `length_paragraphs`
+(exact count) is universally catastrophic and real; `length_words` (approximate
+floor) is **Qwen-specific** — Gemma does moderately well once answers are not
+clipped. An approximate floor is satisfiable; an exact count is not. *(0018, 0021)*
 
-**[E] Length is the cleanest existence proof for the factorization.** Binding on
-length is near-perfect (98–100%) while execution is ~10%. The model registers the
-constraint flawlessly and then misses it. A monolithic reward cannot separate
-those; C2's two rewards can. *(0018)*
+**[E] Length is a clean existence proof for the factorization — on Qwen.** Qwen
+binds its own length target well but executes it at 0.07; the two stages fail
+independently. On Gemma execution is 0.28–0.41, so the proof is model-specific.
+`length_paragraphs` (exact count) is the universal execution floor, 0.00–0.10 on
+all three. *(0018, 0021)*
 
-**[E] Length underproduction is universal.** All three models undershoot their
-*own* declared word count: Qwen **−31%**, E2B **−30%**, E4B **−29%**, with 79–90%
-of responses under target. Neither family nor size matters. This is the missing
-count→gap→extend loop, and it agrees with the per-slot gradient above. *(0019)*
+**[E] Length underproduction is Qwen-specific, not universal.** On untruncated
+answers Qwen misses its own declared word count by **−22%** while both Gemmas hit
+it (**+0.3%**). 0019's "universal −30%" was a truncation artefact — Gemma's longer
+answers were clipped at 2000 chars (E4B 80% clipped). The declaration→output
+correlation rises with capability: +0.41 / +0.89 / +0.96. *(0021)*
 
 **[E] "Precision" is not a meaningful binding metric here.** Models declare 3.6–3.9
 slots beyond those required; those are `[assumed]` conventions on open dimensions
@@ -109,8 +113,9 @@ slots beyond those required; those are `[assumed]` conventions on open dimension
 
 **[E] Binding must be value-aware, and this inverted a headline.** Scoring a slot
 as bound on presence alone made binding *negatively* associated with passing on
-E4B (lift −0.105), because "bound" was contaminated with "bound to the wrong
-target", which then fails execution. *(0020)*
+E4B (lift −0.105), because "bound" was contaminated with wrong-target bindings.
+Note over-declaring (450 for ≥300) is often *adaptive*, not an error — it buffers
+against undershoot and raises pass rate. *(0020, 0021)*
 
 **[E] The pooled conditional is Simpson-confounded.** Binding rate correlates with
 family difficulty: families almost never bound (`postscript` 0.02, `end_checker`

@@ -156,16 +156,21 @@ Declaration elicited in the reasoning channel, bounded by `<conventions>…
 (n=120 each). Two-phase: elicit declaration (≤512 tokens, stop at
 `</conventions>`), then feed it back and generate the answer.
 
-### Headline (recomputed with the de-biased extractor)
+### Headline — concrete cue, UNTRUNCATED (0021)
 
-| model / cue | no-decl | slots | coverage | self-cons | perfect | len median | under | qual/resp |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Qwen concrete | 0.00 | 4.67 | 0.691 | **0.468** | 0.000 | **−31%** | 0.82 | 3.3 |
-| E2B concrete | 0.00 | 4.09 | 0.481 | **0.376** | 0.000 | **−30%** | 0.79 | 4.5 |
-| E4B concrete | 0.09 | 4.16 | 0.555 | **0.436** | 0.028 | **−29%** | 0.90 | 3.8 |
-| Qwen soft | 0.18 | 1.63 | 0.184 | 0.515 | 0.393 | +11% | 0.42 | **10.5** |
-| E2B soft | 0.70 | 0.31 | 0.047 | 0.224 | 0.207 | −53% | 0.96 | 5.8 |
-| E4B soft | 0.76 | 0.26 | 0.052 | 0.160 | 0.160 | −41% | 0.96 | 4.4 |
+| model | self-cons | length median (vs declared) | length_words acc | corr(declared,actual) |
+|---|---:|---:|---:|---:|
+| Qwen3.5-2B | **0.457** | **−22%** | 0.07 | +0.41 |
+| Gemma E2B | **0.439** | **+0.3%** | 0.28 | +0.89 |
+| Gemma E4B | **0.529** | **+0.3%** | 0.41 | +0.96 |
+
+*Buffer effect (`>=N` constraints): over-declarers pass 70–87% vs at-target
+59–64%. Over-declaring is adaptive, not error.*
+
+Truncated originals (superseded — 24–80% of answers were clipped at 2000 chars):
+self-cons 0.468/0.376/0.436, length median −31%/−30%/−29%, length_words acc
+0.075/0.125/0.124. Soft-cue metrics remain unreliable (near-empty declarations
+for both Gemmas) and are not requoted.
 
 *Soft-cue length figures are unreliable (vague phrasings parse badly) and
 soft-cue self-consistency is computed over near-empty declaration sets for both
@@ -175,11 +180,16 @@ Gemmas — treat those cells as undefined.*
 
 | slot | Qwen-2B | E2B | E4B |
 |---|---:|---:|---:|
-| language | **100.0%** | **100.0%** | **100.0%** |
-| case | 82.9% | 61.5% | 48.5% |
-| structure | 49.6% | 56.8% | 42.0% |
-| length_paragraphs | 12.5% | 12.1% | 16.3% |
-| length_words | **7.5%** | 12.5% | 12.4% |
+| language | **100%** | **100%** | **100%** |
+| case | 80% | 64% | 53% |
+| structure | 52% | 81% | 70% |
+| length_paragraphs | **10%** | **1%** | **0%** |
+| length_words | **7%** | **28%** | **41%** |
+
+*Untruncated (0021). The earlier 7.5/12.5/12.4 for length_words was a
+truncation artefact for Gemma — its longer answers were clipped at 2000 chars.
+length_paragraphs is genuinely catastrophic on all three; length_words is
+Qwen-specific.*
 | person | — | 100% (n=6) | 100% (n=1) |
 | must_include | 66.7% (n=3) | — | — |
 
