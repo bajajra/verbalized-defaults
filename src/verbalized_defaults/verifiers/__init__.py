@@ -16,6 +16,7 @@ from .keywords import check_forbidden, check_must_include
 from .language import check_language
 from .length import check_length
 from .markup import check_markup
+from .persona import check_content_policy, check_person
 from .positional import check_positional
 from .response_options import check_response_options
 from .structure import check_delimiters, check_structure
@@ -55,13 +56,23 @@ def verify_spec(text: str, spec: Spec) -> SpecReport:
         results.append(check_positional(text, spec.positional))
     if spec.response_options:
         results.append(check_response_options(text, spec.response_options))
-    if spec.register is not None:
-        results.append(
-            SlotResult(
-                "register", True, spec.register, spec.register,
-                detail="soft slot: judge-scored, excluded from R_exec", skipped=True,
-            )
-        )
+    if spec.person is not None:
+        results.append(check_person(text, spec.person))
+    if spec.content_policy is not None and spec.content_policy.active():
+        results.append(check_content_policy(text, spec.content_policy))
+    # Judge-scored halves of the decomposed register. Reported so they are never
+    # silently dropped, skipped so they never enter R_exec.
+    for slot in ("tone", "jargon_level", "audience", "register"):
+        val = getattr(spec, slot)
+        if val is not None:
+            results.append(SlotResult(
+                slot, True, val, val,
+                detail="soft slot: judge-scored, excluded from R_exec", skipped=True))
+    if spec.content_rules:
+        results.append(SlotResult(
+            "content_rules", True, spec.content_rules, spec.content_rules,
+            detail="semantic content rules: judge-scored, excluded from R_exec",
+            skipped=True))
     if spec.other:
         results.append(
             SlotResult(

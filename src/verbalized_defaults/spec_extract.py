@@ -18,7 +18,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from .schema import ASSUMED, Keyword, LengthConstraint, Markup, Spec, Structure, Wrapper
+from .schema import (ASSUMED, ContentPolicy, Keyword, LengthConstraint, Markup,
+                     Spec, Structure, Wrapper)
 
 _LANGS = {
     "english": "en", "french": "fr", "german": "de", "spanish": "es",
@@ -100,6 +101,8 @@ def extract_spec(text: str) -> Extraction:
     markup: dict[str, LengthConstraint] = {}
     wrap_quotes = wrap_title = False
     wrap_end = None
+    pol: dict[str, bool] = {}
+    content_rules: list[str] = []
 
     for line in _lines(text):
         low = line.lower()
@@ -179,6 +182,48 @@ def extract_spec(text: str) -> Extraction:
                           line, re.I):
             wrap_end, hit = m.group(1), True
 
+        # --- decomposed register (schema v3) ---
+        if m := re.search(r"\b(first|second|third)[- ]person\b", low):
+            spec.person, spec.provenance["person"] = m.group(1), ASSUMED
+            hit = True
+        if m := re.search(r"\btone\s*(?:is|:|should be)?\s*"
+                          r"(formal|informal|objective|neutral|warm|friendly|"
+                          r"professional|conversational|playful|serious|encouraging)", low):
+            spec.tone, spec.provenance["tone"] = m.group(1), ASSUMED
+            hit = True
+        if re.search(r"\bno jargon\b|\bplain language\b|\bavoid jargon\b"
+                     r"|\bsimple language\b|\baccessible language\b", low):
+            spec.jargon_level, spec.provenance["jargon_level"] = "simple", ASSUMED
+            hit = True
+        elif re.search(r"\btechnical (?:language|terms|vocabulary)\b|\buse jargon\b", low):
+            spec.jargon_level, spec.provenance["jargon_level"] = "technical", ASSUMED
+            hit = True
+        if m := re.search(r"\b(?:audience|written for|aimed at|target reader)\s*(?:is|:)?\s*"
+                          r"([a-z ]{3,40})", low):
+            spec.audience, spec.provenance["audience"] = m.group(1).strip(), ASSUMED
+            hit = True
+
+        # --- content policy: programmatic half ---
+        if re.search(r"\bno (?:external )?(?:links?|urls?)\b|\bavoid (?:links?|urls?)\b", low):
+            pol["no_urls"] = True
+            hit = True
+        if re.search(r"\bno emoji|\bavoid emoji|\bwithout emoji", low):
+            pol["no_emoji"] = True
+            hit = True
+        if re.search(r"\bno profan|\bno swear|\bavoid profan|\bno vulgar", low):
+            pol["no_profanity"] = True
+            hit = True
+        if re.search(r"\bno first[- ]person\b|\bavoid first[- ]person\b"
+                     r"|\bno personal (?:anecdote|opinion|experience)", low):
+            pol["no_first_person"] = True
+            hit = True
+        # --- content policy: semantic half (judge) ---
+        if re.search(r"\bno politic|\bno religio|\bno controversial|\bno advertis"
+                     r"|\bno offensive\b|\bno harmful\b|\bno explicit\b"
+                     r"|\bno violen|\bno illegal\b|\bno stereotyp", low):
+            content_rules.append(line)
+            hit = True
+
         for name, code in _LANGS.items():
             if re.search(rf"\b(?:in|language:?)\s+{name}\b", low):
                 spec.language, spec.provenance["language"] = code, ASSUMED
@@ -196,6 +241,12 @@ def extract_spec(text: str) -> Extraction:
     if markup:
         spec.markup = Markup(**markup)
         spec.provenance["markup"] = ASSUMED
+    if pol:
+        spec.content_policy = ContentPolicy(**pol)
+        spec.provenance["content_policy"] = ASSUMED
+    if content_rules:
+        spec.content_rules = content_rules
+        spec.provenance["content_rules"] = ASSUMED
     if wrap_quotes or wrap_title or wrap_end:
         spec.wrappers = Wrapper(quotes=wrap_quotes, title=wrap_title, end=wrap_end)
         spec.provenance["wrappers"] = ASSUMED

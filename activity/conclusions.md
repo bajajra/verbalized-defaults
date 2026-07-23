@@ -268,6 +268,23 @@ truncation is constant across all three budgets, so it is not budget-related.
 **This is the right way to size any elicitation window: raise it until the
 distribution stops moving.**
 
+**[E] Schema v3 implements the register decomposition and a content-policy slot.**
+`register` split into `person` (PROGRAMMATIC — pronoun scan), `tone`,
+`jargon_level`, `audience` (judge) plus a catch-all remainder. `content_policy`
+added for the surface-checkable rules (no_urls / no_emoji / no_profanity /
+no_first_person, all programmatic) with semantic rules routed to a separate
+judge-only `content_rules` slot — scored and unscored predicates are never mixed
+in one slot, which was `register`'s original defect.
+
+**[S] The decomposition helps, but does not solve extraction coverage.**
+Re-extracting the stored declarations: Qwen soft **0.115 → 0.170** (+48%
+relative), Qwen concrete 0.656 → 0.657 (nil), E4B concrete 0.414 → 0.425. The new
+slots fire 69 times across 120 Qwen soft-cue responses (tone 19, content_policy
+15, jargon_level 14, person 12, content_rules 6, audience 3) — real signal that
+was previously invisible, but **83% of soft-cue lines still fail to type**. The
+bottleneck is now the narrowness of the tone/jargon/audience patterns, not the
+absence of slots.
+
 ## 8. The largest open gap
 
 **[R] "No `[assumed]` slot has ever been tested."** Closed by 0015 — see §7b.

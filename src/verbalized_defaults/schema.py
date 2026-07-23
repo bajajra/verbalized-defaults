@@ -23,8 +23,12 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 CASE_VALUES = {"standard", "lower", "upper", "title"}
+PERSON_VALUES = {"first", "second", "third"}
 STRUCTURE_KINDS = {"prose", "bullets", "sections", "json", "table", "responses"}
-SOFT_SLOTS = {"register"}
+# Judge-scored only, excluded from R_exec. `person` is deliberately NOT here:
+# decomposing `register` moved it from unscoreable prose to a programmatic
+# pronoun scan, which is the point of the decomposition.
+SOFT_SLOTS = {"register", "tone", "jargon_level", "audience", "content_rules"}
 
 GIVEN = "given"
 ASSUMED = "assumed"
@@ -137,6 +141,32 @@ class Markup:
 
 
 @dataclass(frozen=True)
+class ContentPolicy:
+    """Self-imposed editorial rules the model applies unasked.
+
+    Measured empirically: models volunteer "no external links", "no advertising",
+    "no political statements" on prompts that requested none of it. Only the
+    surface-checkable half lives here -- semantic rules ("no controversial
+    content") go to ``Spec.content_rules``, which is judge-scored. Mixing scored
+    and unscored predicates in one slot is exactly the mistake `register` made.
+    """
+
+    no_urls: bool = False
+    no_emoji: bool = False
+    no_profanity: bool = False
+    no_first_person: bool = False
+
+    def describe(self) -> str:
+        on = [n for n in ("no_urls", "no_emoji", "no_profanity", "no_first_person")
+              if getattr(self, n)]
+        return ", ".join(on) or "none"
+
+    def active(self) -> list[str]:
+        return [n for n in ("no_urls", "no_emoji", "no_profanity", "no_first_person")
+                if getattr(self, n)]
+
+
+@dataclass(frozen=True)
 class Positional:
     """A positional constraint: paragraph N (1-indexed) must start with a word."""
 
@@ -159,7 +189,16 @@ class Spec:
     forbidden: Optional[list[str]] = None
     wrappers: Optional[Wrapper] = None
     language: Optional[str] = None
-    register: Optional[str] = None  # soft slot (judge-only)
+    # --- the decomposed `register` (schema v3) -------------------------------
+    # One free-text soft slot could not carry this: the qualitative half of what
+    # models declare is at least eight distinct dimensions, and "register:
+    # playful" cannot express "third person, no jargon, no political content".
+    person: Optional[str] = None        # first | second | third  -- PROGRAMMATIC
+    tone: Optional[str] = None          # soft
+    jargon_level: Optional[str] = None  # soft: simple | technical
+    audience: Optional[str] = None      # soft
+    register: Optional[str] = None      # soft: catch-all remainder, kept for
+                                        # stylistic statements not yet decomposed
     response_boundary: Optional[str] = None  # prefix the answer must start with
     markup: Optional[Markup] = None
     positional: Optional[Positional] = None
@@ -169,6 +208,8 @@ class Spec:
     # said so, therefore they can only ever be [given] -- never [assumed] -- and
     # they are excluded from R_exec because the suite has no verifier for them.
     other: Optional[list[str]] = None
+    content_policy: Optional[ContentPolicy] = None   # programmatic half
+    content_rules: Optional[list[str]] = None        # semantic half, judge-scored
     provenance: dict = field(default_factory=dict)  # slot name -> given | assumed
 
 
@@ -187,6 +228,10 @@ def validate_spec(spec: Spec) -> None:
     """
     if spec.case is not None and spec.case not in CASE_VALUES:
         raise SpecValidationError(f"case {spec.case!r} not in {sorted(CASE_VALUES)}")
+
+    if spec.person is not None and spec.person not in PERSON_VALUES:
+        raise SpecValidationError(
+            f"person {spec.person!r} not in {sorted(PERSON_VALUES)}")
 
     if spec.structure is not None:
         if spec.structure.kind not in STRUCTURE_KINDS:

@@ -4,6 +4,7 @@ from __future__ import annotations
 from .schema import (
     ASSUMED,
     GIVEN,
+    ContentPolicy,
     Keyword,
     LengthConstraint,
     Markup,
@@ -26,6 +27,7 @@ __all__ = [
     "Wrapper",
     "Markup",
     "Positional",
+    "ContentPolicy",
     "validate_spec",
     "SpecValidationError",
     "verify_spec",
