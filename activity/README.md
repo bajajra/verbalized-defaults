@@ -13,6 +13,10 @@ Convention for each entry:
 - **Decisions** — anything a future session must not silently revert.
 - **Open items** — what this entry deliberately left unresolved.
 
+**Two reference documents, kept separate:**
+- [findings.md](findings.md) — every measured number, with protocol and provenance. Data only.
+- [conclusions.md](conclusions.md) — graded claims and interpretation, with all retractions in one table.
+
 | # | Entry | Summary |
 |---|---|---|
 | 0001 | [model-and-compute-plan](0001-model-and-compute-plan.md) | Compute reality (5090 + DGX Spark) forces a small-model study; Qwen3.5-2B chosen as primary subject |
