@@ -190,8 +190,11 @@ Qwen3.5-2B: 0% no-declaration rate, **4.5 slots per response**, on prompts that
 constrain nothing. It commits to a word count, paragraph count, structure, casing
 and language unprompted. *(0015)*
 
-**[E] It then satisfies only about half of what it declared — robust across three
-models.** Qwen3.5-2B **0.495**, Gemma 4 E2B **0.425**, Gemma 4 E4B **0.460**. Two families, three models, two parameter
+**[E] It then satisfies only about 40% of what it declared — robust across three
+models.** Recomputed with the de-biased extractor: Qwen3.5-2B **0.468**, Gemma
+E2B **0.376**, Gemma E4B **0.436**. Quote as **~0.4**, not ~0.5. Perfect
+compliance is ~0: not one response in 120 fully honours its own declaration on
+Qwen or E2B. *(0019)* Two families, three models, two parameter
 classes, all near one another. Perfect-compliance rate 0.8% (Qwen) and 6.5% (E4B). The
 design gates the RLVR work here (">95% would mean no signal"); at ~0.5 the
 headroom is large on both models, on dimensions nobody asked about.
@@ -252,8 +255,16 @@ trained model would have to close that gap. *(0015)*
 ## 7c. The qualitative half of the defaults
 
 **[R] "The model systematically under-produces against its own declared length."**
-**Does NOT replicate, and the cause is now identified: it is a FAMILY effect, not
-a size effect.** Holding size constant at ~2B, Qwen misses by **−26%** while
+**SUPERSEDED TWICE — final answer: the underproduction is UNIVERSAL.** With the
+de-biased extractor, all three models underproduce against their own declared
+length by ~30% (Qwen −31%, Gemma E2B −30%, Gemma E4B −29%) with 79–90% under
+target. The earlier "Gemma is well-calibrated at −1%" was a **selection
+artefact**: the extractor could not parse Gemma's `Paragraph count: 4` format, so
+it measured only the well-behaved prose-formatted minority. Neither family nor
+size matters here. *(0019)*
+
+Superseded intermediate claim, kept visible: "it is a FAMILY effect, not
+a size effect." Holding size constant at ~2B, Qwen misses by **−26%** while
 **Gemma E2B misses by −5%** — a 5× difference from family alone. Holding family
 constant, Gemma E2B −5% → E4B −1% is a further modest size gain. So "a 2B model
 cannot hit a self-set length" was wrong; *Qwen's* 2B cannot. Gemma 4 E4B −1% with
@@ -349,6 +360,21 @@ imprecise* (−26%, 7.5%). Either statistic alone misleads. *(0018)*
 **[E] "Precision" is not meaningful for binding here.** Models declare 3.6–3.9
 slots beyond those required — those are `[assumed]` conventions on open
 dimensions, which is the point of the project, not error. *(0018)*
+
+**[E] A failing instrument produces biased data, not noisy data.** The extractor
+silently dropped Gemma's declaration format, so the surviving sample was the
+well-behaved tail — which read as "Gemma is well calibrated" for two full
+write-ups. Inputs an instrument fails on are rarely a random sample. *(0019)*
+
+**[E] When the instrument changes, every stored number is stale.** Comparing a
+fresh measurement to a frozen run summary mixes two instruments. Metrics are now
+re-derived from stored raw generations by `scripts/recompute_e03.py`; run outputs
+are raw data plus a snapshot, never the authoritative metric. *(0019)*
+
+**[E] A metric computed over a near-empty declaration set is undefined, not high.**
+Gemma E4B's reported soft-cue self-consistency of 0.667 was computed over ~0.2
+slots per response — it "kept" its declarations by barely making any. With better
+extraction it is 0.160. *(0019)*
 
 ## 8. The largest open gap
 
