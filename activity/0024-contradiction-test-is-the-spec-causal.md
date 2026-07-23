@@ -39,7 +39,16 @@ controls the output. That is precisely the `[assumed]`-slot mechanism, and it
 works — the first clean evidence of it. (E4.1 could not show this because its spec
 was redundant with an explicit instruction.)
 
-## Finding 2 — but the spec is *subordinate* to an explicit system rule
+## Finding 2 — CORRECTED (see 0025): it is a directional bias, not authority
+
+*The original claim here — "the system rule wins, the spec defers" — was wrong.*
+Adding a contradicting spec **halves** system=UPPER compliance (E2B 0.94→0.49,
+E4B 0.99→0.56) yet does nothing to system=lower (−0.01). Authority would be
+symmetric; this asymmetry is a **bias toward the lower-effort form (lowercase)**.
+The spec has large power when it points at the easy direction and little when it
+points at the hard one. Original (superseded) reasoning kept below.
+
+### (superseded) the spec is subordinate to an explicit system rule
 
 When the spec contradicts a standing system rule, the system rule wins on both
 Gemmas. system=UPPER + spec=lower → E2B 49% UPPER / E4B 56% UPPER (system holds,
@@ -52,7 +61,7 @@ This is expected and arguably correct: the proposal's spec is meant to make the
 user or system actually gave. A self-declared convention that could override the
 system prompt would be a bug, not a feature.
 
-## Finding 3 — the weakest model is capability-ordered, not authority-ordered
+## Finding 3 — all three are difficulty-ordered (not a two-regime split)
 
 Qwen breaks the pattern. In *both* contradiction cells the output drifts toward
 **lowercase regardless of which authority demanded what**: sys_upper+spec_lower →

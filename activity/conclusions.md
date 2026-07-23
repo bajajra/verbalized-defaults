@@ -75,11 +75,11 @@ On a neutral prompt that never mentions case, injecting `case: lower` makes the
 output lowercase **99–100% on all three models** (a poem is otherwise
 capitalised, so the spec causes it). This is the cleanest positive evidence for
 C1's premise — a default becomes an addressable, causal token-level object — and
-it is the `[assumed]`-slot mechanism working. But the spec is **subordinate to an
-explicit system rule**: when they contradict, the system rule wins on both Gemmas
-(the spec pulls ~10–20% and muddies the rest). The weakest model (Qwen) is
-*capability-ordered* instead — lowercase wins whoever asked, because it cannot
-sustain all-caps. *(0024)*
+it is the `[assumed]`-slot mechanism working. But in contradiction the outcome is
+governed by a **directional bias toward lowercase** (the lower-effort form), not
+by authority: a contradicting spec halves system=UPPER compliance (0.94→0.49)
+but does nothing to system=lower. All three models sit on the same
+execution-difficulty axis. *(0024, corrected 0025)*
 
 **[S] E4.1's negative is about subordination, not inertness.** E4.1 put the
 constraint in the user instruction, so the redundant spec had nothing to add. The
@@ -159,6 +159,21 @@ measurable in practice, but the causal claim — that fixing binding fixes
 compliance — appears only on the weakest model and is correlational even there.
 Binding and passing may share a cause: the model simply understood the
 constraint. *(0020)*
+
+**[E] The dominant failure is "declared right, executed wrong" — NOT the default
+winning the declaration (A/B/C triangle).** For case constraints, using the
+model's own declaration: on both Gemmas the largest failure mode is A=B, C≠A
+(declared the asked value, produced mixed output) — E4B 29%, E2B 25% — while
+binding failure (declared ≠ asked) is 9–15%. The instruction wins the
+verbalisation; execution then fails. This is direct evidence *against* "the
+instruction loses a silent fight against a latent default" for capable models:
+they say the right thing and cannot do it. The default-captures-declaration
+pattern appears mainly on the weakest model (Qwen: declares its `standard` default
+on 32% of case items, aligns only 6%). *(0025)*
+
+**[S] A method whose mechanism is "make the model verbalise the default" has
+little to add where the model already verbalises correctly.** On E2B/E4B binding
+is ~90% correct; the leverage is `R_exec`, not surfacing. *(0025)*
 
 ## 4. The `[assumed]` half: what models volunteer unasked
 
