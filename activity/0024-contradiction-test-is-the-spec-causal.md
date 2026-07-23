@@ -63,38 +63,28 @@ system prompt would be a bug, not a feature.
 
 ## Finding 3 — all three are difficulty-ordered (not a two-regime split)
 
-Qwen breaks the pattern. In *both* contradiction cells the output drifts toward
-**lowercase regardless of which authority demanded what**: sys_upper+spec_lower →
-96% lower, sys_lower+spec_upper → still 70% lower. The reason is in the controls:
-Qwen cannot reliably sustain all-caps (sys_upper_only 0.80, spec_upper_only 0.58),
-so whenever *anything* points at lowercase — the easy direction — that wins.
-
-Two regimes:
-- **E2B, E4B (authority-ordered):** contradictions resolve by *who asked* — the
-  system rule beats the spec.
-- **Qwen (capability-ordered):** contradictions resolve by *which output is
-  easier to produce* — lowercase wins whoever asked.
-
-This is the same execution-difficulty axis that governs every other Phase-0
-result: for the weakest model, *what it can do* dominates *what it was told*.
+All three models sit on one axis — the **lower-effort form wins** — differing
+only in degree. Qwen is the extreme: it cannot sustain all-caps (sys_upper_only
+0.80, spec_upper_only 0.58), so in *both* contradiction cells the output drifts to
+lowercase whoever asked (sys_upper+spec_lower → 96% lower; sys_lower+spec_upper →
+still 70% lower). The Gemmas sustain uppercase when uncontested (0.94/0.99) but a
+contradicting `lower` spec still halves that. There is no clean "authority
+ordering" — just a directional bias every model shares, strongest in the weakest
+model. Same execution-difficulty axis that governs every other Phase-0 result.
 
 ## What this means for the proposal
 
-**Reframes E4.1's pessimism.** E4.1 concluded "surfacing doesn't help override a
-prior." The contradiction test shows *why*, and it is not that the spec is inert:
-the spec is a genuine causal control surface (Finding 1), it is simply
-**subordinate to explicit instructions** (Finding 2). E4.1's collision prompts
-put the constraint in the user instruction, so the spec had nothing to add — the
-instruction already governed.
+**For C1:** positive. On an unspecified dimension, an injected spec controls the
+output ~100% (for the achievable direction). The representational claim — the
+default becomes an addressable, causal token-level object — is directly supported
+here for case.
 
-**For C1:** positive. An injected spec controls unspecified dimensions ~100%. The
-representational claim — the default becomes an addressable, causal token-level
-object — is directly supported here for case.
-
-**For training:** a caveat. If an *injected* spec already defers to an explicit
-system rule, a *self-emitted* spec will need training to carry enough authority
-to change behaviour on dimensions the model has a strong prior about. The spec
-works where the model is neutral; it yields where an explicit signal exists.
+**But the control is bounded by execution difficulty, not authority.** The spec
+moves output freely toward the easy form and weakly toward the hard one; see 0025
+for the same axis appearing in the self-declared A/B/C triangle, where the
+dominant failure is "declared right, executed wrong." A spec cannot fix what the
+model cannot execute, and it cannot force the hard direction any more than a
+system rule can.
 
 ## Caveats
 
