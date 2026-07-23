@@ -190,12 +190,30 @@ Qwen3.5-2B: 0% no-declaration rate, **4.5 slots per response**, on prompts that
 constrain nothing. It commits to a word count, paragraph count, structure, casing
 and language unprompted. *(0015)*
 
-**[E] It then satisfies only about half of what it declared — and this DOES
-replicate.** Qwen3.5-2B **0.495**, Gemma 4 E4B **0.460**. Two families, two
-scales, same value. Perfect-compliance rate 0.8% (Qwen) and 6.5% (E4B). The
+**[E] It then satisfies only about half of what it declared — robust across three
+models.** Qwen3.5-2B **0.495**, Gemma 4 E2B **0.425**, Gemma 4 E4B **0.460**. Two families, three models, two parameter
+classes, all near one another. Perfect-compliance rate 0.8% (Qwen) and 6.5% (E4B). The
 design gates the RLVR work here (">95% would mean no signal"); at ~0.5 the
 headroom is large on both models, on dimensions nobody asked about.
 *(0015, 0016, E4B run)*
+
+**[S] The soft cue is a Qwen phenomenon and its inventory does not generalise.**
+No-declaration under the soft cue: Qwen 0.34, Gemma E2B **0.71**, Gemma E4B
+**0.80**; qualitative lines/response 11.6 / 5.8 / 4.4. Both Gemmas mostly decline
+to declare at all, so the theme inventory (clarity 19.5%, tone 14.1%, the
+content-policy discovery) describes **one model's** convention vocabulary.
+*(0017)*
+
+**[S] Extraction coverage may measure our instrument, not the model.** 0.66
+(Qwen) vs 0.43 / 0.41 (Gemma). The extractor's patterns were written by reading
+Qwen declarations, so the gap is plausibly our bias. Do not quote coverage as a
+model property until the extractor is tuned symmetrically. *(0017)*
+
+**[E] A liveness check must identify the specific process, not the class.**
+`pkill -f "vllm serve"` over SSH matched its own command string and killed the
+shell; `pgrep -f "vllm serve"` then matched *other* running servers, so a server
+that never started was reported as "still loading" for ~12 hours. Kill by PID,
+check a port-specific pattern plus log freshness. *(0017)*
 
 **[E] The bigger model declares less, not more.** E4B: 3.13 slots/response, 11%
 no-declaration, 0.41 extraction coverage. Qwen-2B: 4.47 slots, 0% no-declaration,
@@ -223,8 +241,12 @@ trained model would have to close that gap. *(0015)*
 ## 7c. The qualitative half of the defaults
 
 **[R] "The model systematically under-produces against its own declared length."**
-**Does NOT replicate across models.** Qwen3.5-2B misses by a median −26% with 74%
-under target; **Gemma 4 E4B misses by a median −1% with 54% under target** — i.e.
+**Does NOT replicate, and the cause is now identified: it is a FAMILY effect, not
+a size effect.** Holding size constant at ~2B, Qwen misses by **−26%** while
+**Gemma E2B misses by −5%** — a 5× difference from family alone. Holding family
+constant, Gemma E2B −5% → E4B −1% is a further modest size gain. So "a 2B model
+cannot hit a self-set length" was wrong; *Qwen's* 2B cannot. Gemma 4 E4B −1% with
+54% under target — i.e.
 E4B hits its own declared length essentially on the nose. The underproduction is
 **Qwen-2B-specific, not a general property**, and my earlier framing of it as "the
 cleanest A1 result available" was wrong. Consistent with the capability-floor

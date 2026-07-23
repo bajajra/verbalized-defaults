@@ -1,0 +1,108 @@
+{
+  "model": "unsloth/gemma-4-E2B-it-NVFP4",
+  "source": "genres",
+  "n": 120,
+  "decl_tokens": 512,
+  "decl_truncation_rate": 0.0,
+  "no_declaration_rate": 0.0,
+  "mean_slots_declared": 3.625,
+  "mean_extraction_coverage": 0.427,
+  "mean_self_consistency": 0.4254,
+  "self_consistency_perfect_rate": 0.0083,
+  "binding_recall": null,
+  "mean_extra_slots": null,
+  "slot_frequency": {
+    "length_words": 120,
+    "length_paragraphs": 105,
+    "case": 99,
+    "structure": 81,
+    "language": 12,
+    "audience": 8,
+    "person": 6,
+    "jargon_level": 3,
+    "tone": 1
+  },
+  "qualitative": {
+    "n_lines": 597,
+    "themes": {
+      "tone_register": [
+        164,
+        0.275
+      ],
+      "clarity_simplicity": [
+        44,
+        0.074
+      ],
+      "narrative_structure": [
+        34,
+        0.057
+      ],
+      "engagement": [
+        22,
+        0.037
+      ],
+      "content_inclusion": [
+        12,
+        0.02
+      ],
+      "formatting_style": [
+        11,
+        0.018
+      ],
+      "audience": [
+        10,
+        0.017
+      ],
+      "completeness": [
+        5,
+        0.008
+      ],
+      "grammar_mechanics": [
+        4,
+        0.007
+      ],
+      "hedging_confidence": [
+        2,
+        0.003
+      ],
+      "safety_scope": [
+        2,
+        0.003
+      ],
+      "person_perspective": [
+        1,
+        0.002
+      ],
+      "factuality": [
+        1,
+        0.002
+      ]
+    },
+    "unthemed_rate": 0.549,
+    "unthemed_examples": [
+      "Address the importance of bees (why they matter).",
+      "Ensure the essay covers ecological, agricultural, and biodiversity roles.",
+      "Use standard academic capitalization.",
+      "Do not use bullet points.",
+      "The essay must directly address the prompt: \"Why bees matter.\"",
+      "Use headings and subheadings.",
+      "Address the multifaceted role of public libraries.",
+      "Use standard American English capitalization.",
+      "The essay will focus on the multifaceted roles of public libraries (education, community hub, access to information, and social equity).",
+      "Address the core ethical dilemmas of self-driving cars.",
+      "Focus on the trolley problem variations and accountability.",
+      "The essay will explore the core ethical dilemmas of autonomous vehicles (AVs), focusing on the trolley problem, liability, and societal impact.",
+      "Include placeholders for necessary specific information (apartment number, issue description, availability).",
+      "Do not use bullet points.",
+      "Include a specific subject line."
+    ]
+  },
+  "length_error": {
+    "n": 120,
+    "median_rel_error": -0.048,
+    "mean_abs_rel_error": 0.209,
+    "frac_under": 0.6,
+    "p10": -0.311,
+    "p90": 0.453
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "model": "unsloth/gemma-4-E4B-it-NVFP4",
+  "source": "genres",
+  "n": 120,
+  "no_declaration_rate": 0.8,
+  "mean_slots_declared": 0.2,
+  "mean_extraction_coverage": 0.0406,
+  "mean_self_consistency": 0.6667,
+  "self_consistency_perfect_rate": 0.6667,
+  "binding_recall": null,
+  "mean_extra_slots": null,
+  "slot_frequency": {
+    "length_words": 24
+  },
+  "qualitative": {
+    "n_lines": 530,
+    "themes": {
+      "tone_register": [
+        149,
+        0.281
+      ],
+      "clarity_simplicity": [
+        105,
+        0.198
+      ],
+      "narrative_structure": [
+        53,
+        0.1
+      ],
+      "engagement": [
+        46,
+        0.087
+      ],
+      "completeness": [
+        30,
+        0.057
+      ],
+      "formatting_style": [
+        25,
+        0.047
+      ],
+      "audience": [
+        15,
+        0.028
+      ],
+      "content_inclusion": [
+        9,
+        0.017
+      ],
+      "safety_scope": [
+        4,
+        0.008
+      ],
+      "person_perspective": [
+        3,
+        0.006
+      ],
+      "factuality": [
+        1,
+        0.002
+      ]
+    },
+    "unthemed_rate": 0.34,
+    "unthemed_examples": [
+      "The essay will define the scope of the \"role\" broadly, encompassing social, educational, and technological functions.",
+      "The response will be an academic essay structure.",
+      "Specific ethical frameworks (e.g., utilitarianism, deontology) will be mentioned.",
+      "The response will be an academic essay structure.",
+      "It will clearly delineate the different ethical frameworks involved (utilitarianism, deontology).",
+      "It should include necessary contact information for follow-up.",
+      "Include a brief mention of role/expertise.",
+      "Suggest a proactive next step (e.g., meeting).",
+      "The body should briefly explain the reason for the request without oversharing.",
+      "It must propose a new, realistic deadline.",
+      "It should conclude with thanks and anticipate their reply.",
+      "The length will be medium-short, focusing on atmosphere and internal monologue.",
+      "The narrative should follow a standard arc: setting -> discovery -> reflection -> resolution/continuation.",
+      "The story will be moderately paced, focusing on internal monologue.",
+      "The story will be moderately paced, focusing on atmosphere and character."
+    ]
+  },
+  "length_error": {
+    "n": 24,
+    "median_rel_error": 0.048,
+    "mean_abs_rel_error": 0.093,
+    "frac_under": 0.375,
+    "p10": -0.134,
+    "p90": 0.162
+  }
+}

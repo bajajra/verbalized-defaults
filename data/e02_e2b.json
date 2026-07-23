@@ -1,0 +1,113 @@
+{
+  "model": "unsloth/gemma-4-E2B-it-NVFP4",
+  "source": "ifeval",
+  "n": 400,
+  "decl_tokens": 512,
+  "decl_truncation_rate": 0.0,
+  "no_declaration_rate": 0.0025,
+  "mean_slots_declared": 3.945,
+  "mean_extraction_coverage": 0.4749,
+  "mean_self_consistency": 0.494,
+  "self_consistency_perfect_rate": 0.0752,
+  "binding_recall": 0.4992,
+  "mean_extra_slots": 3.145,
+  "slot_frequency": {
+    "case": 368,
+    "length_words": 364,
+    "length_paragraphs": 280,
+    "structure": 256,
+    "language": 128,
+    "wrappers": 46,
+    "forbidden": 41,
+    "length_sentences": 33,
+    "must_include": 30,
+    "audience": 9,
+    "markup": 8,
+    "tone": 8,
+    "jargon_level": 4,
+    "person": 3
+  },
+  "qualitative": {
+    "n_lines": 1905,
+    "themes": {
+      "tone_register": [
+        368,
+        0.193
+      ],
+      "clarity_simplicity": [
+        78,
+        0.041
+      ],
+      "engagement": [
+        64,
+        0.034
+      ],
+      "formatting_style": [
+        55,
+        0.029
+      ],
+      "narrative_structure": [
+        39,
+        0.02
+      ],
+      "content_inclusion": [
+        17,
+        0.009
+      ],
+      "completeness": [
+        17,
+        0.009
+      ],
+      "grammar_mechanics": [
+        15,
+        0.008
+      ],
+      "audience": [
+        14,
+        0.007
+      ],
+      "safety_scope": [
+        12,
+        0.006
+      ],
+      "hedging_confidence": [
+        9,
+        0.005
+      ],
+      "person_perspective": [
+        6,
+        0.003
+      ],
+      "factuality": [
+        2,
+        0.001
+      ]
+    },
+    "unthemed_rate": 0.687,
+    "unthemed_examples": [
+      "Focus on the historical context and significance of Raymond III Count of Tripoli.",
+      "Exactly one paragraph.",
+      "Zero bullet points.",
+      "Ensure the summary covers the content of the provided Wikipedia article about Raymond III Count of Tripoli.",
+      "Write in Elizabethan English style incorporating archaic vocabulary and poetic structure.",
+      "The itinerary must cover Tokyo Kyoto and a nature element.",
+      "The structure must follow a dramatic arc beginning a voyage and concluding a reflection.",
+      "Write in elevated Shakespearean English.",
+      "Omit all commas throughout the entire response.",
+      "The itinerary must cover Tokyo Kyoto and Osaka.",
+      "Approximately 1 page long.",
+      "Exactly 1 page.",
+      "1 page resume structure.",
+      "Use a clean, single-column format.",
+      "Include an Education section prominent near the top."
+    ]
+  },
+  "length_error": {
+    "n": 364,
+    "median_rel_error": -0.07,
+    "mean_abs_rel_error": 0.411,
+    "frac_under": 0.582,
+    "p10": -0.48,
+    "p90": 0.547
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "model": "unsloth/gemma-4-E2B-it-NVFP4",
+  "source": "genres",
+  "n": 120,
+  "decl_tokens": 512,
+  "decl_truncation_rate": 0.0,
+  "no_declaration_rate": 0.7083,
+  "mean_slots_declared": 0.3,
+  "mean_extraction_coverage": 0.0455,
+  "mean_self_consistency": 0.4464,
+  "self_consistency_perfect_rate": 0.4286,
+  "binding_recall": null,
+  "mean_extra_slots": null,
+  "slot_frequency": {
+    "length_words": 23,
+    "tone": 4,
+    "length_paragraphs": 3,
+    "person": 3,
+    "jargon_level": 2,
+    "audience": 1
+  },
+  "qualitative": {
+    "n_lines": 697,
+    "themes": {
+      "tone_register": [
+        174,
+        0.25
+      ],
+      "clarity_simplicity": [
+        157,
+        0.225
+      ],
+      "narrative_structure": [
+        69,
+        0.099
+      ],
+      "engagement": [
+        66,
+        0.095
+      ],
+      "completeness": [
+        37,
+        0.053
+      ],
+      "formatting_style": [
+        33,
+        0.047
+      ],
+      "content_inclusion": [
+        26,
+        0.037
+      ],
+      "audience": [
+        11,
+        0.016
+      ],
+      "safety_scope": [
+        6,
+        0.009
+      ],
+      "factuality": [
+        3,
+        0.004
+      ],
+      "grammar_mechanics": [
+        1,
+        0.001
+      ],
+      "person_perspective": [
+        1,
+        0.001
+      ],
+      "hedging_confidence": [
+        1,
+        0.001
+      ]
+    },
+    "unthemed_rate": 0.344,
+    "unthemed_examples": [
+      "The response will be a standard essay format.",
+      "The essay will address ecological, economic, and societal importance.",
+      "The response will be an essay format.",
+      "The response will be an essay.",
+      "The structure will follow a standard academic essay format.",
+      "Paragraphs will be focused, each developing a specific aspect of the library's role.",
+      "The essay will address multiple facets of the library's role (e.g., information access, equity, community hub).",
+      "The response will be an essay.",
+      "The structure will be academic/standard essay format.",
+      "The essay will focus on the multifaceted role of public libraries.",
+      "It will incorporate examples of modern and traditional library functions.",
+      "The response will be a standard academic essay format.",
+      "The essay will address core ethical issues: the trolley problem, liability, algorithmic bias, and societal impact.",
+      "The response will be a standard academic essay format.",
+      "Purpose:: To formally report an issue (broken radiator) and request a repair."
+    ]
+  },
+  "length_error": {
+    "n": 23,
+    "median_rel_error": -0.157,
+    "mean_abs_rel_error": 0.17,
+    "frac_under": 0.87,
+    "p10": -0.316,
+    "p90": 0.014
+  }
+}
