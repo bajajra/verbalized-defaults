@@ -1,5 +1,7 @@
 # 0012 — E0.1: surfacing works, the typed notation is what fails
 
+> **RETRACTED — do not cite.** "+0.11, Gate 1 passes" was single-sample noise; overturned by [0013]. Kept for the record (falsification-first). See conclusions.md §9.
+
 **Date:** 2026-07-21
 **Result (n=100, temp 1.0, Qwen3.5-2B):** a **plain-English** spec in the
 reasoning channel lifts prompt-strict **+0.11**, clearing the Gate 1 threshold.

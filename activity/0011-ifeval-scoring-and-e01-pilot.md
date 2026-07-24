@@ -1,5 +1,7 @@
 # 0011 — IFEval scoring harness and the first E0.1 pilot
 
+> **PARTIALLY SUPERSEDED.** The n=60 pilot numbers and the "Qwen avoids inline pollution" reading are superseded by [0014]. The four methodology traps it documents stand.
+
 **Date:** 2026-07-21
 **Result:** 60/60 tests passing. First interpretable E0.1 run: **oracle spec
 prefill does not help this model — it is neutral to harmful.** The run is

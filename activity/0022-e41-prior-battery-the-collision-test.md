@@ -1,5 +1,7 @@
 # 0022 — E4.1: the first direct test of the core mechanism, and it is weak
 
+> **PARTIALLY SUPERSEDED.** Finding 3 (the ps_recase surfacing effects) was a postscript-checker artefact, corrected by [0023]. Findings 1–2 (ceiling compliance; global_bullets omission) stand.
+
 **Date:** 2026-07-23
 **Runs:** `e41-qwen`, `e41-e2b`, `e41-e4b` — 80 collision prompts × 3 conditions ×
 4 samples × 3 models = **7,680 generations**, integrity-verified.

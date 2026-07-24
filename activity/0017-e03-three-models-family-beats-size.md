@@ -1,5 +1,7 @@
 # 0017 — E0.3 across three models: self-consistency holds, and length is a *family* effect
 
+> **PARTIALLY SUPERSEDED.** "Length is a family effect" ([0021]) and "the bigger model declares less" ([0018]) are retracted; the self-consistency numbers are superseded by untruncated 0021. That self-consistency replicates across 3 models stands.
+
 **Date:** 2026-07-22
 **Models:** Qwen3.5-2B, Gemma 4 E2B (NVFP4), Gemma 4 E4B (NVFP4).
 60 genre prompts × 2 samples per cue per model, temp 1.0.

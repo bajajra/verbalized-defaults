@@ -1,5 +1,7 @@
 # 0018 — E0.2 binding, per-slot execution, and an extractor that was biased
 
+> **PARTIALLY SUPERSEDED.** Binding recall (0.485/0.540/0.559) is superseded by value-aware [0020]; the length accuracy (7–16%) by untruncated [0021]. The extractor de-biasing and the case/structure gradient stand.
+
 **Date:** 2026-07-22
 **Models:** Qwen3.5-2B, Gemma 4 E2B, Gemma 4 E4B.
 E0.2 on 200 IFEval prompts × 2 samples; E0.3 per-slot on 60 genre prompts × 2.

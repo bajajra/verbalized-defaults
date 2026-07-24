@@ -1,5 +1,7 @@
 # 0001 — Model and compute plan
 
+> **PARTIAL NOTE.** The claim that Qwen's separate reasoning channel avoids inline-thinking pollution holds only via the chat API (corrected in 0011). The model/compute plan stands.
+
 **Date:** 2026-07-21
 
 ## Context

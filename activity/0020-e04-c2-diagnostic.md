@@ -1,5 +1,7 @@
 # 0020 — E0.4: the C2 diagnostic, and two instrument failures found on the way
 
+> **PARTIALLY SUPERSEDED.** The "33.5% wrong-value" figure is corrected to 17.6% ([0021]/[0023]). The value-aware C2 diagnostic and the Simpson-stratified conditional stand.
+
 **Date:** 2026-07-23
 **Runs:** `e04-qwen`, `e04-e2b`, `e04-e4b` — 300 IFEval prompts × 3 samples ×
 3 models = **2,700 generations**, all integrity-verified (0 dupes, 0 truncation).

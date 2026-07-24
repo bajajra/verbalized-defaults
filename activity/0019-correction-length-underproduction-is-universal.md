@@ -1,5 +1,7 @@
 # 0019 — Correction: length underproduction is universal, not model-specific
 
+> **RETRACTED — do not cite.** "Universal ~30% underproduction" was a truncation artefact; overturned by [0021] (Qwen-specific −22%, Gemmas on-target). Kept for the record. See conclusions.md §9.
+
 **Date:** 2026-07-22
 **Status:** retracts the headline of [0017](0017-e03-three-models-family-beats-size.md)
 and the framing in [0016](0016-quantitative-magnitude-and-qualitative-inventory.md).

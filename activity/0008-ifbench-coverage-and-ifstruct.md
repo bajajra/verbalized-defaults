@@ -1,5 +1,7 @@
 # 0008 — IFBench coverage (a threat to the experiment design) + IFStruct review
 
+> **PARTIALLY SUPERSEDED.** The conclusions "schema overfit to IFEval" and "Gate 3 unwinnable" were retracted by [0009]. The coverage numbers (IFBench 10.5%, 57% Bucket-C) stand.
+
 **Date:** 2026-07-21
 **Result:** Schema v2 expresses **95.8% of IFEval but only 10.5% of IFBench**
 (24.5% of IFBench's real-convention subset). This undermines IFBench's role as

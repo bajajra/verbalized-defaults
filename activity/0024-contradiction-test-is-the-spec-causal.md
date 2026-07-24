@@ -1,5 +1,7 @@
 # 0024 — Contradiction test: is the reasoning-spec a causal control surface?
 
+> **PARTIALLY SUPERSEDED.** Finding 2 ("system authority wins") is corrected by [0025] to a directional/difficulty bias. Finding 1 (the spec is causal, 0.99–1.00) stands.
+
 **Date:** 2026-07-23
 **Runs:** `contra-qwen`, `contra-e2b`, `contra-e4b` — 15 neutral poem prompts ×
 6 conditions × 6 samples × 3 models = 1,620 generations.

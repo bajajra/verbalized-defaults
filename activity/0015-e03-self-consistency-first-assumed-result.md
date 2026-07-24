@@ -1,5 +1,7 @@
 # 0015 — E0.3: the model declares its defaults, then violates half of them
 
+> **PARTIALLY SUPERSEDED.** The length numbers are a truncation artefact (corrected in [0021]). Self-consistency ~0.47 roughly holds (recomputed in 0021); the two-phase method stands.
+
 **Date:** 2026-07-21
 **Model:** Qwen3.5-2B, 60 unconstrained genre prompts × 2 samples (n=120), temp 1.0.
 **Result:** the model declares **4.5 conventions per response** and satisfies only

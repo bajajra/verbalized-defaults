@@ -1,5 +1,7 @@
 # 0016 — Length-miss magnitude, and an inventory of the qualitative defaults
 
+> **PARTIALLY SUPERSEDED.** The length numbers (−26% / 74%-under) are a truncation artefact ([0021]); "2.7 qual lines" was 3.6. The qualitative inventory stands but is **Qwen-only** (0017).
+
 **Date:** 2026-07-21
 **Model:** Qwen3.5-2B, 60 genre prompts × 2 samples per cue (n=120 each), temp 1.0.
 

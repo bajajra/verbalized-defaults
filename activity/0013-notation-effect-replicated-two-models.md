@@ -1,5 +1,7 @@
 # 0013 — Correction to 0012, and the notation effect replicated on two models
 
+> **PARTIALLY SUPERSEDED.** Its 5-sample effect sizes are superseded by the 541×4 run in [0014]. Its retraction of 0012 stands.
+
 **Date:** 2026-07-21
 **Status:** **retracts the headline number in [0012](0012-e01-notation-matters-more-than-surfacing.md)**
 and replaces it with a properly powered result.
