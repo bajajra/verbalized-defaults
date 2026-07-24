@@ -119,11 +119,14 @@ E0.1 was **not** run on E2B.
 Declaration elicited in the reasoning channel, bounded by `<conventions>…
 </conventions>`. Scored against adapter ground truth. Soft cue **not run**.
 
-| model | binding recall | extra slots/resp |
+| model | binding recall (slot-presence) | extra slots/resp |
 |---|---:|---:|
 | Qwen3.5-2B | 0.485 | 3.90 |
 | Gemma E2B | 0.540 | 3.61 |
 | Gemma E4B | 0.559 | 3.94 |
+
+**Superseded:** these count a slot as bound on presence alone. The value-aware
+recall (a wrong-valued declaration is not bound) is 0.324 / 0.476 / 0.443 — see §10.
 
 ### Per-family binding recall
 
@@ -323,3 +326,113 @@ NL↔typed round-trip, adapter mapping, schema v3 slots, verifier discrimination
 (loose ≥ strict, empty never passes), and taxonomy-anchored failure cases
 (P.S. recasing, global-vs-per-stanza bullets, delimiter off-by-one,
 `correlated`/`correlation` inflection, `engage`/`engages` leakage).
+
+---
+
+## 10. E0.4 — binding, the C2 diagnostic, and the A/B/C triangle
+
+**Protocol:** 300 IFEval prompts × 3 samples × 3 models = 2,700 generations,
+concrete cue, immutable runstore (full untruncated text). Binding is **value-aware**
+(a slot counts as bound only if the declared value would satisfy the requirement;
+"declared 450 for ≥300" is bound, "declared 250" is not).
+
+### Binding recall (value-aware) and the C2 conditional
+
+| model | binding recall | P(pass) | pooled lift | stratified (within-family) lift |
+|---|---:|---:|---:|---:|
+| Qwen3.5-2B | 0.324 | 0.493 | −0.007 | **+0.102** (10/14 families +) |
+| Gemma E2B | 0.476 | 0.822 | +0.021 | +0.005 |
+| Gemma E4B | 0.443 | 0.782 | −0.005 | −0.010 |
+
+Pooled conditional is Simpson-confounded (binding rate correlates with family
+difficulty); stratify within family. Binding predicts passing only on the weakest
+model; the Gemmas are near ceiling.
+
+### Case A/B/C triangle (instruction A / declared B / output C)
+
+| outcome | Qwen | E2B | E4B |
+|---|---:|---:|---:|
+| A=B=C (declared right, obeyed) | 6% | 59% | 62% |
+| A=B, C≠A (declared right, **execution failed**) | 48% | 25% | 29% |
+| A≠B (**binding failed**, declared ≠ asked) | 45% | 15% | 9% |
+
+On capable models the dominant failure is **declared-right-executed-wrong**;
+binding failure is secondary. The default capturing the declaration (A≠B) is a
+weak-model phenomenon.
+
+### Contradicting declarations (declared a value that would NOT satisfy the ask)
+
+| | Qwen | E2B | E4B |
+|---|---:|---:|---:|
+| declared & correct | 33% | 48% | 45% |
+| declared & **contradict** | 13% | 9% | 10% |
+| not declared (omission) | 54% | 43% | 45% |
+| contradict, as % of DECLARED | **28%** | 17% | 18% |
+
+Contradictions cluster on hard slots (structure, length_sentences, must_include);
+`case` contradiction is 15% (Qwen) vs 5% (E4B) — the genuine "default wins the
+declaration" signal, weak-model-concentrated. *Caveat:* `structure` contradictions
+are partly an adapter representation mismatch (sections vs paragraphs), an upper
+bound.
+
+### Length triangle
+
+| | E2B | E4B |
+|---|---:|---:|
+| declared satisfies A, output satisfies A | 74% | 67% |
+| declared satisfies A, output does NOT (execution) | 21% | 17% |
+| declared does NOT, output does (slip saved by output) | 5% | 15% |
+
+---
+
+## 11. E4.1 — prior-targeted collision battery
+
+**Protocol:** 80 collision prompts × 3 conditions (vanilla / oracle_declare /
+self_declare) × 4 samples × 3 models = 7,680 generations. Override rate = fraction
+satisfying the explicit instruction (post-audit checker, 0023).
+
+### Override rates (vanilla / oracle_declare per model)
+
+| prior | Qwen | E2B | E4B |
+|---|---|---|---|
+| poem_lowercase | 0.98 / 1.00 | 1.00 / 1.00 | 1.00 / 1.00 |
+| proper_noun_lowercase | 0.90 / 0.78 | 0.85 / 0.90 | 1.00 / 0.93 |
+| ps_recase | 0.93 / 0.98 | 0.98 / 0.98 | 1.00 / 0.98 |
+| length_2x | 1.00 / 1.00 | 0.97 / 1.00 | 0.99 / 1.00 |
+| global_bullets | **0.27** / 0.28 | 0.83 / 0.95 | 0.88 / 0.92 |
+
+4/5 priors near ceiling in vanilla — collisions mostly do not manifest. Qwen
+global_bullets (0.27) is **omission** (39/60 write zero bullets), not the
+per-stanza prior (2/60).
+
+**Significant surfacing effects (paired bootstrap, post-audit):** global_bullets/E4B
+self_declare **+0.100**; ps_recase/Qwen self_declare **−0.133**. Every
+`oracle_declare` condition null. (The pre-audit "E2B +0.20" and "E4B −0.15" were
+postscript-checker artefacts.)
+
+---
+
+## 12. Contradiction test — is the reasoning-spec causal?
+
+**Protocol:** 15 neutral poem prompts × 6 conditions × 6 samples × 3 models =
+1,620 generations. Fraction of outputs all-lowercase / ALL-CAPS.
+
+**Spec alone is causal:** neutral prompt + injected `case: lower` → output
+lowercase **0.99–1.00 on all three models** (poems otherwise capitalise). `upper`
+follows, bounded by ability to sustain caps (spec_upper_only: E4B 1.00, Qwen 0.58,
+E2B 0.43).
+
+**Contradiction resolves by execution difficulty, not authority:** adding a
+contradicting `lower` spec halves system=UPPER compliance (E2B 0.94→0.49, E4B
+0.99→0.56) but a contradicting `upper` spec does nothing to system=lower (−0.01).
+Asymmetry ⇒ directional bias toward the lower-effort form, all three models.
+
+---
+
+## 13. Checker audit (16 agents)
+
+2,880 E4.1 generations sharded 16 ways, independently judged. **Case, length,
+bullets: validated** (independently reproduced). **Postscript: systematic blind
+spot** — literal `"p.s"` match false-FAILed `ps.`/`ps:`/`ps`/`postscript:`, ~82
+disagreements all one-directional false-FAIL. Fixed (`has_postscript`); the bug
+had faked two E4.1 results.
