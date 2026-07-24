@@ -191,8 +191,7 @@ Gemmas — treat those cells as undefined.*
 
 *Untruncated (0021). The earlier 7.5/12.5/12.4 for length_words was a
 truncation artefact for Gemma — its longer answers were clipped at 2000 chars.
-length_paragraphs is genuinely catastrophic on all three; length_words is
-Qwen-specific.*
+length_paragraphs accuracy is 0-10% on all three; length_words is Qwen-specific.*
 | person | — | 100% (n=6) | 100% (n=1) |
 | must_include | 66.7% (n=3) | — | — |
 
@@ -431,8 +430,11 @@ Asymmetry ⇒ directional bias toward the lower-effort form, all three models.
 
 ## 13. Checker audit (16 agents)
 
-2,880 E4.1 generations sharded 16 ways, independently judged. **Case, length,
-bullets: validated** (independently reproduced). **Postscript: systematic blind
-spot** — literal `"p.s"` match false-FAILed `ps.`/`ps:`/`ps`/`postscript:`, ~82
-disagreements all one-directional false-FAIL. Fixed (`has_postscript`); the bug
-had faked two E4.1 results.
+2,880 E4.1 generations sharded 16 ways, independently judged. case, length,
+bullets verdicts matched independent judgment (bullets except two unicode-glyph
+items). Postscript check detected only the literal `"p.s"` substring.
+
+Programmatic verification on all 540 `ps_recase` items (old vs fixed checker):
+102 verdicts changed (19%) — 92 FAIL→PASS (false-FAILs) and 10 PASS→FAIL
+(incidental substring matches). Two of 0022's significant ps_recase effects
+(E2B oracle +0.20, E4B oracle −0.15) do not survive the fix. See 0023.

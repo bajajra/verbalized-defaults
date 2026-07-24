@@ -34,15 +34,13 @@ priors mostly do not reproduce as collisions (vanilla override 0.85–1.00 for 4
 5), the one strong failure is omission not prior-override (Qwen global_bullets:
 39/60 write zero bullets, only 2/60 the per-stanza prior), and surfacing the
 default, after a 16-agent checker audit removed a postscript blind spot that had
-faked two effects (0023), helped significantly once and hurt significantly once —
+changed two effects (0023); helped significantly once and hurt significantly once —
 never via oracle_declare. This is inference-time only and does not falsify the *training* claim,
 but it removes the mechanism's inference-time support and suggests the failures
 are **counting, not prior-override**. *(0022)*
 
-Together these are the project's central empirical claim: **there is a large,
-trainable gap on both stages, and it exists on dimensions nobody asked about.**
-The design gates RLVR on self-consistency being below ~95%; at ~0.4 the headroom
-is not marginal.
+Together these give the measured gap on both stages. The design gates RLVR on
+self-consistency being below ~95%; measured self-consistency is ~0.4-0.5.
 
 ---
 
@@ -114,7 +112,7 @@ dropped. *(0018)*
 | length_words | **7%** | **28%** | **41%** |
 
 Untruncated (0021). Two facts the truncated data had merged: `length_paragraphs`
-(exact count) is universally catastrophic and real; `length_words` (approximate
+(exact count) fails universally (0-10%) and is not a truncation artefact; `length_words` (approximate
 floor) is **Qwen-specific** — Gemma does moderately well once answers are not
 clipped. An approximate floor is satisfiable; an exact count is not. *(0018, 0021)*
 
@@ -347,7 +345,7 @@ Kept visible; none of these should be cited as current.
 **[U] The defaults mechanism has never been tested in collision.** `[assumed]`
 behaviour is measured on *unconstrained* prompts, but not where a declared default
 and an explicit instruction directly conflict. That is the prior-targeted battery
-(E4.1) and it remains the sharpest untested claim.
+(E4.1) and remains untested in that setting.
 
 **[E] E0.1's oracle specs are `[given]`-only.** 832 slots across 541 prompts, mean
 **1.54 per prompt**, 56% of prompts getting a single line. E0.1 measures
